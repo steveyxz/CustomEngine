@@ -1,0 +1,65 @@
+package engine.core.objects.gui.constraints.types;
+
+import engine.core.objects.gui.constraints.ConstraintLevel;
+import engine.core.objects.gui.constraints.GuiConstraint;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
+
+public class ValueConstraint extends GuiConstraint {
+
+    private float value;
+    private boolean shiftCentre;
+
+    public ValueConstraint(float value) {
+        this(value, true);
+    }
+
+    public ValueConstraint(float value, boolean shiftCentre) {
+        this.value = value;
+        this.shiftCentre = shiftCentre;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
+    public boolean isShiftCentre() {
+        return shiftCentre;
+    }
+
+    @Override
+    public void transform() {
+        Vector2f texturePos = getParent().getTexture().getPos();
+        Vector2f textureScale = getParent().getTexture().getScale();
+        if (getLevel() == ConstraintLevel.X) {
+            float x = ((value / Display.getWidth() * 2) - 1);
+            texturePos.setX(x);
+            setValueShift(x);
+            if (shiftCentre) {
+                texturePos.setX(texturePos.getX() + textureScale.getX());
+            }
+        }
+        if (getLevel() == ConstraintLevel.Y) {
+            float y = ((2 - (value / Display.getHeight() * 2)) - 1);
+            texturePos.setY(y);
+            setValueShift(y);
+            if (shiftCentre) {
+                texturePos.setY(texturePos.getY() - textureScale.getY());
+            }
+        }
+        if (getLevel() == ConstraintLevel.WIDTH) {
+            float width = value / Display.getWidth();
+            textureScale.setX(width);
+            setValueShift(width);
+        }
+        if (getLevel() == ConstraintLevel.HEIGHT) {
+            float height = value / Display.getHeight();
+            textureScale.setY(height);
+            setValueShift(height);
+        }
+    }
+}
