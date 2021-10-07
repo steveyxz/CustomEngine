@@ -5,16 +5,15 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import javax.swing.*;
+
 public class FontShader extends ShaderProgram {
 
     private static final String VERTEX_FILE = "shaders/textVertex.shader";
     private static final String FRAGMENT_FILE = "shaders/textFragment.shader";
 
-    private final Vector3f v = new Vector3f(0, 0, 0);
-
     private int location_color;
     private int location_translation;
-    private int location_scale;
 
     public FontShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -24,7 +23,6 @@ public class FontShader extends ShaderProgram {
     protected void getAllUniformLocations() {
         location_color = super.getUniformVariable("colour");
         location_translation = super.getUniformVariable("translation");
-        location_scale = super.getUniformVariable("scale");
     }
 
     @Override
@@ -37,12 +35,9 @@ public class FontShader extends ShaderProgram {
         super.loadVector3f(location_color, color);
     }
 
-    protected void loadTranslation(Vector2f translation) {
-        super.loadVector2f(location_translation, translation);
-    }
 
-    protected void loadScale(Vector2f scale) {
-        super.loadVector2f(location_scale, scale);
+    protected void loadInfo(Vector2f transformation) {
+        super.loadVector2f(location_translation, transformation);
     }
 
 

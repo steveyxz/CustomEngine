@@ -29,7 +29,6 @@ public class TextMeshCreator {
         vertices.add((float) y);
         vertices.add((float) x);
         vertices.add((float) y);
-
     }
 
     private static void addTexCoords(List<Float> texCoords, double x, double y, double maxX, double maxY, int scaleDir) {
@@ -63,7 +62,7 @@ public class TextMeshCreator {
 
     private List<Line> createStructure(Text text) {
         char[] chars = text.getTextString().toCharArray();
-        List<Line> lines = new ArrayList<Line>();
+        List<Line> lines = new ArrayList<>();
         Line currentLine = new Line(metaData.getSpaceWidth(), text.getFontSize(), text.getMaxLineSize());
         Word currentWord = new Word(text.getFontSize());
         for (char c : chars) {

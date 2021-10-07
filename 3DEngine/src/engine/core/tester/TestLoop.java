@@ -43,7 +43,7 @@ public class TestLoop extends Game {
         Scene scene = new Scene("start");
         Scene scene2 = new Scene("main");
 
-        Text t = new Text("bruh", 10, FontGlobal.calibri, new Vector2f(0, 0), 10, false, 2);
+        Text t = new Text("bruh", 10, FontGlobal.timesNewRoman, new Vector2f(0, 0), 10, false, 2);
         t.setColour(1, 1, 1);
         scene.addText(t);
 
