@@ -2,9 +2,7 @@ package engine.core.particles;
 
 
 import engine.core.global.Global;
-import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.DisplayManager;
-import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
@@ -28,10 +26,10 @@ public class Particle {
     private float elapsedTime = 0;
     private float distance;
 
-    private Vector3f velocity = new Vector3f();
+    private final Vector3f velocity = new Vector3f();
 
-    private Vector2f texOffset1 = new Vector2f();
-    private Vector2f texOffset2 = new Vector2f();
+    private final Vector2f texOffset1 = new Vector2f();
+    private final Vector2f texOffset2 = new Vector2f();
     private float blend;
 
     public Particle(ParticleTexture texture, Vector3f position, Vector3f speed, float gravityEffect, float lifeLength, float offset, float rotation, float scale) {
@@ -44,6 +42,19 @@ public class Particle {
         this.scale = scale;
         this.texture = texture;
         this.color = new Vector4f(0, 0, 0, 0);
+        ParticleMaster.addParticle(this);
+    }
+
+    public Particle(Vector4f color, Vector3f position, Vector3f speed, float gravityEffect, float lifeLength, float offset, float rotation, float scale) {
+        this.position = position;
+        this.speed = speed;
+        this.gravityEffect = gravityEffect;
+        Random random = new Random();
+        this.lifeLength = (float) ((lifeLength - offset) + random.nextDouble() * ((lifeLength + offset) - (lifeLength - offset)));
+        this.rotation = rotation;
+        this.scale = scale;
+        this.color = color;
+        this.texture = new ParticleTexture(Integer.MAX_VALUE, 0);
         ParticleMaster.addParticle(this);
     }
 
@@ -61,19 +72,6 @@ public class Particle {
 
     public float getBlend() {
         return blend;
-    }
-
-    public Particle(Vector4f color, Vector3f position, Vector3f speed, float gravityEffect, float lifeLength, float offset, float rotation, float scale) {
-        this.position = position;
-        this.speed = speed;
-        this.gravityEffect = gravityEffect;
-        Random random = new Random();
-        this.lifeLength = (float) ((lifeLength - offset) + random.nextDouble() * ((lifeLength + offset) - (lifeLength - offset)));
-        this.rotation = rotation;
-        this.scale = scale;
-        this.color = color;
-        this.texture = new ParticleTexture(Integer.MAX_VALUE, 0);
-        ParticleMaster.addParticle(this);
     }
 
     public Vector4f getColor() {
@@ -111,7 +109,7 @@ public class Particle {
 
     private void updateTextureCoordInfo() {
         float lifeFactor = elapsedTime / lifeLength;
-        int stageCount = texture.getNumberOfRows()* texture.getNumberOfRows();
+        int stageCount = texture.getNumberOfRows() * texture.getNumberOfRows();
         float atlasProgress = lifeFactor * stageCount;
         int index1 = (int) Math.floor(atlasProgress);
         int index2 = index1 < stageCount - 1 ? index1 + 1 : index1;

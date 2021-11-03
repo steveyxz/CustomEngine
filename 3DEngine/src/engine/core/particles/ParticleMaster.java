@@ -3,7 +3,6 @@ package engine.core.particles;
 import engine.core.renderEngine.Camera;
 import engine.core.tools.maths.InsertionSort;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector4f;
 
 import java.util.*;
 
@@ -36,7 +35,7 @@ public class ParticleMaster {
                     }
                 }
             }
-            InsertionSort.sortHighToLow(list) ;
+            InsertionSort.sortHighToLow(list);
         }
     }
 

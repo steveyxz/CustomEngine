@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector2f;
 public class ValueConstraint extends GuiConstraint {
 
     private float value;
-    private boolean shiftCentre;
+    private final boolean shiftCentre;
 
     public ValueConstraint(float value) {
         this(value, true);

@@ -2,13 +2,12 @@ package engine.core.objects.gui.constraints.types;
 
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
 public class RelativeConstraint extends GuiConstraint {
 
     private float value;
-    private boolean shiftCentre;
+    private final boolean shiftCentre;
 
     public RelativeConstraint(float value) {
         this(value, true);

@@ -8,7 +8,6 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 
 import java.nio.FloatBuffer;
 import java.util.List;
@@ -25,7 +24,7 @@ public class ParticleRenderer {
     private final RawModel quad;
     private final ParticleShader shader;
 
-    private int vbo;
+    private final int vbo;
     private int pointer;
 
     protected ParticleRenderer(Matrix4f projectionMatrix) {

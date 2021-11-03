@@ -1,7 +1,5 @@
 package engine.core.text.fontMeshCreator;
 
-import org.lwjgl.opengl.Display;
-
 import java.util.ArrayList;
 import java.util.List;
 

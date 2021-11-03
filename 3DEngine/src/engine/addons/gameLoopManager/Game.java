@@ -85,18 +85,41 @@ public abstract class Game {
         cleanUp();
     }
 
-    protected void preRender() {};
-    protected void postRender() {};
-    protected void finish() {};
-    protected void end() {};
-    protected void post() {};
-    protected void start() {};
-    protected void postTick() {};
-    protected void middle() {};
-    protected void preTick() {};
-    protected void preLoop() {};
-    protected void postInit() {};
-    protected void preInit() {};
+    protected void preRender() {
+    }
+
+    protected void postRender() {
+    }
+
+    protected void finish() {
+    }
+
+    protected void end() {
+    }
+
+    protected void post() {
+    }
+
+    protected void start() {
+    }
+
+    protected void postTick() {
+    }
+
+    protected void middle() {
+    }
+
+    protected void preTick() {
+    }
+
+    protected void preLoop() {
+    }
+
+    protected void postInit() {
+    }
+
+    protected void preInit() {
+    }
 
     private void cleanUp() {
         Global.globalCleanUp();

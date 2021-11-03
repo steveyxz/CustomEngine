@@ -1,7 +1,5 @@
 package engine.core.renderEngine;
 
-import engine.core.global.Global;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.HashMap;

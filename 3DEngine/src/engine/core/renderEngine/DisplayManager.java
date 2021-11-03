@@ -11,14 +11,12 @@ import java.nio.ByteBuffer;
 
 public class DisplayManager {
 
-    //ADJUSTABLE VARIABLES
-    public static int WIDTH = 920;
-    public static int HEIGHT = 920;
     public static final int FPS_CAP = 500;
     public static final String TITLE = "TITLE";
     private static final String[] ICON_PATHS = new String[]{};
-
-
+    //ADJUSTABLE VARIABLES
+    public static int WIDTH = 920;
+    public static int HEIGHT = 920;
     private static long lastTimeFrame;
     private static float delta;
 

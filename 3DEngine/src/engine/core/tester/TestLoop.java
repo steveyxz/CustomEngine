@@ -1,32 +1,20 @@
 package engine.core.tester;
 
 import engine.addons.gameLoopManager.Game;
-import engine.core.global.Global;
 import engine.core.objects.BasicObject;
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
-import engine.core.objects.gui.constraints.types.OppRelativeConstraint;
-import engine.core.objects.gui.constraints.types.RelativeConstraint;
-import engine.core.objects.gui.constraints.types.ValueConstraint;
 import engine.core.objects.lighting.Light;
-import engine.core.objects.shapes.twoD.Square;
-import engine.core.particles.ParticleSystem;
-import engine.core.particles.ParticleTexture;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.ObjParser;
-import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.text.FontGlobal;
 import engine.core.text.fontMeshCreator.Text;
-import engine.core.text.fontRendering.TextMaster;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
-import java.util.Random;
 
 public class TestLoop extends Game {
 

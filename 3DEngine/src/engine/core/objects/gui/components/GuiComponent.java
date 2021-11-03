@@ -4,22 +4,17 @@ import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
 import engine.core.renderEngine.models.GuiTexture;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static engine.core.global.Global.currentScene;
 
 public abstract class GuiComponent {
-
-    private String sceneID = "";
-    private GuiTexture texture;
-    private boolean shown = true;
 
     public GuiConstraint xPos;
     public GuiConstraint yPos;
     public GuiConstraint width;
     public GuiConstraint height;
-
+    private String sceneID = "";
+    private GuiTexture texture;
+    private boolean shown = true;
     private boolean stationary = true;
 
     public GuiComponent(GuiTexture texture) {

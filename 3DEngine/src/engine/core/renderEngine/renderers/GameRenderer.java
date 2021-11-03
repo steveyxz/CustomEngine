@@ -2,7 +2,6 @@ package engine.core.renderEngine.renderers;
 
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
-import engine.core.objects.lighting.Light;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.models.TexturedModel;
@@ -10,11 +9,9 @@ import engine.core.renderEngine.shaders.object.ObjectShader;
 import engine.core.tools.maths.TransformationMaths;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
 
-import static engine.core.global.Global.currentScene;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
@@ -53,7 +50,7 @@ public class GameRenderer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         GL11.glClearColor(0, 0, 0, 1);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         shader.start();
         shader.loadLights(scene.getLights());
         shader.changeView(MasterRenderer.camera);

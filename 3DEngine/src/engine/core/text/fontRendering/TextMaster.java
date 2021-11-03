@@ -5,7 +5,6 @@ import engine.core.text.fontMeshCreator.FontType;
 import engine.core.text.fontMeshCreator.Text;
 import engine.core.text.fontMeshCreator.TextMeshData;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
 import java.util.HashMap;

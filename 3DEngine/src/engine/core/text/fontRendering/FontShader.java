@@ -1,11 +1,8 @@
 package engine.core.text.fontRendering;
 
 import engine.core.renderEngine.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
-import javax.swing.*;
 
 public class FontShader extends ShaderProgram {
 

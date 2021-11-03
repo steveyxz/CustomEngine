@@ -7,7 +7,6 @@ import engine.core.tools.maths.TransformationMaths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectShader extends ShaderProgram {

@@ -41,14 +41,14 @@ public class MusicTrack {
         }
     }
 
+    public float getPosition() {
+        return music.getPosition();
+    }
+
     public void setPosition(int position) {
         if (music.playing()) {
             music.setPosition(position);
         }
-    }
-
-    public float getPosition() {
-        return music.getPosition();
     }
 
     public float getVolume() {

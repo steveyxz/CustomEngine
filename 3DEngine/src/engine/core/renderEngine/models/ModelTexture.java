@@ -9,10 +9,12 @@ public class ModelTexture {
     public ModelTexture(int textureID) {
         this.textureID = textureID;
     }
+
     public ModelTexture(int textureID, boolean hasTransparency) {
         this.textureID = textureID;
         this.hasTransparency = hasTransparency;
     }
+
     public ModelTexture(int textureID, boolean hasTransparency, boolean useFakelighting) {
         this.textureID = textureID;
         this.hasTransparency = hasTransparency;

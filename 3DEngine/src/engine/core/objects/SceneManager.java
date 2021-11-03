@@ -1,12 +1,10 @@
 package engine.core.objects;
 
 import engine.core.global.Global;
-import engine.core.renderEngine.renderers.MasterRenderer;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.HashMap;
 
-import static engine.core.global.Global.currentScene;
 import static engine.core.renderEngine.renderers.MasterRenderer.camera;
 
 public class SceneManager {

@@ -1,8 +1,6 @@
 package engine.core.renderEngine;
 
 import engine.core.global.Global;
-import engine.core.objects.Scene;
-import engine.core.objects.SceneManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 

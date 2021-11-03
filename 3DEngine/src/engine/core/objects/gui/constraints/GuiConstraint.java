@@ -8,18 +8,19 @@ public abstract class GuiConstraint {
     private ConstraintLevel level;
     private float valueShift = 0;
 
-    public GuiConstraint() {}
+    public GuiConstraint() {
+    }
 
     public GuiConstraint(GuiComponent parent) {
         this.parent = parent;
     }
 
-    public void setParent(GuiComponent parent) {
-        this.parent = parent;
-    }
-
     public GuiComponent getParent() {
         return parent;
+    }
+
+    public void setParent(GuiComponent parent) {
+        this.parent = parent;
     }
 
     public ConstraintLevel getLevel() {

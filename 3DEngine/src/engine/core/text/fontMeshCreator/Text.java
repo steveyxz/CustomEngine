@@ -1,6 +1,5 @@
 package engine.core.text.fontMeshCreator;
 
-import engine.core.objects.gui.components.GuiComponent;
 import engine.core.text.fontRendering.TextMaster;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -11,13 +10,13 @@ public class Text {
     private final float fontSize;
     private final Vector3f colour = new Vector3f(0f, 0f, 0f);
     private final Vector2f position;
-    private Vector2f scale = new Vector2f(1, 1);
     private final float lineMaxSize;
     private final FontType font;
+    private Vector2f scale = new Vector2f(1, 1);
     private int textMeshVao;
     private int vertexCount;
     private int numberOfLines;
-    private boolean centerText;
+    private final boolean centerText;
     //0 if no scale, 1 if scaled by x, 2 if scaled by y
     private int scaleDir;
 
@@ -53,16 +52,16 @@ public class Text {
         TextMaster.loadText(this);
     }
 
+    public Text(String text, float fontSize, FontType font, Vector2f position, float maxLineLength) {
+        this(text, fontSize, font, position, maxLineLength, false, 0);
+    }
+
     public int getScaleDir() {
         return scaleDir;
     }
 
     public void setScaleDir(int scaleDir) {
         this.scaleDir = scaleDir;
-    }
-
-    public Text(String text, float fontSize, FontType font, Vector2f position, float maxLineLength) {
-        this(text, fontSize, font, position, maxLineLength, false, 0);
     }
 
     public Vector2f getScale() {

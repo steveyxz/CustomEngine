@@ -1,13 +1,16 @@
 package engine.core.renderEngine.renderers;
 
 import engine.core.objects.Scene;
-import engine.core.renderEngine.models.GuiTexture;
 import engine.core.objects.gui.components.GuiComponent;
 import engine.core.renderEngine.Loader;
+import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.shaders.gui.GuiShader;
 import engine.core.tools.maths.TransformationMaths;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
 import java.util.List;

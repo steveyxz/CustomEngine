@@ -1,13 +1,9 @@
 package engine.core.tester;
 
-import engine.core.global.Global;
-import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.DefaultCamera;
 import engine.core.renderEngine.DisplayManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
-
-import java.security.Key;
 
 import static engine.core.global.Global.currentScene;
 import static engine.core.global.Global.movementSpeed;

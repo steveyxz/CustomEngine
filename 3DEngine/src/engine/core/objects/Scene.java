@@ -1,9 +1,8 @@
 package engine.core.objects;
 
+import engine.core.objects.gui.components.GuiComponent;
 import engine.core.objects.lighting.Light;
 import engine.core.renderEngine.models.GuiTexture;
-import engine.core.objects.gui.components.GuiComponent;
-import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.text.fontMeshCreator.Text;
@@ -23,10 +22,8 @@ public class Scene {
     private final Map<GuiTexture, List<GuiComponent>> guis = new HashMap<>();
     private final List<Text> texts = new ArrayList<>();
     private final List<Light> lights = new ArrayList<>();
-
-    private Vector3f cameraPos = new Vector3f();
-
     private final String sceneId;
+    private Vector3f cameraPos = new Vector3f();
 
     public Scene(String sceneId) {
         this.sceneId = sceneId;

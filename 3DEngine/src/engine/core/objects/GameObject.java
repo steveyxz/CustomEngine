@@ -3,8 +3,6 @@ package engine.core.objects;
 import engine.core.renderEngine.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
-import static engine.core.global.Global.currentScene;
-
 public abstract class GameObject {
 
     //Texturing
@@ -14,11 +12,11 @@ public abstract class GameObject {
     public Vector3f rotation;
     public Vector3f velocity;
     public float scale;
+    //Scene Info
+    public String sceneId = "";
     //Lighting
     private float shineDamper = 1;
     private float reflectivity = 0;
-    //Scene Info
-    public String sceneId = "";
 
     public GameObject(Vector3f position, Vector3f rotation, float scale, TexturedModel model) {
         this.position = position;
@@ -26,6 +24,10 @@ public abstract class GameObject {
         this.scale = scale;
         this.rotation = rotation;
         this.velocity = new Vector3f(0, 0, 0);
+    }
+
+    public void move(float x, float y, float z) {
+        position.translate(x, y, z);
     }
 
     public float getShineDamper() {

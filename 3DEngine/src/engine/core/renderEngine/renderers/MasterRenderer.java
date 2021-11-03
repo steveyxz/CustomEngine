@@ -1,13 +1,8 @@
 package engine.core.renderEngine.renderers;
 
-import engine.core.objects.GameObject;
-import engine.core.objects.gui.components.GuiComponent;
-import engine.core.objects.lighting.Light;
 import engine.core.particles.ParticleMaster;
 import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.DefaultCamera;
-import engine.core.renderEngine.models.GuiTexture;
-import engine.core.renderEngine.models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 
 import static engine.core.global.Global.currentScene;

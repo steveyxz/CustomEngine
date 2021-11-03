@@ -1,13 +1,12 @@
 package engine.core.objects.gui.components.buttons;
 
 import engine.core.global.MouseMethods;
+import engine.core.objects.gui.components.GuiComponent;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
-import engine.core.objects.gui.components.GuiComponent;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 public abstract class Button extends GuiComponent {
 
