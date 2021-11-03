@@ -10,9 +10,9 @@ import static java.lang.Math.sin;
 public abstract class Camera {
 
     private final Map<String, Vector3f> positions = new HashMap<>();
-    private float pitch; //Up down
-    private float yaw; //Left right
-    private float roll; //Rotation (in degrees)
+    //x is pitch, y is yaw, z is roll
+    private final Map<String, Vector3f> rotations = new HashMap<>();
+    private Vector3f vec3 = new Vector3f();
 
     public abstract void tick();
 
@@ -29,27 +29,40 @@ public abstract class Camera {
         return positions;
     }
 
-    public float getPitch() {
-        return pitch;
+    public Vector3f getRotation(String sceneId) {
+        vec3 = rotations.get(sceneId);
+        if (vec3 == null) {
+            Vector3f tempvec = new Vector3f(0, 0, 0);
+            if (sceneId == null) {
+                return tempvec;
+            }
+            rotations.put(sceneId, tempvec);
+            return tempvec;
+        }
+        return vec3;
     }
 
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
+    public float getPitch(String sceneId) {
+        return getRotation(sceneId).x;
     }
 
-    public float getYaw() {
-        return yaw;
+    public void setPitch(float pitch, String sceneId) {
+        getRotation(sceneId).x = pitch;
     }
 
-    public void setYaw(float yaw) {
-        this.yaw = yaw;
+    public float getYaw(String sceneId) {
+        return getRotation(sceneId).y;
     }
 
-    public float getRoll() {
-        return roll;
+    public void setYaw(float yaw, String sceneId) {
+        getRotation(sceneId).y = yaw;
     }
 
-    public void setRoll(float roll) {
-        this.roll = roll;
+    public float getRoll(String sceneId) {
+        return getRotation(sceneId).z;
+    }
+
+    public void setRoll(float roll, String sceneId) {
+        getRotation(sceneId).z = roll;
     }
 }

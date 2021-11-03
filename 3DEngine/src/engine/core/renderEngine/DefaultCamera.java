@@ -14,32 +14,33 @@ public class DefaultCamera extends Camera {
 
     @Override
     public void frame() {
-        Vector3f currentPos = getPositions().get(currentScene.getSceneId());
+        String sceneId = currentScene.getSceneId();
+        Vector3f currentPos = getPositions().get(sceneId);
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            Vector3f movement = degreeToDirection(360 - getYaw());
+            Vector3f movement = degreeToDirection(360 - getYaw(sceneId));
             movement.scale(DisplayManager.getFrameTimeSeconds() * Global.movementSpeed);
             currentPos.translate(movement.x, movement.y, movement.z);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            Vector3f movement = degreeToDirection(360 - getYaw());
+            Vector3f movement = degreeToDirection(360 - getYaw(sceneId));
             movement.scale(DisplayManager.getFrameTimeSeconds() * Global.movementSpeed);
             currentPos.translate(-movement.x, -movement.y, -movement.z);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            Vector3f movement = degreeToDirection(360 - getYaw() - 90);
+            Vector3f movement = degreeToDirection(360 - getYaw(sceneId) - 90);
             movement.scale(DisplayManager.getFrameTimeSeconds() * Global.movementSpeed);
             currentPos.translate(-movement.x, -movement.y, -movement.z);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            Vector3f movement = degreeToDirection(360 - getYaw() + 90);
+            Vector3f movement = degreeToDirection(360 - getYaw(sceneId) + 90);
             movement.scale(DisplayManager.getFrameTimeSeconds() * Global.movementSpeed);
             currentPos.translate(-movement.x, -movement.y, -movement.z);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-            setYaw(getYaw() - DisplayManager.getFrameTimeSeconds() * 30);
+            setYaw(getYaw(sceneId) - DisplayManager.getFrameTimeSeconds() * 30, sceneId);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-            setYaw(getYaw() + DisplayManager.getFrameTimeSeconds() * 30);
+            setYaw(getYaw(sceneId) + DisplayManager.getFrameTimeSeconds() * 30, sceneId);
         }
     }
 }
