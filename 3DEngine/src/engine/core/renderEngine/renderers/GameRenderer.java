@@ -2,6 +2,7 @@ package engine.core.renderEngine.renderers;
 
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
+import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.models.TexturedModel;
@@ -9,6 +10,7 @@ import engine.core.renderEngine.shaders.object.ObjectShader;
 import engine.core.tools.maths.TransformationMaths;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
 
@@ -49,7 +51,7 @@ public class GameRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glClearColor(0, 0, 0, 1);
+        GL11.glClearColor(1, 1, 1, 1);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         shader.start();
         shader.loadLights(scene.getLights());
@@ -60,13 +62,25 @@ public class GameRenderer {
         Map<TexturedModel, List<GameObject>> entities = scene.getObjects();
         Set<TexturedModel> models = entities.keySet();
         List<TexturedModel> realModels = sort(models);
+        Camera camera = MasterRenderer.camera;
+        Vector3f cameraPos = camera.getPositions().get(scene.getSceneId());
+        Vector3f X = new Vector3f(cameraPos.x, cameraPos.y, cameraPos.z);
+        float x = (float) (Math.cos(Math.toRadians(camera.getYaw(scene.getSceneId()))) * Math.cos(Math.toRadians(camera.getPitch(scene.getSceneId()))));
+        float y = (float) (Math.sin(Math.toRadians(camera.getYaw(scene.getSceneId()))) * Math.cos(Math.toRadians(camera.getPitch(scene.getSceneId()))));
+        float z = (float) Math.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
+        Vector3f V = new Vector3f(x, y, z);
         for (TexturedModel model : realModels) {
             prepareTexturedModel(model);
             List<GameObject> batch = entities.get(model);
             for (GameObject e : batch) {
                 if (e.getSceneId().equals(scene.getSceneId())) {
-                    prepareInstance(e);
-                    GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+                    Vector3f Y = new Vector3f(e.getPosition().x, e.getPosition().y, e.getPosition().z);
+                    Vector3f YMinusX = Y.negate(X);//new Vector3f(Y.x - X.x, Y.y - X.y, Y.z - X.z);
+                    float dot = Vector3f.dot(YMinusX, V);
+                    if (!(dot > 0)) {
+                        prepareInstance(e);
+                        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+                    }
                 }
             }
             unbindTexturedModels();

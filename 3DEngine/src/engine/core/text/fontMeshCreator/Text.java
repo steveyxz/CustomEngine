@@ -12,11 +12,11 @@ public class Text {
     private final Vector2f position;
     private final float lineMaxSize;
     private final FontType font;
+    private final boolean centerText;
     private Vector2f scale = new Vector2f(1, 1);
     private int textMeshVao;
     private int vertexCount;
     private int numberOfLines;
-    private final boolean centerText;
     //0 if no scale, 1 if scaled by x, 2 if scaled by y
     private int scaleDir;
 

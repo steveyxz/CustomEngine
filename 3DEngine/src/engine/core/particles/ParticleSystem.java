@@ -14,15 +14,13 @@ public class ParticleSystem {
     private final float gravityComplient;
     private final float averageLifeLength;
     private final float averageScale;
-
+    private final ParticleTexture texture;
+    private final float offset;
+    private final Random random = new Random();
     private float speedError, lifeError, scaleError = 0;
     private boolean randomRotation = false;
     private Vector3f direction;
     private float directionDeviation = 0;
-    private final ParticleTexture texture;
-    private final float offset;
-
-    private final Random random = new Random();
 
     public ParticleSystem(float pps, float speed, float gravityComplient, float lifeLength, float offset, float scale, ParticleTexture texture) {
         this.pps = pps;

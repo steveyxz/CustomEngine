@@ -1,5 +1,6 @@
 package engine.core.renderEngine.renderers;
 
+import engine.core.global.Global;
 import engine.core.particles.ParticleMaster;
 import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.DefaultCamera;
@@ -16,11 +17,14 @@ public class MasterRenderer {
     public static void init() {
         ParticleMaster.init(gameRenderer.getProjectionMatrix());
         enableCulling();
+
     }
 
     public static void enableCulling() {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
+        if (!Global.allTwoD) {
+            GL11.glEnable(GL11.GL_CULL_FACE);
+            GL11.glCullFace(GL11.GL_BACK);
+        }
     }
 
     public static void disableCulling() {

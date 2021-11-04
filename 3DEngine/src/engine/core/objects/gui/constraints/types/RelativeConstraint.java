@@ -6,8 +6,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class RelativeConstraint extends GuiConstraint {
 
-    private float value;
     private final boolean shiftCentre;
+    private float value;
 
     public RelativeConstraint(float value) {
         this(value, true);

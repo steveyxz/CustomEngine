@@ -32,6 +32,7 @@ public class Global {
     public static final float movementSpeed = 2;
     //######################### TEXTURE INFO ###############################
     public static final HashMap<String, ModelTexture> pathQuicker = new HashMap<>();
+    public static final boolean allTwoD = false;
     //######################### PARTICLE INFO ##############################
     public static final int PARTICLE_GRAVITY = -50;
     //2D Games

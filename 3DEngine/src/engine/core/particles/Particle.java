@@ -22,14 +22,11 @@ public class Particle {
     private final float scale;
     private final Vector4f color;
     private final ParticleTexture texture;
-
-    private float elapsedTime = 0;
-    private float distance;
-
     private final Vector3f velocity = new Vector3f();
-
     private final Vector2f texOffset1 = new Vector2f();
     private final Vector2f texOffset2 = new Vector2f();
+    private float elapsedTime = 0;
+    private float distance;
     private float blend;
 
     public Particle(ParticleTexture texture, Vector3f position, Vector3f speed, float gravityEffect, float lifeLength, float offset, float rotation, float scale) {
