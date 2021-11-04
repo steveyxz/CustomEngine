@@ -7,6 +7,10 @@ import org.lwjgl.util.vector.Vector3f;
 import static engine.core.global.Global.currentScene;
 
 public class DefaultCamera extends Camera {
+
+    private Vector3f downMovement = new Vector3f(0, -Global.movementSpeed, 0);
+    private Vector3f upMovement = new Vector3f(0, Global.movementSpeed, 0);
+
     @Override
     public void tick() {
 
@@ -35,6 +39,16 @@ public class DefaultCamera extends Camera {
             Vector3f movement = degreeToDirection(360 - getYaw(sceneId) + 90);
             movement.scale(DisplayManager.getFrameTimeSeconds() * Global.movementSpeed);
             currentPos.translate(-movement.x, -movement.y, -movement.z);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            downMovement.set(0, -Global.movementSpeed, 0);
+            downMovement.scale(DisplayManager.getFrameTimeSeconds());
+            currentPos.translate(downMovement.x, downMovement.y, downMovement.z);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            upMovement.set(0, Global.movementSpeed, 0);
+            upMovement.scale(DisplayManager.getFrameTimeSeconds());
+            currentPos.translate(upMovement.x, upMovement.y, upMovement.z);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
             setYaw(getYaw(sceneId) - DisplayManager.getFrameTimeSeconds() * 30, sceneId);

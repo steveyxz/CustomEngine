@@ -5,6 +5,8 @@ import engine.core.objects.BasicObject;
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
 import engine.core.objects.lighting.Light;
+import engine.core.objects.shapes.twoD.Square;
+import engine.core.renderEngine.DefaultCamera;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.ObjParser;
 import engine.core.renderEngine.models.ModelTexture;
@@ -17,41 +19,16 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class TestLoop extends Game {
-
     public static void main(String[] args) {
         new TestLoop();
     }
 
     @Override
     protected void preLoop() {
-
-        MasterRenderer.camera = new TesterCamera();
-
-        //Create Scenes
-        Scene scene = new Scene("start");
-        Scene scene2 = new Scene("main");
-
-        Text t = new Text("bruh", 10, FontGlobal.timesNewRoman, new Vector2f(0, 0), 10, false, 2);
-        t.setColour(1, 1, 1);
-        scene.addText(t);
-
-        GameObject testObj2 = new BasicObject(new Vector3f(0, 0, -10), new Vector3f(0, 0, 0), 10, new TexturedModel(ObjParser.load("textures/dragon"), new ModelTexture(Loader.loadTexture("textures/white"))));
-        testObj2.setReflectivity(0.1f);
-        testObj2.setShineDamper(0.2f);
-        scene2.processObject(testObj2);
-        scene2.addLight(new Light(new Vector3f(0, 0, 0), new Vector3f(0.5f, 0, 0.9f)));
-        scene2.addLight(new Light(new Vector3f(0, 0, -40), new Vector3f(1, 1, 0.2f)));
-
-        Scene.sceneManager.changeScene("start");
-    }
-
-    @Override
-    protected void preTick() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
-            Scene.sceneManager.changeScene("start");
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            Scene.sceneManager.changeScene("main");
-        }
+        MasterRenderer.camera = new DefaultCamera();
+        Scene scene = new Scene("pog");
+        scene.addLight(new Light(new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)));
+        scene.processObject(new Square(new Vector2f(0, 0), new Vector2f(0, 0), 1, new ModelTexture(Loader.loadTexture("icons/tank"))));
+        Scene.sceneManager.changeScene("pog");
     }
 }
