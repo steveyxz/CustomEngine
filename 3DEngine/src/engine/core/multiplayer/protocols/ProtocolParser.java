@@ -1,28 +1,35 @@
 package engine.core.multiplayer.protocols;
 
-import java.util.HashMap;
-import java.util.Map;
+import engine.core.multiplayer.GameClientThread;
+import engine.core.multiplayer.GameServerThread;
+import engine.core.multiplayer.packets.Packet;
+
+import java.util.*;
 
 public class ProtocolParser {
 
-    private static final Map<String, Protocol> protocols = new HashMap<>();
+    private static final List<Protocol> protocols = new ArrayList<>();
 
     public static void addProtocol(Protocol protocol) {
-        protocols.put(protocol.getId(), protocol);
+        protocols.add(protocol);
     }
 
-    public static void runProtocol(String packet) {
-        for (String protocol : protocols.keySet()) {
-            if (packet.startsWith(protocol)) {
-                packet = packet.replace(protocol, "");
-                if (!packet.startsWith(":")) {
-                    packet = protocol + packet;
-                } else {
-                    packet = packet.substring(1);
-                    protocols.get(protocol).run(packet);
-                }
+    public static Packet acceptPacketFromClient(Packet packet, GameServerThread serverThread) {
+        String id = packet.getId();
+        return Objects.requireNonNull(findProtocolAcceptingPacket(id)).interpretFromClient(packet, serverThread);
+    }
+
+    private static Protocol findProtocolAcceptingPacket(String id) {
+        for (Protocol p : protocols) {
+            System.out.println(p.getInputPacketId());
+            if (p.getInputPacketId().equals(id)) {
+                return p;
             }
         }
+        return null;
+    }
+
+    public static void acceptPacketFromServer(Packet packet, GameClientThread clientThread) {
     }
 
 }

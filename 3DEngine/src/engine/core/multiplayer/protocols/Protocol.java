@@ -1,17 +1,26 @@
 package engine.core.multiplayer.protocols;
 
-public abstract class Protocol {
+import engine.core.multiplayer.GameClientThread;
+import engine.core.multiplayer.GameServerThread;
+import engine.core.multiplayer.packets.Packet;
 
-    private final String id;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 
-    public Protocol(String id) {
-        this.id = id;
-        ProtocolParser.addProtocol(this);
+public interface Protocol {
+
+    //Clientside, interpreting packet from the server
+    void interpretFromServer(Packet input, GameClientThread clientThread);
+
+    //Serverside, interpreting packet from the client and returning a packet
+    Packet interpretFromClient(Packet input, GameServerThread serverThread);
+
+    String getId();
+
+    default String getInputPacketId() {
+
+        return null;
     }
 
-    public abstract void run(String info);
 
-    public String getId() {
-        return id;
-    }
 }
