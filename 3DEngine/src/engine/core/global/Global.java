@@ -59,6 +59,18 @@ public class Global {
         return new TexturedModel(ObjParser.load(objPath), new ModelTexture(Loader.loadTexture(texturePath)));
     }
 
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public static Vector3f rotateVector(Vector3f vec, Vector3f axis, double theta) {
         float x, y, z;
         float u, v, w;
