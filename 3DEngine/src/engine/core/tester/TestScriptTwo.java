@@ -4,10 +4,15 @@
 
 package engine.core.tester;
 
+import engine.core.multiplayer.packets.Packet;
+import engine.core.multiplayer.packets.PacketManager;
+
+import java.io.IOException;
+
 public class TestScriptTwo {
 
-    public static void main(String[] args) {
-        new TestClient(10);
+    public static void main(String[] args) throws IOException {
+        new TestClient(10).sendPacket(PacketManager.getNewPacket("test", Packet.parseArguments("string[hi];")));
     }
 
 }

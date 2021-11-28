@@ -4,17 +4,21 @@
 
 package engine.core.multiplayer;
 
+import engine.core.multiplayer.packets.Packet;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Scanner;
 
 public class ClientThread implements Runnable {
 
     private final Client client;
     private boolean connected = true;
+
+    private DataInputStream dinp;
+    private DataOutputStream dout;
 
     public ClientThread(Client client) {
         this.client = client;
@@ -25,16 +29,8 @@ public class ClientThread implements Runnable {
         try {
             Socket socket = new Socket("localhost", client.port());
             client.onConnect();
-            DataInputStream dinp = new DataInputStream(socket.getInputStream());
-            DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-            while (connected) {
-                System.out.println("What do you say to the server? ");
-                Scanner sc = new Scanner(System.in);
-                dout.writeUTF(sc.nextLine());
-                dout.flush();
-                System.out.println("The server said '" + dinp.readUTF() + "'");
-            }
-            client.onDisconnect();
+            dinp = new DataInputStream(socket.getInputStream());
+            dout = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             if (e instanceof SocketException) {
                 connected = false;
@@ -43,6 +39,12 @@ public class ClientThread implements Runnable {
             }
             e.printStackTrace();
         }
+    }
+
+    public Packet sendPacket(Packet packet) throws IOException {
+        dout.writeUTF(packet.toString());
+        dout.flush();
+        return Packet.convertStringToPacket(dinp.readUTF());
     }
 
     public Client client() {

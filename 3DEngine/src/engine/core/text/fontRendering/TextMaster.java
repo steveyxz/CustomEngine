@@ -4,11 +4,11 @@
 
 package engine.core.text.fontRendering;
 
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.Loader;
 import engine.core.text.fontMeshCreator.FontType;
 import engine.core.text.fontMeshCreator.Text;
 import engine.core.text.fontMeshCreator.TextMeshData;
-import org.lwjgl.opengl.Display;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +37,10 @@ public class TextMaster {
             List<Text> textList = texts.get(t);
             for (Text tt : textList) {
                 if (tt.getScaleDir() == 1) {
-                    tt.getScale().set(1f, 1f * Display.getWidth() / Display.getHeight());
+                    tt.getScale().set(1f, 1f * GLFWDisplayManager.getWidth() / GLFWDisplayManager.getHeight());
                 }
                 if (tt.getScaleDir() == 2) {
-                    tt.getScale().set(1f * Display.getHeight() / Display.getWidth(), 1f);
+                    tt.getScale().set(1f * GLFWDisplayManager.getHeight() / GLFWDisplayManager.getWidth(), 1f);
                 }
                 System.out.println(tt.getScale());
             }

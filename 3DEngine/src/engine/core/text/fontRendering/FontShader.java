@@ -5,8 +5,8 @@
 package engine.core.text.fontRendering;
 
 import engine.core.renderEngine.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 public class FontShader extends ShaderProgram {
 

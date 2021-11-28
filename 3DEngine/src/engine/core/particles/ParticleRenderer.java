@@ -4,10 +4,10 @@ import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.tools.maths.TransformationMaths;
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 
 import java.nio.FloatBuffer;
 import java.util.List;

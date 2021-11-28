@@ -7,8 +7,8 @@ package engine.core.objects.shapes.twoD;
 import engine.core.global.Global;
 import engine.core.objects.GameObject;
 import engine.core.renderEngine.models.TexturedModel;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 public abstract class TwoDObject extends GameObject {
 

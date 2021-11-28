@@ -8,8 +8,8 @@ import engine.core.objects.lighting.Light;
 import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.shaders.ShaderProgram;
 import engine.core.tools.maths.TransformationMaths;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class ObjectShader extends ShaderProgram {
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_useFakeLighting;
+    private int location_skyColour;
 
 
     public ObjectShader() {
@@ -44,6 +45,7 @@ public class ObjectShader extends ShaderProgram {
         location_shineDamper = getUniformVariable("shineDamper");
         location_reflectivity = getUniformVariable("reflectivity");
         location_useFakeLighting = getUniformVariable("useFakeLighting");
+        location_useFakeLighting = getUniformVariable("skyColour");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
@@ -68,6 +70,14 @@ public class ObjectShader extends ShaderProgram {
     public void changeView(Camera value) {
         Matrix4f view = TransformationMaths.createViewMatrix(value);
         super.loadMatrix(location_viewMatrix, view);
+    }
+
+    public void changeSkyColour(float r, float g, float b) {
+        super.loadVector3f(location_skyColour, new Vector3f(r, g, b));
+    }
+
+    public void changeSkyColour(Vector3f colour) {
+        super.loadVector3f(location_skyColour, colour);
     }
 
     public void useFakeLighting(boolean value) {

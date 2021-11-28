@@ -6,8 +6,8 @@ package engine.core.objects.gui.constraints.types;
 
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.tools.maths.vectors.Vector2f;
 
 public class OppRelativeConstraint extends GuiConstraint {
 
@@ -32,23 +32,23 @@ public class OppRelativeConstraint extends GuiConstraint {
         Vector2f textureScale = getParent().getTexture().getScale();
         if (getLevel() == ConstraintLevel.X) {
             float pos = getParent().getYPos().getValueShift();
-            setValueShift(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
-            texturePos.setX(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
+            setValueShift(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
+            texturePos.setX(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
         }
         if (getLevel() == ConstraintLevel.Y) {
             float pos = getParent().getXPos().getValueShift();
-            setValueShift(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
-            texturePos.setY(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
+            setValueShift(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
+            texturePos.setY(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
         }
         if (getLevel() == ConstraintLevel.WIDTH) {
             float pos = getParent().getHeight().getValueShift();
-            setValueShift(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
-            textureScale.setX(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
+            setValueShift(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
+            textureScale.setX(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
         }
         if (getLevel() == ConstraintLevel.HEIGHT) {
             float pos = getParent().getWidth().getValueShift();
-            setValueShift(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
-            textureScale.setY(value * pos * (Display.getWidth() / (Display.getHeight() * 1f)));
+            setValueShift(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
+            textureScale.setY(value * pos * (GLFWDisplayManager.getWidth() / (GLFWDisplayManager.getHeight() * 1f)));
         }
     }
 }

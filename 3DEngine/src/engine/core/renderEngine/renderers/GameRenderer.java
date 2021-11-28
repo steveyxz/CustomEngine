@@ -7,14 +7,18 @@ package engine.core.renderEngine.renderers;
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
 import engine.core.renderEngine.Camera;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.shaders.object.ObjectShader;
 import engine.core.tools.maths.TransformationMaths;
-import org.lwjgl.opengl.*;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector3f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 import java.util.*;
 
@@ -73,6 +77,7 @@ public class GameRenderer {
         float y = (float) (Math.sin(Math.toRadians(camera.getYaw(scene.getSceneId()))) * Math.cos(Math.toRadians(camera.getPitch(scene.getSceneId()))));
         float z = (float) Math.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
         Vector3f V = new Vector3f(x, y, z);
+        shader.changeSkyColour(scene.skyColour());
         for (TexturedModel model : realModels) {
             prepareTexturedModel(model);
             List<GameObject> batch = entities.get(model);
@@ -133,7 +138,7 @@ public class GameRenderer {
     }
 
     private void createProjectionMatrix() {
-        float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
+        float aspectRatio = (float) GLFWDisplayManager.getWidth() / (float) GLFWDisplayManager.getHeight();
         float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
         float x_scale = y_scale / aspectRatio;
         float frustum_length = FAR_PLANE - NEAR_PLANE;

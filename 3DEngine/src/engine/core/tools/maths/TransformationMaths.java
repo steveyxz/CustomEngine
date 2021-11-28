@@ -5,9 +5,9 @@
 package engine.core.tools.maths;
 
 import engine.core.renderEngine.Camera;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 import static engine.core.global.Global.currentScene;
 

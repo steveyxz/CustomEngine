@@ -1,6 +1,6 @@
 package engine.core.text.fontMeshCreator;
 
-import org.lwjgl.opengl.Display;
+import engine.core.renderEngine.GLFWDisplayManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class MetaFile {
      * @param file - the font file.
      */
     protected MetaFile(String file) {
-        this.aspectRatio = (double) Display.getWidth() / (double) Display.getHeight();
+        this.aspectRatio = (double) GLFWDisplayManager.getWidth() / (double) GLFWDisplayManager.getHeight();
         openFile(file);
         loadPaddingData();
         loadLineSizes();

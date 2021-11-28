@@ -5,7 +5,7 @@
 package engine.core.particles;
 
 import engine.core.renderEngine.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Matrix4f;
+import engine.core.tools.maths.vectors.Matrix4f;
 
 public class ParticleShader extends ShaderProgram {
 

@@ -4,9 +4,12 @@
 
 package engine.core.multiplayer;
 
-import java.io.*;
+import engine.core.multiplayer.packets.Packet;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ServerCommThread implements Runnable {
 
@@ -26,14 +29,16 @@ public class ServerCommThread implements Runnable {
             DataOutputStream dout = new DataOutputStream(connection.getOutputStream());
             while (connected) {
                 String inp = dinp.readUTF();
-                System.out.println("Client says: '" + inp + "'");
-                String out = new String(new StringBuilder(inp).reverse());
-                System.out.println("We say: '" + out + "'");
-                dout.writeUTF(out);
+                System.out.println("Client sends packet: '" + inp + "'");
+                receivePacket(Packet.convertStringToPacket(inp), dout);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void receivePacket(Packet packet, DataOutputStream out) throws IOException {
+        System.out.println(packet);
     }
 
     public ServerThread server() {

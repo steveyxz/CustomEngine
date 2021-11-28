@@ -4,12 +4,26 @@
 
 package engine.core.multiplayer.packets;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PacketManager {
 
     public static final List<Packet> packets = new ArrayList<>();
+
+    public static Packet getNewPacket(String type, List<PacketArgument> args) {
+        try {
+            if (getPacketByName(type) == null) {
+                return null;
+            }
+            return Objects.requireNonNull(getPacketByName(type)).getClass().getDeclaredConstructor(args.getClass()).newInstance(args);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void addPacket(Packet packet) {
         packets.add(packet);

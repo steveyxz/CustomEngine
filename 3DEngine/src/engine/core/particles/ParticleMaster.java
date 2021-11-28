@@ -6,7 +6,7 @@ package engine.core.particles;
 
 import engine.core.renderEngine.Camera;
 import engine.core.tools.maths.InsertionSort;
-import org.lwjgl.util.vector.Matrix4f;
+import engine.core.tools.maths.vectors.Matrix4f;
 
 import java.util.*;
 

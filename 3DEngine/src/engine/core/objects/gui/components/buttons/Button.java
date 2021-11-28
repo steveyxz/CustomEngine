@@ -4,13 +4,12 @@
 
 package engine.core.objects.gui.components.buttons;
 
-import engine.core.global.MouseMethods;
+import engine.core.input.MouseInputMethods;
 import engine.core.objects.gui.components.GuiComponent;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.tools.maths.vectors.Vector2f;
 
 public abstract class Button extends GuiComponent {
 
@@ -77,11 +76,11 @@ public abstract class Button extends GuiComponent {
             if (timer < 0) {
                 Vector2f pos = getTexture().getPos();
                 Vector2f scale = getTexture().getScale();
-                if (MouseMethods.isMouseClickWithin((int) ((pos.x - (scale.x) + 1) / 2 * Display.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * Display.getHeight()), (int) (scale.x * Display.getWidth()), (int) (scale.y * Display.getHeight()))) {
+                if (MouseInputMethods.isMouseClickWithin((int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
                     System.out.println("test");
                     setTexture(buttonDown);
                     setState(ButtonState.CLICK_DOWN);
-                } else if (MouseMethods.checkBounds(Mouse.getX(), Mouse.getY(), (int) ((pos.x - (scale.x) + 1) / 2 * Display.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * Display.getHeight()), (int) (scale.x * Display.getWidth()), (int) (scale.y * Display.getHeight()))) {
+                } else if (MouseInputMethods.checkBounds(MouseInputMethods.getMouseX(), MouseInputMethods.getMouseY(), (int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
                     hover();
                     setTexture(buttonHover);
                     if (getState() == ButtonState.CLICK_DOWN) {

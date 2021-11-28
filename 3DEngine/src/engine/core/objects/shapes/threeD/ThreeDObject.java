@@ -7,7 +7,7 @@ package engine.core.objects.shapes.threeD;
 import engine.core.global.Global;
 import engine.core.objects.GameObject;
 import engine.core.renderEngine.models.TexturedModel;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 public class ThreeDObject extends GameObject {
 

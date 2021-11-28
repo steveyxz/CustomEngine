@@ -11,7 +11,7 @@ import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.text.fontMeshCreator.Text;
 import engine.core.text.fontRendering.TextMaster;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +28,7 @@ public class Scene {
     private final List<Light> lights = new ArrayList<>();
     private final String sceneId;
     private Vector3f cameraPos = new Vector3f();
+    private Vector3f skyColour = new Vector3f(1, 1, 1);
 
     public Scene(String sceneId) {
         this.sceneId = sceneId;
@@ -162,5 +163,13 @@ public class Scene {
     public void render() {
         transformGuis();
         MasterRenderer.render();
+    }
+
+    public Vector3f skyColour() {
+        return skyColour;
+    }
+
+    public void setSkyColour(Vector3f skyColour) {
+        this.skyColour = skyColour;
     }
 }

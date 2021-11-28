@@ -6,8 +6,8 @@ package engine.core.objects.gui.constraints.types;
 
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.tools.maths.vectors.Vector2f;
 
 public class ValueConstraint extends GuiConstraint {
 
@@ -40,7 +40,7 @@ public class ValueConstraint extends GuiConstraint {
         Vector2f texturePos = getParent().getTexture().getPos();
         Vector2f textureScale = getParent().getTexture().getScale();
         if (getLevel() == ConstraintLevel.X) {
-            float x = ((value / Display.getWidth() * 2) - 1);
+            float x = ((value / GLFWDisplayManager.getWidth() * 2) - 1);
             texturePos.setX(x);
             setValueShift(x);
             if (shiftCentre) {
@@ -48,7 +48,7 @@ public class ValueConstraint extends GuiConstraint {
             }
         }
         if (getLevel() == ConstraintLevel.Y) {
-            float y = ((2 - (value / Display.getHeight() * 2)) - 1);
+            float y = ((2 - (value / GLFWDisplayManager.getHeight() * 2)) - 1);
             texturePos.setY(y);
             setValueShift(y);
             if (shiftCentre) {
@@ -56,12 +56,12 @@ public class ValueConstraint extends GuiConstraint {
             }
         }
         if (getLevel() == ConstraintLevel.WIDTH) {
-            float width = value / Display.getWidth();
+            float width = value / GLFWDisplayManager.getWidth();
             textureScale.setX(width);
             setValueShift(width);
         }
         if (getLevel() == ConstraintLevel.HEIGHT) {
-            float height = value / Display.getHeight();
+            float height = value / GLFWDisplayManager.getHeight();
             textureScale.setY(height);
             setValueShift(height);
         }

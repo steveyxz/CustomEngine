@@ -4,7 +4,7 @@
 
 package engine.core.renderEngine.models;
 
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.tools.maths.vectors.Vector2f;
 
 public class GuiTexture {
 

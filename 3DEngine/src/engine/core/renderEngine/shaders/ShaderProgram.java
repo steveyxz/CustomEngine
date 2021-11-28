@@ -4,13 +4,13 @@
 
 package engine.core.renderEngine.shaders;
 
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
+import engine.core.tools.maths.vectors.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -111,7 +111,7 @@ public abstract class ShaderProgram {
             buffer.put(vector3f.getZ());
         }
         buffer.flip();
-        GL20.glUniform3(location, buffer);
+        GL20.glUniform3fv(location, buffer);
     }
 
     protected void loadVector2f(int location, Vector2f vector2f) {
@@ -126,7 +126,7 @@ public abstract class ShaderProgram {
     protected void loadMatrix(int location, Matrix4f matrix) {
         matrix.store(matrixBuffer);
         matrixBuffer.flip();
-        GL20.glUniformMatrix4(location, false, matrixBuffer);
+        GL20.glUniformMatrix4fv(location, false, matrixBuffer);
     }
 
     protected abstract void getAllUniformLocations();

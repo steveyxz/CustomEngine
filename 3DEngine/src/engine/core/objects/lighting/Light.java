@@ -4,7 +4,8 @@
 
 package engine.core.objects.lighting;
 
-import org.lwjgl.util.vector.Vector3f;
+
+import engine.core.tools.maths.vectors.Vector3f;
 
 public class Light {
 

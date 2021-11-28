@@ -18,7 +18,9 @@ public abstract class Server {
     }
 
     public abstract void onStart();
+
     public abstract void onStop();
+
     public abstract void onAcceptConnection();
 
 }

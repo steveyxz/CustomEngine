@@ -5,7 +5,7 @@
 package engine.core.objects;
 
 import engine.core.global.Global;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.HashMap;
 

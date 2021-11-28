@@ -4,13 +4,19 @@
 
 package engine.core.multiplayer;
 
+import engine.core.multiplayer.packets.Packet;
+
+import java.io.IOException;
+
 public abstract class Client {
 
     private final int port;
+    private final ClientThread thread;
 
     public Client(int port) {
         this.port = port;
-        new Thread(new ClientThread(this)).start();
+        this.thread = new ClientThread(this);
+        new Thread(thread).start();
     }
 
     public int port() {
@@ -18,6 +24,10 @@ public abstract class Client {
     }
 
     public abstract void onConnect();
+
     public abstract void onDisconnect();
 
+    public void sendPacket(Packet packet) throws IOException {
+        thread.sendPacket(packet);
+    }
 }

@@ -5,6 +5,7 @@ in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 toCameraVector;
 in vec3 toLightVector[MAXLIGHTS];
+in float visibility;
 
 out vec4 out_Color;
 
@@ -13,6 +14,7 @@ uniform vec3 attenuation[MAXLIGHTS];
 uniform sampler2D modelTexture;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform vec3 skyColour;
 
 void main(void) {
 
@@ -46,5 +48,6 @@ void main(void) {
     }
 
     out_Color = vec4(totalDiffuse, 1.0) * textureColour + vec4(totalSpecular, 1.0);
+    out_Color = mix(vec4(skyColour, 1.0), out_Color, visibility);
 
 }

@@ -6,7 +6,7 @@ package engine.core.objects.gui.constraints.types;
 
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.tools.maths.vectors.Vector2f;
 
 public class RelativeConstraint extends GuiConstraint {
 

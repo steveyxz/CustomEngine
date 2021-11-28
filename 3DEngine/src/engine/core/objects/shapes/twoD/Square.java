@@ -7,7 +7,7 @@ package engine.core.objects.shapes.twoD;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.TexturedModel;
-import org.lwjgl.util.vector.Vector2f;
+import engine.core.tools.maths.vectors.Vector2f;
 
 import static engine.core.global.Global.*;
 

@@ -1,9 +1,9 @@
 package engine.core.particles;
 
-import engine.core.renderEngine.DisplayManager;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
+import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.tools.maths.vectors.Matrix4f;
+import engine.core.tools.maths.vectors.Vector3f;
+import engine.core.tools.maths.vectors.Vector4f;
 
 import java.util.Random;
 
@@ -90,7 +90,7 @@ public class ParticleSystem {
     }
 
     public void generateParticles(Vector3f systemCenter) {
-        float delta = DisplayManager.getFrameTimeSeconds();
+        float delta = GLFWDisplayManager.getFrameTimeSeconds();
         float particlesToCreate = pps * delta;
         int count = (int) Math.floor(particlesToCreate);
         float partialParticle = particlesToCreate % 1;

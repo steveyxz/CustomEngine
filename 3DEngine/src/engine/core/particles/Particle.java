@@ -6,10 +6,10 @@ package engine.core.particles;
 
 
 import engine.core.global.Global;
-import engine.core.renderEngine.DisplayManager;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
+import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
+import engine.core.tools.maths.vectors.Vector4f;
 
 import java.util.Random;
 
@@ -96,15 +96,15 @@ public class Particle {
     }
 
     protected boolean update() {
-        speed.y += Global.PARTICLE_GRAVITY * gravityEffect * DisplayManager.getFrameTimeSeconds();
+        speed.y += Global.PARTICLE_GRAVITY * gravityEffect * GLFWDisplayManager.getFrameTimeSeconds();
         velocity.set(speed);
-        velocity.scale(DisplayManager.getFrameTimeSeconds());
+        velocity.scale(GLFWDisplayManager.getFrameTimeSeconds());
         Vector3f.add(velocity, position, position);
         distance = Vector3f.sub(camera.getPositions().get(currentScene.getSceneId()), position, null).lengthSquared();
         if (color.w == 0) {
             updateTextureCoordInfo();
         }
-        elapsedTime += DisplayManager.getFrameTimeSeconds();
+        elapsedTime += GLFWDisplayManager.getFrameTimeSeconds();
         return elapsedTime < lifeLength;
     }
 

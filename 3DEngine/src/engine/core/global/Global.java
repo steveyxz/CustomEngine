@@ -6,14 +6,12 @@ package engine.core.global;
 
 import engine.core.objects.Scene;
 import engine.core.particles.ParticleMaster;
-import engine.core.renderEngine.DisplayManager;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.Loader;
-import engine.core.renderEngine.ObjParser;
 import engine.core.renderEngine.models.ModelTexture;
-import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.text.fontRendering.TextMaster;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.HashMap;
 
@@ -50,17 +48,13 @@ public class Global {
         Loader.cleanUp();
         TextMaster.cleanUp();
         ParticleMaster.cleanUp();
-        DisplayManager.closeDisplay();
+        GLFWDisplayManager.closeDisplay();
     }
 
     public static void globalInit() {
-        DisplayManager.createDisplay();
+        GLFWDisplayManager.init();
         MasterRenderer.init();
         TextMaster.init();
-    }
-
-    public static TexturedModel getModelFromOBJ(String objPath, String texturePath) {
-        return new TexturedModel(ObjParser.load(objPath), new ModelTexture(Loader.loadTexture(texturePath)));
     }
 
     public static boolean isNumeric(String strNum) {

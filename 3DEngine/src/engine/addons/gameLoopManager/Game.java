@@ -5,11 +5,9 @@
 package engine.addons.gameLoopManager;
 
 import engine.core.global.Global;
-import engine.core.renderEngine.DisplayManager;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.text.fontRendering.TextMaster;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 import static engine.core.global.Global.currentScene;
 
@@ -19,6 +17,8 @@ public abstract class Game {
         preInit();
         init();
         postInit();
+
+        Global.globalInit();
 
         //Tick Info
         long lastTime = System.nanoTime();
@@ -31,7 +31,7 @@ public abstract class Game {
         preLoop();
 
         //Game loop
-        while (!Display.isCloseRequested()) {
+        while (!GLFWDisplayManager.isCloseRequested()) {
             start();
 
             if (currentScene == null) {
@@ -73,17 +73,15 @@ public abstract class Game {
             end();
 
             //Update
-            if (Display.wasResized()) {
-                GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
-                DisplayManager.WIDTH = Display.getWidth();
-                DisplayManager.HEIGHT = Display.getHeight();
-                MasterRenderer.reloadProjections();
-                TextMaster.reloadTextScales();
-            }
-            DisplayManager.updateDisplay();
+            GLFWDisplayManager.updateDisplay();
+            MasterRenderer.reloadProjections();
+            TextMaster.reloadTextScales();
 
             post();
         }
+
+        GLFWDisplayManager.closeDisplay();
+        Global.globalCleanUp();
 
         finish();
         cleanUp();

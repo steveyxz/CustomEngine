@@ -5,7 +5,7 @@
 package engine.core.renderEngine.shaders.gui;
 
 import engine.core.renderEngine.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Matrix4f;
+import engine.core.tools.maths.vectors.Matrix4f;
 
 public class GuiShader extends ShaderProgram {
 

@@ -1,8 +1,8 @@
 package engine.core.text.fontMeshCreator;
 
 import engine.core.text.fontRendering.TextMaster;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import engine.core.tools.maths.vectors.Vector2f;
+import engine.core.tools.maths.vectors.Vector3f;
 
 public class Text {
 
