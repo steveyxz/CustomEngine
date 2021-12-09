@@ -61,9 +61,10 @@ public class GLFWDisplayManager {
         // Enable v-sync
         glfwSwapInterval(1);
 
+        GL.createCapabilities();
+
         // Make the window visible
         glfwShowWindow(window);
-        GL.createCapabilities();
         lastTimeFrame = getCurrentTime();
 
     }
@@ -84,7 +85,7 @@ public class GLFWDisplayManager {
     }
 
     private static long getCurrentTime() {
-        return (long) (GLFW.glfwGetTime() * 1000 / GLFW.glfwGetTimerFrequency());
+        return (long) (GLFW.glfwGetTime() * 1000);
     }
 
     public static boolean isCloseRequested() {

@@ -78,8 +78,7 @@
       <root url="jar://$PROJECT_DIR$/libs/jars/lwjgl.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/jars/reflections-0.10.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/jars/slf4j-api-1.7.32.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/jars/slick-util.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/jars/slick.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jars/slick-util3.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$PROJECT_DIR$/libs/jars/lwjgl-assimp-javadoc.jar!/" />

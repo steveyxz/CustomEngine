@@ -4,6 +4,8 @@
 
 package engine.core.global;
 
+import engine.core.input.KeyboardInputMethods;
+import engine.core.input.MouseInputMethods;
 import engine.core.objects.Scene;
 import engine.core.particles.ParticleMaster;
 import engine.core.renderEngine.GLFWDisplayManager;
@@ -48,6 +50,8 @@ public class Global {
         Loader.cleanUp();
         TextMaster.cleanUp();
         ParticleMaster.cleanUp();
+        KeyboardInputMethods.freeCallbacks();
+        MouseInputMethods.freeCallbacks();
         GLFWDisplayManager.closeDisplay();
     }
 

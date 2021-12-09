@@ -46,6 +46,12 @@ public class MouseInputMethods {
         return mouseX > x && mouseX < x + width && mouseY > y && mouseY < height + y;
     }
 
+    public static void freeCallbacks() {
+        cursorPosCallback.free();
+        scrollCallback.free();
+        enterCallback.free();
+    }
+
     public static boolean isMouseClickWithin(double x, double y, int width, int height) {
         if (!(GLFW.glfwGetMouseButton(window(), GLFW.GLFW_MOUSE_BUTTON_1) == GLFW.GLFW_PRESS)) {
             return false;

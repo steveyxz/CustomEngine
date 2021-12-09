@@ -15,7 +15,6 @@ public abstract class Game {
 
     public Game() {
         preInit();
-        init();
         postInit();
 
         Global.globalInit();
@@ -125,10 +124,6 @@ public abstract class Game {
 
     private void cleanUp() {
         Global.globalCleanUp();
-    }
-
-    private void init() {
-        Global.globalInit();
     }
 
 

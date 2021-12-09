@@ -17,6 +17,13 @@ public class KeyboardInputMethods {
 
     }
 
+    public static void freeCallbacks() {
+        try {
+            keyCallback.free();
+        } catch (NullPointerException ignored) {
+        }
+    }
+
     public static boolean isKeyDown(int key) {
         return GLFW.glfwGetKey(window(), key) == GLFW.GLFW_PRESS;
     }
