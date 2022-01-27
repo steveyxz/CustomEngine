@@ -13,11 +13,11 @@ import static engine.core.global.Global.currentScene;
 
 public abstract class Game {
 
-    public Game() {
+    public Game(int width, int height, boolean resizable, String name) {
         preInit();
         postInit();
 
-        Global.globalInit();
+        Global.globalInit(width, height, resizable, name);
 
         //Tick Info
         long lastTime = System.nanoTime();

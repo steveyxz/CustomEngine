@@ -20,25 +20,29 @@ public class GLFWDisplayManager {
     private static long lastTimeFrame;
     private static float delta;
 
-    public static void init() {
+    public static void init(int width, int height, boolean resizable, String name) {
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( !glfwInit() )
+        if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        // Configure GLFW
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwDefaultWindowHints();
+        //hidden after creation
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        //resizable
+        if (resizable) {
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        } else {
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        }
 
         // Create the window
-        window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
-        if ( window == NULL )
+        window = glfwCreateWindow(width, height, name, NULL, NULL);
+        if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Get the thread stack and push a new frame
-
-        try ( MemoryStack stack = stackPush() ) {
+        try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
             IntBuffer pHeight = stack.mallocInt(1); // int*
 
@@ -54,7 +58,7 @@ public class GLFWDisplayManager {
                     (vidmode.width() - pWidth.get(0)) / 2,
                     (vidmode.height() - pHeight.get(0)) / 2
             );
-        } // the stack frame is popped automatically
+        }
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);

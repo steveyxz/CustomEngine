@@ -17,9 +17,9 @@ public class MouseInputMethods {
     private static double lastY;
 
     // Create the callbacks
-    private static GLFWCursorPosCallback cursorPosCallback   = GLFW.glfwSetCursorPosCallback(window(), MouseInputMethods::glfwCursorPosCallback);
-    private static GLFWScrollCallback scrollCallback   = GLFW.glfwSetScrollCallback(window(), MouseInputMethods::glfwScrollCallback);
-    private static GLFWCursorEnterCallback enterCallback   = GLFW.glfwSetCursorEnterCallback(window(), MouseInputMethods::glfwCursorEnterCallback);
+    private static final GLFWCursorPosCallback cursorPosCallback = GLFW.glfwSetCursorPosCallback(window(), MouseInputMethods::glfwCursorPosCallback);
+    private static final GLFWScrollCallback scrollCallback = GLFW.glfwSetScrollCallback(window(), MouseInputMethods::glfwScrollCallback);
+    private static final GLFWCursorEnterCallback enterCallback = GLFW.glfwSetCursorEnterCallback(window(), MouseInputMethods::glfwCursorEnterCallback);
 
     public static double getMouseX() {
         return lastX;
@@ -47,15 +47,21 @@ public class MouseInputMethods {
     }
 
     public static void freeCallbacks() {
-        cursorPosCallback.free();
-        scrollCallback.free();
-        enterCallback.free();
+        if (cursorPosCallback != null) {
+            cursorPosCallback.free();
+        }
+        if (scrollCallback != null) {
+            scrollCallback.free();
+        }
+        if (enterCallback != null) {
+            enterCallback.free();
+        }
     }
 
     public static boolean isMouseClickWithin(double x, double y, int width, int height) {
         if (!(GLFW.glfwGetMouseButton(window(), GLFW.GLFW_MOUSE_BUTTON_1) == GLFW.GLFW_PRESS)) {
             return false;
         }
-        return checkBounds((int)getMouseX(), (int) getMouseY(), x, y, width, height);
+        return checkBounds((int) getMouseX(), (int) getMouseY(), x, y, width, height);
     }
 }

@@ -6,6 +6,8 @@ package engine.core.tester;
 
 import engine.core.multiplayer.Server;
 
+import java.net.Socket;
+
 public class TestServer extends Server {
     public TestServer(int port) {
         super(port);
@@ -13,16 +15,17 @@ public class TestServer extends Server {
 
     @Override
     public void onStart() {
-
+        System.out.println("Started!");
     }
 
     @Override
     public void onStop() {
-
+        System.out.println("Stopped!");
     }
 
     @Override
-    public void onAcceptConnection() {
-
+    public void onAcceptConnection(Socket s) {
+        System.out.println(s.getLocalAddress() + ":" + s.getLocalPort() + " joined");
     }
+
 }

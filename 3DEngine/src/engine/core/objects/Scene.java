@@ -28,6 +28,7 @@ public class Scene {
     private final List<Light> lights = new ArrayList<>();
     private final String sceneId;
     private Vector3f cameraPos = new Vector3f();
+    private Vector3f backgroundColor = new Vector3f(0, 0, 0);
     private Vector3f skyColour = new Vector3f(1, 1, 1);
 
     public Scene(String sceneId) {
@@ -149,6 +150,7 @@ public class Scene {
             }
         }
         MasterRenderer.camera.tick();
+
     }
 
     public void transformGuis() {
@@ -171,5 +173,13 @@ public class Scene {
 
     public void setSkyColour(Vector3f skyColour) {
         this.skyColour = skyColour;
+    }
+
+    public Vector3f backgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(Vector3f backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 }

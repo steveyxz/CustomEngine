@@ -6,8 +6,9 @@ package engine.core.multiplayer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
-public class ServerThread implements Runnable {
+public class ServerThread extends Thread {
 
     private final Server server;
     private ServerSocket socket;
@@ -24,8 +25,9 @@ public class ServerThread implements Runnable {
             this.socket = socket;
             server.onStart();
             while (online) {
-                new Thread(new ServerCommThread(this, socket.accept())).start();
-                server.onAcceptConnection();
+                Socket accept = socket.accept();
+                new Thread(new ServerCommThread(this, accept)).start();
+                server.onAcceptConnection(accept);
             }
             server.onStop();
         } catch (IOException e) {

@@ -11,14 +11,20 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayDeque;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
-public class ClientThread implements Runnable {
+public class ClientThread extends Thread {
 
     private final Client client;
     private boolean connected = true;
 
     private DataInputStream dinp;
     private DataOutputStream dout;
+
+    private final ArrayDeque<Packet> queue = new ArrayDeque<>();
+    private boolean disconnected = false;
 
     public ClientThread(Client client) {
         this.client = client;
@@ -31,6 +37,12 @@ public class ClientThread implements Runnable {
             client.onConnect();
             dinp = new DataInputStream(socket.getInputStream());
             dout = new DataOutputStream(socket.getOutputStream());
+            while (!disconnected) {
+                if (!queue.isEmpty()) {
+                    dout.writeUTF(queue.poll().toString());
+                    dout.flush();
+                }
+            }
         } catch (IOException e) {
             if (e instanceof SocketException) {
                 connected = false;
@@ -41,10 +53,12 @@ public class ClientThread implements Runnable {
         }
     }
 
-    public Packet sendPacket(Packet packet) throws IOException {
-        dout.writeUTF(packet.toString());
-        dout.flush();
-        return Packet.convertStringToPacket(dinp.readUTF());
+    public void sendPacket(Packet packet) {
+        queue.add(packet);
+    }
+
+    public void disconnect() {
+        disconnected = true;
     }
 
     public Client client() {

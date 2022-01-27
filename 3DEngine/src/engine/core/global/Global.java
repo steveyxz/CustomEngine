@@ -55,8 +55,8 @@ public class Global {
         GLFWDisplayManager.closeDisplay();
     }
 
-    public static void globalInit() {
-        GLFWDisplayManager.init();
+    public static void globalInit(int width, int height, boolean resizable, String name) {
+        GLFWDisplayManager.init(width, height, resizable, name);
         MasterRenderer.init();
         TextMaster.init();
     }

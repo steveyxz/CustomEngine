@@ -4,10 +4,10 @@
 
 package engine.core.tester;
 
-public class TestScript {
+public class RunClient {
 
     public static void main(String[] args) {
-        new TestServer(10);
+        new TestClient(1234);
     }
 
 }

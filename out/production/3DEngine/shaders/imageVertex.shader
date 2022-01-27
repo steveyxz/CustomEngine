@@ -21,6 +21,8 @@ uniform float useFakeLighting;
 
 const float density = 0.007;
 const float gradient = 1.5;
+//const float density = 0;
+//const float gradient = 1;
 
 
 

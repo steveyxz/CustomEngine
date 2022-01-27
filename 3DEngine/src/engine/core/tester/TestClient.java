@@ -13,11 +13,11 @@ public class TestClient extends Client {
 
     @Override
     public void onConnect() {
-
+        System.out.println("Connected!");
     }
 
     @Override
     public void onDisconnect() {
-
+        System.out.println("Disconnected!");
     }
 }

@@ -16,7 +16,7 @@ public abstract class Client {
     public Client(int port) {
         this.port = port;
         this.thread = new ClientThread(this);
-        new Thread(thread).start();
+        thread.start();
     }
 
     public int port() {
@@ -27,7 +27,7 @@ public abstract class Client {
 
     public abstract void onDisconnect();
 
-    public void sendPacket(Packet packet) throws IOException {
+    public void sendPacket(Packet packet) {
         thread.sendPacket(packet);
     }
 }

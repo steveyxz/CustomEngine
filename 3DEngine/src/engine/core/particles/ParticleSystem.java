@@ -21,8 +21,12 @@ public class ParticleSystem {
     private boolean randomRotation = false;
     private Vector3f direction;
     private float directionDeviation = 0;
+    //if this system is generating particles
+    private boolean active = true;
+    //position to generate
+    private Vector3f position;
 
-    public ParticleSystem(float pps, float speed, float gravityComplient, float lifeLength, float offset, float scale, ParticleTexture texture) {
+    public ParticleSystem(Vector3f position, float pps, float speed, float gravityComplient, float lifeLength, float offset, float scale, ParticleTexture texture) {
         this.pps = pps;
         this.averageSpeed = speed;
         this.gravityComplient = gravityComplient;
@@ -30,6 +34,7 @@ public class ParticleSystem {
         this.averageScale = scale;
         this.texture = texture;
         this.offset = offset;
+        this.position = position;
     }
 
     private static Vector3f generateRandomUnitVectorWithinCone(Vector3f coneDirection, float angle) {
@@ -89,20 +94,20 @@ public class ParticleSystem {
         this.scaleError = error * averageScale;
     }
 
-    public void generateParticles(Vector3f systemCenter) {
+    public void generateParticles() {
         float delta = GLFWDisplayManager.getFrameTimeSeconds();
         float particlesToCreate = pps * delta;
         int count = (int) Math.floor(particlesToCreate);
         float partialParticle = particlesToCreate % 1;
         for (int i = 0; i < count; i++) {
-            emitParticle(systemCenter);
+            emitParticle();
         }
         if (Math.random() < partialParticle) {
-            emitParticle(systemCenter);
+            emitParticle();
         }
     }
 
-    private void emitParticle(Vector3f center) {
+    private void emitParticle() {
         Vector3f velocity;
         if (direction != null) {
             velocity = generateRandomUnitVectorWithinCone(direction, directionDeviation);
@@ -113,7 +118,7 @@ public class ParticleSystem {
         velocity.scale(generateValue(averageSpeed, speedError));
         float scale = generateValue(averageScale, scaleError);
         float lifeLength = generateValue(averageLifeLength, lifeError);
-        new Particle(texture, new Vector3f(center), velocity, gravityComplient, lifeLength, offset, generateRotation(), scale);
+        new Particle(texture, new Vector3f(position), velocity, gravityComplient, lifeLength, offset, generateRotation(), scale);
     }
 
     private float generateValue(float average, float errorMargin) {
@@ -138,4 +143,19 @@ public class ParticleSystem {
         return new Vector3f(x, y, z);
     }
 
+    public boolean active() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Vector3f position() {
+        return position;
+    }
+
+    public void setPosition(Vector3f position) {
+        this.position = position;
+    }
 }

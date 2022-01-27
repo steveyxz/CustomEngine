@@ -13,8 +13,8 @@ import static engine.core.global.Global.currentScene;
 
 public class DefaultCamera extends Camera {
 
-    private Vector3f downMovement = new Vector3f(0, -Global.movementSpeed, 0);
-    private Vector3f upMovement = new Vector3f(0, Global.movementSpeed, 0);
+    private final Vector3f downMovement = new Vector3f(0, -Global.movementSpeed, 0);
+    private final Vector3f upMovement = new Vector3f(0, Global.movementSpeed, 0);
 
     @Override
     public void tick() {

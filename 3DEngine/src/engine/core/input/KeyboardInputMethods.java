@@ -11,7 +11,7 @@ import static engine.core.renderEngine.GLFWDisplayManager.window;
 
 public class KeyboardInputMethods {
 
-    private static GLFWKeyCallback keyCallback = GLFW.glfwSetKeyCallback(window(), KeyboardInputMethods::glfwKeyCallback);
+    private static final GLFWKeyCallback keyCallback = GLFW.glfwSetKeyCallback(window(), KeyboardInputMethods::glfwKeyCallback);
 
     private static void glfwKeyCallback(long window, int key, int scancode, int action, int mods) {
 

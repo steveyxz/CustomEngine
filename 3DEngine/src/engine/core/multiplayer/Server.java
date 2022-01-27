@@ -4,13 +4,15 @@
 
 package engine.core.multiplayer;
 
+import java.net.Socket;
+
 public abstract class Server {
 
     private final int port;
 
     public Server(int port) {
         this.port = port;
-        new Thread(new ServerThread(this)).start();
+        new ServerThread(this).start();
     }
 
     public int port() {
@@ -21,6 +23,6 @@ public abstract class Server {
 
     public abstract void onStop();
 
-    public abstract void onAcceptConnection();
+    public abstract void onAcceptConnection(Socket s);
 
 }
