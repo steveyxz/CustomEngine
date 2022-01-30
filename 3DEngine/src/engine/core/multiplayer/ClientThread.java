@@ -42,6 +42,7 @@ public class ClientThread extends Thread {
                     dout.writeUTF(queue.poll().toString());
                     dout.flush();
                 }
+                Thread.sleep(1);
             }
         } catch (IOException e) {
             if (e instanceof SocketException) {
@@ -50,11 +51,15 @@ public class ClientThread extends Thread {
                 return;
             }
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    public void sendPacket(Packet packet) {
+    public Packet sendPacket(Packet packet) {
         queue.add(packet);
+        //TODO packet :(
+        return packet;
     }
 
     public void disconnect() {

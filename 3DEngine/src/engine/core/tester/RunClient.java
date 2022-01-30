@@ -4,10 +4,17 @@
 
 package engine.core.tester;
 
+import engine.core.multiplayer.packets.Packet;
+import engine.core.multiplayer.packets.PacketArgument;
+
+import java.util.ArrayList;
+
 public class RunClient {
 
     public static void main(String[] args) {
-        new TestClient(1234);
+        TestClient c = new TestClient(1234);
+        Packet p = c.sendPacket(new TestPacket((ArrayList<PacketArgument>) Packet.parseArguments("int[5]")));
+        System.out.println(p);
     }
 
 }

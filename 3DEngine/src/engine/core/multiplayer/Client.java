@@ -27,7 +27,7 @@ public abstract class Client {
 
     public abstract void onDisconnect();
 
-    public void sendPacket(Packet packet) {
-        thread.sendPacket(packet);
+    public Packet sendPacket(Packet packet) {
+        return thread.sendPacket(packet);
     }
 }

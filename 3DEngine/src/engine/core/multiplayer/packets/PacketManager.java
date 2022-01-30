@@ -5,13 +5,11 @@
 package engine.core.multiplayer.packets;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PacketManager {
 
-    public static final List<Packet> packets = new ArrayList<>();
+    public static final Map<String, Packet> packets = new HashMap<>();
 
     public static Packet getNewPacket(String type, List<PacketArgument> args) {
         try {
@@ -26,24 +24,19 @@ public class PacketManager {
     }
 
     public static void addPacket(Packet packet) {
-        packets.add(packet);
+        packets.put(packet.id(), packet);
     }
 
     public static void removePacket(Packet packet) {
-        packets.remove(packet);
+        packets.remove(packet.id());
     }
 
     public static Packet getPacketByName(String name) {
-        for (Packet p : packets) {
-            if (p.id().equals(name)) {
-                return p;
-            }
-        }
-        return null;
+        return packets.get(name);
     }
 
     public static void removePacketByName(String name) {
-        packets.removeIf(p -> p.id().equals(name));
+        packets.remove(name);
     }
 
 }

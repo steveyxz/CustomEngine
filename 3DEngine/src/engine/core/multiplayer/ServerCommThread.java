@@ -4,12 +4,15 @@
 
 package engine.core.multiplayer;
 
+import engine.core.multiplayer.packets.InvalidPacket;
 import engine.core.multiplayer.packets.Packet;
+import engine.core.multiplayer.protocols.ProtocolHandler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ServerCommThread implements Runnable {
 
@@ -32,13 +35,24 @@ public class ServerCommThread implements Runnable {
                 System.out.println("Client sends packet: '" + inp + "'");
                 receivePacket(Packet.convertStringToPacket(inp), dout);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            if (e instanceof SocketException) {
+                System.out.println("Client " + connection.getLocalAddress() + ":" + connection.getLocalPort() + " disconnected.");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 
     private void receivePacket(Packet packet, DataOutputStream out) throws IOException {
-        System.out.println(packet);
+        Packet returnPacket = ProtocolHandler.callServerProtocol(packet);
+        if (returnPacket == null) {
+            out.writeUTF(new InvalidPacket().toString());
+            out.flush();
+            return;
+        }
+        out.writeUTF(returnPacket.toString());
+        out.flush();
     }
 
     public ServerThread server() {
