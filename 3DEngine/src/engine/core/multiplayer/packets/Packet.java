@@ -49,6 +49,10 @@ public abstract class Packet {
         return returned;
     }
 
+    public static List<PacketArgument> getPacketArgsList(PacketArgument... args) {
+        return List.of(args);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

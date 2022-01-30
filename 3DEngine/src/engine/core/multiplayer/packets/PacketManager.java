@@ -16,7 +16,7 @@ public class PacketManager {
             if (getPacketByName(type) == null) {
                 return null;
             }
-            return Objects.requireNonNull(getPacketByName(type)).getClass().getDeclaredConstructor(args.getClass()).newInstance(args);
+            return Objects.requireNonNull(getPacketByName(type)).getClass().getDeclaredConstructor(List.class).newInstance(args);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

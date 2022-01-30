@@ -6,14 +6,19 @@ package engine.core.tester;
 
 import engine.core.multiplayer.packets.Packet;
 import engine.core.multiplayer.packets.PacketArgument;
+import engine.core.multiplayer.protocols.ProtocolHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RunClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        new AddPacket();
+        new NumberPacket();
+        ProtocolHandler.registerServerProtocol(AddProtocol.class);
         TestClient c = new TestClient(1234);
-        Packet p = c.sendPacket(new TestPacket((ArrayList<PacketArgument>) Packet.parseArguments("int[5]")));
+        Packet p = c.sendPacket(new AddPacket(3, 4));
         System.out.println(p);
     }
 

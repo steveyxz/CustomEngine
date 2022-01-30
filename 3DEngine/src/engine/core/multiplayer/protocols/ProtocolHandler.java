@@ -13,24 +13,46 @@ import java.util.Map;
 
 public class ProtocolHandler {
 
-    private static final Map<String, ClientProtocol> clientProtocols = new HashMap<>();
-    private static final Map<String, ServerProtocol> serverProtocols = new HashMap<>();
+    private static final Map<String, Class<? extends ClientProtocol>> clientProtocols = new HashMap<>();
+    private static final Map<String, Class<? extends ServerProtocol>> serverProtocols = new HashMap<>();
 
     public static void registerClientProtocol(ClientProtocol protocol) {
-        clientProtocols.put(protocol.getReceivingId(), protocol);
+        clientProtocols.put(protocol.getReceivingId(), protocol.getClass());
+    }
+
+    public static void registerClientProtocol(Class<? extends ClientProtocol> protocolClass) {
+        ClientProtocol protocol;
+        try {
+            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+            return;
+        }
+        clientProtocols.put(protocol.getReceivingId(), protocolClass);
     }
 
     public static void registerServerProtocol(ServerProtocol protocol) {
-        serverProtocols.put(protocol.getReceivingId(), protocol);
+        serverProtocols.put(protocol.getReceivingId(), protocol.getClass());
+    }
+
+    public static void registerServerProtocol(Class<? extends ServerProtocol> protocolClass) {
+        ServerProtocol protocol;
+        try {
+            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+            return;
+        }
+        serverProtocols.put(protocol.getReceivingId(), protocolClass);
     }
 
     public static void callClientProtocol(Packet input) {
-        ClientProtocol type = clientProtocols.get(input.id());
+        Class<? extends ClientProtocol> type = clientProtocols.get(input.id());
         if (type == null) {
             return;
         }
         try {
-            ClientProtocol toCall = ClientProtocol.class.getDeclaredConstructor(Packet.class).newInstance(input);
+            ClientProtocol toCall = type.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
             toCall.call();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
@@ -38,12 +60,12 @@ public class ProtocolHandler {
     }
 
     public static Packet callServerProtocol(Packet input) {
-        ServerProtocol type = serverProtocols.get(input.id());
+        Class<? extends ServerProtocol> type = serverProtocols.get(input.id());
         if (type == null) {
             return null;
         }
         try {
-            ServerProtocol toCall = ServerProtocol.class.getDeclaredConstructor(Packet.class).newInstance(input);
+            ServerProtocol toCall = type.getDeclaredConstructor(Packet.class).newInstance(input);
             return toCall.call();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();

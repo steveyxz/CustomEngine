@@ -27,7 +27,7 @@ public abstract class Client {
 
     public abstract void onDisconnect();
 
-    public Packet sendPacket(Packet packet) {
+    public Packet sendPacket(Packet packet) throws IOException {
         return thread.sendPacket(packet);
     }
 }

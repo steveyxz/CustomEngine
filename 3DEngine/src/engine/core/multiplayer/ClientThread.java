@@ -56,10 +56,9 @@ public class ClientThread extends Thread {
         }
     }
 
-    public Packet sendPacket(Packet packet) {
+    public Packet sendPacket(Packet packet) throws IOException {
         queue.add(packet);
-        //TODO packet :(
-        return packet;
+        return Packet.convertStringToPacket(dinp.readUTF());
     }
 
     public void disconnect() {

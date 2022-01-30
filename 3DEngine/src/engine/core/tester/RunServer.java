@@ -4,9 +4,14 @@
 
 package engine.core.tester;
 
+import engine.core.multiplayer.protocols.ProtocolHandler;
+
 public class RunServer {
 
     public static void main(String[] args) {
+        new AddPacket();
+        new NumberPacket();
+        ProtocolHandler.registerServerProtocol(AddProtocol.class);
         new TestServer(1234);
     }
 }
