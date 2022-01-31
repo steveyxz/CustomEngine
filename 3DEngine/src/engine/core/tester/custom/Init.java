@@ -2,16 +2,14 @@
  * Copyright (c) 2022. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
  */
 
-package engine.core.tester;
+package engine.core.tester.custom;
 
 import engine.core.multiplayer.protocols.ProtocolHandler;
 
-public class RunServer {
-
-    public static void main(String[] args) {
-        new AddPacket();
-        new NumberPacket();
+public class Init {
+    public static void init() {
+        new AddPacket(null);
         ProtocolHandler.registerServerProtocol(AddProtocol.class);
-        new TestServer(1234);
+        new NumberPacket(null);
     }
 }

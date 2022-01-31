@@ -32,7 +32,6 @@ public class ServerCommThread implements Runnable {
             DataOutputStream dout = new DataOutputStream(connection.getOutputStream());
             while (connected) {
                 String inp = dinp.readUTF();
-                System.out.println("Client sends packet: '" + inp + "'");
                 receivePacket(Packet.convertStringToPacket(inp), dout);
             }
         } catch (Exception e) {

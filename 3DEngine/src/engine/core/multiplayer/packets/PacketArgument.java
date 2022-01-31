@@ -54,6 +54,9 @@ public class PacketArgument {
 
     public PacketArgument(String stringValue) throws IllegalArgumentException {
         int separatorIndex = stringValue.indexOf('[');
+        if (separatorIndex == -1) {
+            throw new IllegalArgumentException(stringValue + " does not contain a separator");
+        }
         this.stringValue = stringValue;
         this.type = ArgumentType.valueOf(stringValue.substring(0, separatorIndex).toUpperCase());
         this.contents = stringValue.substring(separatorIndex + 1, stringValue.length() - 1);
