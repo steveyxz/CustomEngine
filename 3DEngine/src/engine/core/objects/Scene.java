@@ -33,7 +33,7 @@ public class Scene {
 
     public Scene(String sceneId) {
         this.sceneId = sceneId;
-        sceneManager.addScene(sceneId, this);
+        sceneManager.addScene(this);
     }
 
     public Vector3f getCameraPos() {
@@ -98,6 +98,12 @@ public class Scene {
         entity.setSceneId(getSceneId());
     }
 
+    public void processObjects(GameObject... entities) {
+        for (GameObject g : entities) {
+            processObject(g);
+        }
+    }
+
     public void processGui(GuiComponent entity) {
         GuiTexture model = entity.getTexture();
         List<GuiComponent> batch = guis.get(model);
@@ -124,15 +130,25 @@ public class Scene {
         return sceneId;
     }
 
+    @SuppressWarnings("all")
     public void removeObject(GameObject object) {
         for (int i = 0; i < objects.size(); i++) {
-            objects.get(objects.keySet().toArray()[i]).remove(object);
+            Object key = objects.keySet().toArray()[i];
+            objects.get(key).remove(object);
+            if (objects.get(key).size() < 1) {
+                objects.remove(key);
+            }
         }
     }
 
+    @SuppressWarnings("all")
     public void removeGui(GuiComponent object) {
         for (int i = 0; i < guis.size(); i++) {
-            guis.get(guis.keySet().toArray()[i]).remove(object);
+            Object key = guis.keySet().toArray()[i];
+            guis.get(key).remove(object);
+            if (guis.get(key).size() < 1) {
+                guis.remove(key);
+            }
         }
     }
 

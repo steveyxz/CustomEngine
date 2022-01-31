@@ -53,10 +53,14 @@ public abstract class GuiComponent {
     }
 
     public void transform() {
-        xPos.transform();
-        yPos.transform();
-        width.transform();
-        height.transform();
+        if (xPos != null)
+            xPos.transform();
+        if (yPos != null)
+            yPos.transform();
+        if (width != null)
+            width.transform();
+        if (height != null)
+            height.transform();
     }
 
     public GuiConstraint getXPos() {

@@ -19,6 +19,7 @@ public abstract class Button extends GuiComponent {
     protected ButtonState state = ButtonState.PASSIVE;
     protected int timer = 0;
     private int delay;
+    private boolean active = true;
 
     public Button(String textureHover, String textureClick, String texturePassive, int delay) {
         super(new GuiTexture(Loader.loadTexture(texturePassive)));
@@ -28,6 +29,13 @@ public abstract class Button extends GuiComponent {
         this.delay = delay;
     }
 
+    public Button(GuiTexture textureHover, GuiTexture textureClick, GuiTexture texturePassive, int delay) {
+        super(new GuiTexture(texturePassive));
+        this.buttonPassive = texturePassive;
+        this.buttonHover = textureHover;
+        this.buttonDown = textureClick;
+        this.delay = delay;
+    }
 
     public GuiTexture getButtonPassive() {
         return buttonPassive;
@@ -69,15 +77,23 @@ public abstract class Button extends GuiComponent {
         this.delay = delay;
     }
 
+    public void setPosScale(Vector2f pos, Vector2f scale) {
+        buttonPassive.setPos(pos);
+        buttonPassive.setScale(scale);
+        buttonDown.setPos(pos);
+        buttonDown.setScale(scale);
+        buttonPassive.setPos(pos);
+        buttonPassive.setScale(scale);
+    }
+
     @Override
     public void tick() {
         super.tick();
-        if (this.isShown()) {
+        if (this.isShown() && active) {
             if (timer < 0) {
                 Vector2f pos = getTexture().getPos();
                 Vector2f scale = getTexture().getScale();
                 if (MouseInputMethods.isMouseClickWithin((int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
-                    System.out.println("test");
                     setTexture(buttonDown);
                     setState(ButtonState.CLICK_DOWN);
                 } else if (MouseInputMethods.checkBounds(MouseInputMethods.getMouseX(), MouseInputMethods.getMouseY(), (int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
@@ -100,4 +116,12 @@ public abstract class Button extends GuiComponent {
     public abstract void click();
 
     public abstract void hover();
+
+    public boolean active() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

@@ -11,9 +11,15 @@ public class GuiTexture {
     private final int texture;
     private Vector2f pos = new Vector2f(0, 0);
     private Vector2f scale = new Vector2f(0, 0);
+    private int globalZIndex = 0;
 
     public GuiTexture(int texture) {
         this.texture = texture;
+    }
+
+    public GuiTexture(int texture, int globalZIndex) {
+        this.texture = texture;
+        this.globalZIndex = globalZIndex;
     }
 
     public GuiTexture(int texture, Vector2f pos, Vector2f scale) {
@@ -22,12 +28,27 @@ public class GuiTexture {
         this.scale = scale;
     }
 
+    public GuiTexture(int texture, Vector2f pos, Vector2f scale, int globalZIndex) {
+        this.texture = texture;
+        this.pos = pos;
+        this.scale = scale;
+        this.globalZIndex = globalZIndex;
+    }
+
     public GuiTexture(GuiTexture original) {
-        this(original.getTexture());
+        this(original.getTexture(), original.globalZIndex());
     }
 
     public int getTexture() {
         return texture;
+    }
+
+    public int globalZIndex() {
+        return globalZIndex;
+    }
+
+    public void setGlobalZIndex(int globalZIndex) {
+        this.globalZIndex = globalZIndex;
     }
 
     public Vector2f getPos() {

@@ -15,10 +15,10 @@ public class SceneManager {
 
     public HashMap<String, Scene> scenes = new HashMap<>();
 
-    public void addScene(String sceneID, Scene scene) {
-        scenes.put(sceneID, scene);
-        if (!camera.getPositions().containsKey(sceneID)) {
-            camera.getPositions().put(sceneID, new Vector3f(0, 0, 0));
+    public void addScene(Scene scene) {
+        scenes.put(scene.getSceneId(), scene);
+        if (!camera.getPositions().containsKey(scene.getSceneId())) {
+            camera.getPositions().put(scene.getSceneId(), new Vector3f(0, 0, 0));
         }
     }
 
