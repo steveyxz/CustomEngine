@@ -4,7 +4,6 @@
 
 package engine.core.multiplayer.protocols;
 
-import engine.core.multiplayer.Client;
 import engine.core.multiplayer.packets.Packet;
 
 public abstract class ClientProtocol {
@@ -20,5 +19,6 @@ public abstract class ClientProtocol {
     }
 
     public abstract void call();
+
     public abstract String getReceivingId();
 }

@@ -9,7 +9,6 @@ import engine.core.objects.gui.components.GuiComponent;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.RawModel;
-import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.shaders.gui.GuiShader;
 import engine.core.tools.maths.TransformationMaths;
 import engine.core.tools.maths.vectors.Matrix4f;

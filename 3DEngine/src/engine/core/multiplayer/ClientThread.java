@@ -12,18 +12,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayDeque;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class ClientThread extends Thread {
 
     private final Client client;
+    private final ArrayDeque<Packet> queue = new ArrayDeque<>();
     private boolean connected = true;
-
     private DataInputStream dinp;
     private DataOutputStream dout;
-
-    private final ArrayDeque<Packet> queue = new ArrayDeque<>();
     private boolean disconnected = false;
 
     public ClientThread(Client client) {

@@ -9,9 +9,7 @@ import engine.core.objects.Scene;
 import engine.core.objects.gui.constraints.types.RelativeConstraint;
 import engine.core.tester.custom.objects.TicTacToeBackground;
 import engine.core.tester.custom.objects.TicTacToePiece;
-import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Random;
 
@@ -24,16 +22,20 @@ public class TicTacToe extends Game {
         super(500, 500, false, "Tic Tac Toe");
     }
 
+    public static void main(String[] args) {
+        new TicTacToe();
+    }
+
     @Override
     protected void preLoop() {
         //init the gameboard
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 TicTacToePiece ticTacToePiece = new TicTacToePiece(0);
-                ticTacToePiece.setWidth(new RelativeConstraint(1/5f));
-                ticTacToePiece.setHeight(new RelativeConstraint(1/5f));
-                ticTacToePiece.setXPos(new RelativeConstraint((1/3f) * i + 1/24f));
-                ticTacToePiece.setYPos(new RelativeConstraint((1/3f) * j + 1/24f));
+                ticTacToePiece.setWidth(new RelativeConstraint(1 / 5f));
+                ticTacToePiece.setHeight(new RelativeConstraint(1 / 5f));
+                ticTacToePiece.setXPos(new RelativeConstraint((1 / 3f) * i + 1 / 24f));
+                ticTacToePiece.setYPos(new RelativeConstraint((1 / 3f) * j + 1 / 24f));
                 gameboard[i][j] = ticTacToePiece;
             }
         }
@@ -51,10 +53,6 @@ public class TicTacToe extends Game {
         //process the background
         mainScene.processGui(bg);
         Scene.sceneManager.changeScene("tictactoe");
-    }
-
-    public static void main(String[] args) {
-        new TicTacToe();
     }
 
 }

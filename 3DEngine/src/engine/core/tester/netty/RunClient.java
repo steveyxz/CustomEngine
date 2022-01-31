@@ -15,16 +15,15 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class RunClient {
 
-    public static void main(String[] args) throws Exception {
-        new RunClient(4321, "localhost").run();
-    }
-
     private final int port;
     private final String host;
-
     public RunClient(int port, String host) {
         this.port = port;
         this.host = host;
+    }
+
+    public static void main(String[] args) throws Exception {
+        new RunClient(4321, "localhost").run();
     }
 
     private void run() throws Exception {

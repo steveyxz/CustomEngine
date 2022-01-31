@@ -15,14 +15,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class RunServer {
 
-    public static void main(String[] args) throws Exception {
-        new RunServer(4321).run();
-    }
-
     private final int port;
 
     public RunServer(int port) {
         this.port = port;
+    }
+
+    public static void main(String[] args) throws Exception {
+        new RunServer(4321).run();
     }
 
     private void run() throws Exception {

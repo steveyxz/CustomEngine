@@ -19,5 +19,6 @@ public abstract class ServerProtocol {
     }
 
     public abstract Packet call();
+
     public abstract String getReceivingId();
 }

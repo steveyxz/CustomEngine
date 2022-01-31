@@ -13,13 +13,12 @@ import static engine.core.renderEngine.GLFWDisplayManager.window;
 
 public class MouseInputMethods {
 
-    private static double lastX;
-    private static double lastY;
-
-    // Create the callbacks
-    private static final GLFWCursorPosCallback cursorPosCallback = GLFW.glfwSetCursorPosCallback(window(), MouseInputMethods::glfwCursorPosCallback);
     private static final GLFWScrollCallback scrollCallback = GLFW.glfwSetScrollCallback(window(), MouseInputMethods::glfwScrollCallback);
     private static final GLFWCursorEnterCallback enterCallback = GLFW.glfwSetCursorEnterCallback(window(), MouseInputMethods::glfwCursorEnterCallback);
+    private static double lastX;
+    private static double lastY;
+    // Create the callbacks
+    private static final GLFWCursorPosCallback cursorPosCallback = GLFW.glfwSetCursorPosCallback(window(), MouseInputMethods::glfwCursorPosCallback);
 
     public static double getMouseX() {
         return lastX;

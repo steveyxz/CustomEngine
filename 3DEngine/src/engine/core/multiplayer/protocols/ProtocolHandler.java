@@ -6,7 +6,6 @@ package engine.core.multiplayer.protocols;
 
 import engine.core.multiplayer.packets.Packet;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,8 @@ public class ProtocolHandler {
     public static void registerClientProtocol(Class<? extends ClientProtocol> protocolClass) {
         ClientProtocol protocol;
         try {
-            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
+            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {
+            });
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
             return;
@@ -38,7 +38,8 @@ public class ProtocolHandler {
     public static void registerServerProtocol(Class<? extends ServerProtocol> protocolClass) {
         ServerProtocol protocol;
         try {
-            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
+            protocol = protocolClass.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {
+            });
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
             return;
@@ -52,7 +53,8 @@ public class ProtocolHandler {
             return;
         }
         try {
-            ClientProtocol toCall = type.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {});
+            ClientProtocol toCall = type.getDeclaredConstructor(Packet.class).newInstance(new Packet(null, null) {
+            });
             toCall.call();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();

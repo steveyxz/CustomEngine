@@ -7,7 +7,6 @@ package engine.core.objects.gui.constraints.types;
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
 import engine.core.renderEngine.GLFWDisplayManager;
-import engine.core.tools.maths.vectors.Vector2f;
 
 public class OppRelativeConstraint extends GuiConstraint {
 

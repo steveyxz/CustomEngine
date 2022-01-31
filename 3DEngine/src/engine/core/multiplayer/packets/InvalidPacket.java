@@ -5,7 +5,6 @@
 package engine.core.multiplayer.packets;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InvalidPacket extends Packet {
     public InvalidPacket() {

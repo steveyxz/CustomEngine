@@ -6,11 +6,8 @@ package engine.core.tester.custom.objects;
 
 import engine.core.objects.gui.components.GuiComponent;
 import engine.core.objects.gui.constraints.types.RelativeConstraint;
-import engine.core.objects.shapes.twoD.Square;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
-import engine.core.renderEngine.models.ModelTexture;
-import engine.core.tools.maths.vectors.Vector2f;
 
 public class TicTacToeBackground extends GuiComponent {
     public TicTacToeBackground() {

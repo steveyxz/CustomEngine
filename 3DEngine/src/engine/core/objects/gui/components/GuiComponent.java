@@ -118,6 +118,7 @@ public abstract class GuiComponent {
     public Vector2f getFinalDimensions() {
         return new Vector2f(width.getValueShift(), height.getValueShift());
     }
+
     public Vector2f getFinalPosition() {
         return new Vector2f(xPos.getValueShift(), yPos.getValueShift());
     }

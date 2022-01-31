@@ -4,17 +4,10 @@
 
 package engine.core.tester.custom.objects;
 
-import engine.core.objects.GameObject;
 import engine.core.objects.gui.components.buttons.Button;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
-import engine.core.renderEngine.models.ModelTexture;
-import engine.core.renderEngine.models.TexturedModel;
-import engine.core.tester.custom.TicTacToe;
-import engine.core.tools.maths.vectors.Vector3f;
 
-import static engine.core.global.Global.*;
-import static engine.core.global.Global.squareNormals;
 import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
 
 public class TicTacToePiece extends Button {
@@ -27,6 +20,16 @@ public class TicTacToePiece extends Button {
     public TicTacToePiece(int type) {
         super(getTextureOf(type), getTextureOf(type), getTextureOf(type), 0);
         this.type = type;
+    }
+
+    private static String getTextureOf(int type) {
+        if (type == -1) {
+            return cross;
+        } else if (type == 1) {
+            return circle;
+        } else {
+            return blank;
+        }
     }
 
     @Override
@@ -42,19 +45,8 @@ public class TicTacToePiece extends Button {
         }
     }
 
-
     @Override
     public void hover() {
 
-    }
-
-    private static String getTextureOf(int type) {
-        if (type == -1) {
-            return cross;
-        } else if (type == 1) {
-            return circle;
-        } else {
-             return blank;
-        }
     }
 }

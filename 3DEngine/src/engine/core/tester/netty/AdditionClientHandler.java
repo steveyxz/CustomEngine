@@ -4,7 +4,8 @@
 
 package engine.core.tester.netty;
 
-import io.netty.channel.*;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
 
 public class AdditionClientHandler extends ChannelHandlerAdapter {
 

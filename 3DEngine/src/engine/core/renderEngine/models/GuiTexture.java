@@ -4,8 +4,6 @@
 
 package engine.core.renderEngine.models;
 
-import engine.core.tools.maths.vectors.Vector2f;
-
 public class GuiTexture {
 
     private final int texture;
