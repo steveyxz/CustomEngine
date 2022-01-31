@@ -77,22 +77,13 @@ public abstract class Button extends GuiComponent {
         this.delay = delay;
     }
 
-    public void setPosScale(Vector2f pos, Vector2f scale) {
-        buttonPassive.setPos(pos);
-        buttonPassive.setScale(scale);
-        buttonDown.setPos(pos);
-        buttonDown.setScale(scale);
-        buttonPassive.setPos(pos);
-        buttonPassive.setScale(scale);
-    }
-
     @Override
     public void tick() {
         super.tick();
         if (this.isShown() && active) {
             if (timer < 0) {
-                Vector2f pos = getTexture().getPos();
-                Vector2f scale = getTexture().getScale();
+                Vector2f pos = getFinalPosition();
+                Vector2f scale = getFinalDimensions();
                 if (MouseInputMethods.isMouseClickWithin((int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
                     setTexture(buttonDown);
                     setState(ButtonState.CLICK_DOWN);

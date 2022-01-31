@@ -30,10 +30,10 @@ public class TicTacToe extends Game {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 TicTacToePiece ticTacToePiece = new TicTacToePiece(0);
-                ticTacToePiece.setXPos(new RelativeConstraint((1/3f) * i + 1/24f, true));
-                ticTacToePiece.setYPos(new RelativeConstraint((1/3f) * j + 1/24f, true));
                 ticTacToePiece.setWidth(new RelativeConstraint(1/5f));
                 ticTacToePiece.setHeight(new RelativeConstraint(1/5f));
+                ticTacToePiece.setXPos(new RelativeConstraint((1/3f) * i + 1/24f));
+                ticTacToePiece.setYPos(new RelativeConstraint((1/3f) * j + 1/24f));
                 gameboard[i][j] = ticTacToePiece;
             }
         }

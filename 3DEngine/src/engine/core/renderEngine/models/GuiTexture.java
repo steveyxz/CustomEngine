@@ -9,8 +9,6 @@ import engine.core.tools.maths.vectors.Vector2f;
 public class GuiTexture {
 
     private final int texture;
-    private Vector2f pos = new Vector2f(0, 0);
-    private Vector2f scale = new Vector2f(0, 0);
     private int globalZIndex = 0;
 
     public GuiTexture(int texture) {
@@ -19,19 +17,6 @@ public class GuiTexture {
 
     public GuiTexture(int texture, int globalZIndex) {
         this.texture = texture;
-        this.globalZIndex = globalZIndex;
-    }
-
-    public GuiTexture(int texture, Vector2f pos, Vector2f scale) {
-        this.texture = texture;
-        this.pos = pos;
-        this.scale = scale;
-    }
-
-    public GuiTexture(int texture, Vector2f pos, Vector2f scale, int globalZIndex) {
-        this.texture = texture;
-        this.pos = pos;
-        this.scale = scale;
         this.globalZIndex = globalZIndex;
     }
 
@@ -51,19 +36,4 @@ public class GuiTexture {
         this.globalZIndex = globalZIndex;
     }
 
-    public Vector2f getPos() {
-        return pos;
-    }
-
-    public void setPos(Vector2f pos) {
-        this.pos = pos;
-    }
-
-    public Vector2f getScale() {
-        return scale;
-    }
-
-    public void setScale(Vector2f scale) {
-        this.scale = scale;
-    }
 }

@@ -6,16 +6,18 @@ package engine.core.objects.gui.components;
 
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
+import engine.core.objects.gui.constraints.types.ValueConstraint;
 import engine.core.renderEngine.models.GuiTexture;
+import engine.core.tools.maths.vectors.Vector2f;
 
 import static engine.core.global.Global.currentScene;
 
 public abstract class GuiComponent {
 
-    public GuiConstraint xPos;
-    public GuiConstraint yPos;
-    public GuiConstraint width;
-    public GuiConstraint height;
+    public GuiConstraint xPos = new ValueConstraint(0);
+    public GuiConstraint yPos = new ValueConstraint(0);
+    public GuiConstraint width = new ValueConstraint(0);
+    public GuiConstraint height = new ValueConstraint(0);
     private String sceneID = "";
     private GuiTexture texture;
     private boolean shown = true;
@@ -111,6 +113,13 @@ public abstract class GuiComponent {
         this.texture = texture;
         currentScene.removeGui(this);
         currentScene.processGui(this);
+    }
+
+    public Vector2f getFinalDimensions() {
+        return new Vector2f(width.getValueShift(), height.getValueShift());
+    }
+    public Vector2f getFinalPosition() {
+        return new Vector2f(xPos.getValueShift(), yPos.getValueShift());
     }
 
 }

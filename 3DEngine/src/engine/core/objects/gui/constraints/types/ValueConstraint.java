@@ -37,32 +37,26 @@ public class ValueConstraint extends GuiConstraint {
 
     @Override
     public void transform() {
-        Vector2f texturePos = getParent().getTexture().getPos();
-        Vector2f textureScale = getParent().getTexture().getScale();
         if (getLevel() == ConstraintLevel.X) {
             float x = ((value / GLFWDisplayManager.getWidth() * 2) - 1);
-            texturePos.setX(x);
             setValueShift(x);
             if (shiftCentre) {
-                texturePos.setX(texturePos.getX() + textureScale.getX());
+                setValueShift(getValueShift() + getParent().getWidth().getValueShift());
             }
         }
         if (getLevel() == ConstraintLevel.Y) {
             float y = ((2 - (value / GLFWDisplayManager.getHeight() * 2)) - 1);
-            texturePos.setY(y);
             setValueShift(y);
             if (shiftCentre) {
-                texturePos.setY(texturePos.getY() - textureScale.getY());
+                setValueShift(getValueShift() + getParent().getHeight().getValueShift());
             }
         }
         if (getLevel() == ConstraintLevel.WIDTH) {
             float width = value / GLFWDisplayManager.getWidth();
-            textureScale.setX(width);
             setValueShift(width);
         }
         if (getLevel() == ConstraintLevel.HEIGHT) {
             float height = value / GLFWDisplayManager.getHeight();
-            textureScale.setY(height);
             setValueShift(height);
         }
     }

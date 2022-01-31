@@ -36,35 +36,29 @@ public class RelativeConstraint extends GuiConstraint {
 
     @Override
     public void transform() {
-        Vector2f texturePos = getParent().getTexture().getPos();
-        Vector2f textureScale = getParent().getTexture().getScale();
         if (getLevel() == ConstraintLevel.X) {
             float x = (value * 2) - 1;
-            texturePos.setX(x);
             setValueShift(x);
             if (shiftCentre) {
-                float add = textureScale.getX();
-                texturePos.setX(getValueShift() + add);
+                float add = getParent().getWidth().getValueShift();
                 setValueShift(getValueShift() + add);
             }
         }
+
         if (getLevel() == ConstraintLevel.Y) {
             float y = (2 - value * 2) - 1;
-            texturePos.setY(y);
             setValueShift(y);
             if (shiftCentre) {
-                float add = textureScale.getY();
-                texturePos.setY(getValueShift() - add);
+                float add = getParent().getHeight().getValueShift();
                 setValueShift(getValueShift() - add);
             }
         }
-        if (getLevel() == ConstraintLevel.WIDTH) {
-            textureScale.setX(value);
-            setValueShift(value);
 
+        if (getLevel() == ConstraintLevel.WIDTH) {
+            setValueShift(value);
         }
+
         if (getLevel() == ConstraintLevel.HEIGHT) {
-            textureScale.setY(value);
             setValueShift(value);
         }
 
