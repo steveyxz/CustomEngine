@@ -38,6 +38,7 @@ public class GuiRenderer {
 
     public void render(Scene scene) {
         Map<GuiTexture, List<GuiComponent>> guis = scene.getGuis();
+        //System.out.println(guis);
         Set<GuiTexture> t = guis.keySet();
         List<GuiTexture> sortedKeys = sort(t);
         GL30.glBindVertexArray(quad.getVaoID());

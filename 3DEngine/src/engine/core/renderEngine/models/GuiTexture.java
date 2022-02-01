@@ -34,4 +34,16 @@ public class GuiTexture {
         this.globalZIndex = globalZIndex;
     }
 
+    @Override
+    public String toString() {
+        return "GuiTexture[" + getTexture() + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GuiTexture) {
+            return ((GuiTexture) obj).texture == texture;
+        }
+        return false;
+    }
 }

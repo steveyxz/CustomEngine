@@ -6,6 +6,7 @@ package engine.core.objects.gui.constraints;
 
 import engine.core.objects.gui.components.GuiComponent;
 
+//GuiConstraints will have a top left corner value of -1, -1 and have the scale be from 0-1 (in relative constraints)
 public abstract class GuiConstraint {
 
     private GuiComponent parent;

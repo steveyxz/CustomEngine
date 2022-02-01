@@ -13,11 +13,8 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static engine.core.global.Global.pathQuicker;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class Loader {
 
@@ -25,6 +22,7 @@ public class Loader {
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
     private static final List<Integer> textures = new ArrayList<>();
+    private static final Map<String, ModelTexture> pathQuicker = new HashMap<>();
 
     /**
      * Loads a series of positions, texture offsets and sequence orders
@@ -96,8 +94,7 @@ public class Loader {
      */
     public static int loadTexture(String path) {
         Texture texture = null;
-
-        if (pathQuicker.containsKey(path)) {
+        if (pathQuicker.get(path) != null) {
             return pathQuicker.get(path).getTextureID();
         }
         path += ".png";
@@ -113,7 +110,7 @@ public class Loader {
             System.exit(-1);
         }
         textures.add(texture.getTextureID());
-        pathQuicker.put(path, new ModelTexture(texture.getTextureID()));
+        pathQuicker.put(path.substring(0, path.length() - 4), new ModelTexture(texture.getTextureID()));
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);

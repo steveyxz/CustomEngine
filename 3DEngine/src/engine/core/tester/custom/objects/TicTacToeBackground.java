@@ -10,9 +10,18 @@ import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
 
 public class TicTacToeBackground extends GuiComponent {
-    public TicTacToeBackground() {
-        super(new GuiTexture(Loader.loadTexture("textures/background"), 1));
-        this.setHeight(new RelativeConstraint(1));
-        this.setWidth(new RelativeConstraint(1));
+    public TicTacToeBackground(int position, int maxPosition, boolean isHorizontal) {
+        super(new GuiTexture(Loader.loadTexture("textures/line"), 1));
+        if (isHorizontal) {
+            this.setWidth(new RelativeConstraint(1));
+            this.setHeight(new RelativeConstraint(0.1f / maxPosition));
+            this.setXPos(new RelativeConstraint(0.5f, false));
+            this.setYPos(new RelativeConstraint((position + 1) / (maxPosition * 1f), false));
+        } else {
+            this.setHeight(new RelativeConstraint(1));
+            this.setWidth(new RelativeConstraint(0.1f / maxPosition));
+            this.setYPos(new RelativeConstraint(0.5f, false));
+            this.setXPos(new RelativeConstraint((position + 1) / (maxPosition * 1f), false));
+        }
     }
 }

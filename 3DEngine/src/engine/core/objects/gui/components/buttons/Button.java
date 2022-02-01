@@ -84,10 +84,10 @@ public abstract class Button extends GuiComponent {
             if (timer < 0) {
                 Vector2f pos = getFinalPosition();
                 Vector2f scale = getFinalDimensions();
-                if (MouseInputMethods.isMouseClickWithin((int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
+                if (MouseInputMethods.isMouseClickWithin((int) (((pos.x + 1 - scale.x) / 2) * GLFWDisplayManager.getWidth()), (int) ((-pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
                     setTexture(buttonDown);
                     setState(ButtonState.CLICK_DOWN);
-                } else if (MouseInputMethods.checkBounds(MouseInputMethods.getMouseX(), MouseInputMethods.getMouseY(), (int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
+                } else if (MouseInputMethods.checkBounds(MouseInputMethods.getMouseX(), MouseInputMethods.getMouseY(), (int) ((pos.x - (scale.x) + 1) / 2 * GLFWDisplayManager.getWidth()), (int) ((-pos.y - (scale.y) + 1) / 2 * GLFWDisplayManager.getHeight()), (int) (scale.x * GLFWDisplayManager.getWidth()), (int) (scale.y * GLFWDisplayManager.getHeight()))) {
                     hover();
                     setTexture(buttonHover);
                     if (getState() == ButtonState.CLICK_DOWN) {

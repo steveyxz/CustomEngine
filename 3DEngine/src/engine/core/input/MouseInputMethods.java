@@ -28,9 +28,9 @@ public class MouseInputMethods {
         return lastY;
     }
 
-    private static void glfwCursorPosCallback(long window, double xpos, double ypos) {
-        lastX = xpos;
-        lastY = ypos;
+    private static void glfwCursorPosCallback(long window, double xPos, double yPos) {
+        lastX = xPos;
+        lastY = yPos;
     }
 
     private static void glfwScrollCallback(long window, double xpos, double ypos) {

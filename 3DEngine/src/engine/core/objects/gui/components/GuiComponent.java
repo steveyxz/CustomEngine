@@ -4,11 +4,14 @@
 
 package engine.core.objects.gui.components;
 
+import engine.core.objects.gui.components.buttons.Button;
 import engine.core.objects.gui.constraints.ConstraintLevel;
 import engine.core.objects.gui.constraints.GuiConstraint;
 import engine.core.objects.gui.constraints.types.ValueConstraint;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.tools.maths.vectors.Vector2f;
+
+import java.util.UUID;
 
 import static engine.core.global.Global.currentScene;
 
@@ -22,6 +25,7 @@ public abstract class GuiComponent {
     private GuiTexture texture;
     private boolean shown = true;
     private boolean stationary = true;
+    private final UUID uniqueID = UUID.randomUUID();
 
     public GuiComponent(GuiTexture texture) {
         this.texture = texture;
@@ -110,9 +114,16 @@ public abstract class GuiComponent {
     }
 
     public void setTexture(GuiTexture texture) {
-        this.texture = texture;
-        currentScene.removeGui(this);
-        currentScene.processGui(this);
+        if (!this.texture.equals(texture)) {
+            if (this instanceof Button) {
+                if (!((Button) this).active()) {
+                    return;
+                }
+            }
+            currentScene.removeGui(this);
+            this.texture = texture;
+            currentScene.processGui(this);
+        }
     }
 
     public Vector2f getFinalDimensions() {
@@ -123,4 +134,20 @@ public abstract class GuiComponent {
         return new Vector2f(xPos.getValueShift(), yPos.getValueShift());
     }
 
+    public UUID uniqueID() {
+        return uniqueID;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GuiComponent) {
+            return ((GuiComponent) obj).uniqueID.equals(uniqueID);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "GuiComponent[scale=" + getFinalDimensions() + ",pos=" + getFinalPosition() + ",uniqueID=" + uniqueID + "]";
+    }
 }

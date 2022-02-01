@@ -44,7 +44,7 @@ public class ValueConstraint extends GuiConstraint {
             }
         }
         if (getLevel() == ConstraintLevel.Y) {
-            float y = ((2 - (value / GLFWDisplayManager.getHeight() * 2)) - 1);
+            float y = (((value / GLFWDisplayManager.getHeight() * 2)) - 1);
             setValueShift(y);
             if (shiftCentre) {
                 setValueShift(getValueShift() + getParent().getHeight().getValueShift());
