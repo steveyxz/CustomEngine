@@ -58,82 +58,13 @@ public class TicTacToeBoard {
         return board[row][col];
     }
 
-    public WinState getWinState() {
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                WinState w = getWinState(i, j, State.X);
-                if (w == WinState.X) {
-                    return WinState.X;
-                }
-                WinState w2 = getWinState(i, j, State.O);
-                if (w2 == WinState.O) {
-                    return WinState.O;
-                }
-            }
-        }
-        return WinState.NONE;
+    public void setMarkAt(int row, int col, State x) {
+        board[row][col] = x;
     }
 
-    public WinState getWinState(int x, int y, State s) {
-        int longestColumnLength = 0;
-        int longestWidthLength = 0;
-        int longestDiagonalLength = 0;
-        int longestAntiDiagonalLength = 0;
-
-        //check col
-        for (int i = 0; i < boardSize; i++) {
-            if (board[x][i] != s)
-                longestColumnLength = 0;
-            else
-                longestColumnLength++;
-            if (longestColumnLength >= winLength) {
-                return s == State.X ? WinState.X : WinState.O;
-            }
-        }
-
-        //check row
-        for (int i = 0; i < boardSize; i++) {
-            if (board[i][y] != s)
-                longestWidthLength = 0;
-            else
-                longestWidthLength++;
-            if (longestWidthLength >= winLength) {
-                return s == State.X ? WinState.X : WinState.O;
-            }
-        }
-
-        //check diag
-        if (x == y) {
-            //we're on a diagonal
-            for (int i = 0; i < boardSize; i++) {
-                if (board[i][i] != s)
-                    longestDiagonalLength = 0;
-                else
-                    longestDiagonalLength++;
-                if (longestDiagonalLength >= winLength) {
-                    return s == State.X ? WinState.X : WinState.O;
-                }
-            }
-        }
-
-        //check anti diag
-        if (x + y == boardSize - 1) {
-            for (int i = 0; i < boardSize; i++) {
-                if (board[i][(boardSize - 1) - i] != s)
-                    longestAntiDiagonalLength = 0;
-                else
-                    longestAntiDiagonalLength++;
-                if (longestAntiDiagonalLength >= winLength) {
-                    return s == State.X ? WinState.X : WinState.O;
-                }
-            }
-        }
-
-        //check draw
-        if (moveCount == (Math.pow(boardSize, 2) - 1)) {
-            return WinState.TIE;
-        }
-        return WinState.NONE;
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean isTileMarked(int x, int y) {
+        return board[x][y] != State.BLANK;
     }
 
     public List<Integer> getPossibleMoves() {
