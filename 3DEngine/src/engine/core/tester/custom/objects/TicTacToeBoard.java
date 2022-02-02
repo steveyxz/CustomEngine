@@ -69,11 +69,11 @@ public class TicTacToeBoard {
             board[x][y] = s;
         }
         if (TicTacToe.computer.evaluate(this, 0) > 0) {
-            TicTacToe.endGame(isPlayerSideCross ? WinState.O : WinState.X);
+            TicTacToe.endGame(isPlayerSideCross ? TicTacToeBoard.WinState.O : TicTacToeBoard.WinState.X);
         } else if (TicTacToe.computer.evaluate(this, 0) < 0) {
-            TicTacToe.endGame(isPlayerSideCross ? WinState.X : WinState.O);
+            TicTacToe.endGame(isPlayerSideCross ? TicTacToeBoard.WinState.X : TicTacToeBoard.WinState.O);
         } else if (getPossibleMoves().size() < 1) {
-            TicTacToe.endGame(WinState.TIE);
+            TicTacToe.endGame(TicTacToeBoard.WinState.TIE);
         }
     }
 

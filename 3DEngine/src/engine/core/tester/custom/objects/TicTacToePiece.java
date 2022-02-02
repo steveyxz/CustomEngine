@@ -13,9 +13,9 @@ import static engine.core.tester.custom.TicTacToe.*;
 
 public class TicTacToePiece extends Button {
 
-    private static final String circle = "textures/circle";
-    private static final String cross = "textures/cross";
-    private static final String blank = "textures/blank";
+    private static final GuiTexture circle = new GuiTexture(Loader.loadTexture("textures/circle"), 1);
+    private static final GuiTexture cross = new GuiTexture(Loader.loadTexture("textures/cross"), 1);
+    private static final GuiTexture blank = new GuiTexture(Loader.loadTexture("textures/blank"), 1);
     private final int boardPosition;
     private int type;
 
@@ -25,7 +25,7 @@ public class TicTacToePiece extends Button {
         this.boardPosition = boardPosition;
     }
 
-    public static String getTextureOf(int type) {
+    public static GuiTexture getTextureOf(int type) {
         if (type == -1) {
             return cross;
         } else if (type == 1) {
@@ -44,7 +44,7 @@ public class TicTacToePiece extends Button {
             } else {
                 type = 1;
             }
-            this.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(type))));
+            this.setTexture(getTextureOf(type));
             this.setActive(false);
             currentScene.render();
             isPlayerTurn = false;

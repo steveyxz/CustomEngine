@@ -6,12 +6,18 @@ package engine.addons.gameLoopManager;
 
 import engine.core.global.Global;
 import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.renderEngine.text.fontRendering.TextMaster;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static engine.core.global.Global.currentScene;
 
 public abstract class Game {
+
+    private final List<String> texturesToLoad = new ArrayList<>();
 
     public Game(int width, int height, boolean resizable, String name) {
         preInit();
@@ -67,6 +73,13 @@ public abstract class Game {
                 timer += 1000;
                 System.out.println("FPS: " + frames);
                 frames = 0;
+            }
+
+            //Load the items to load
+            if (!texturesToLoad.isEmpty()) {
+                for (String s : texturesToLoad) {
+                    Loader.loadTexture(s);
+                }
             }
 
             end();

@@ -7,16 +7,18 @@ package engine.core.tester.custom;
 import engine.addons.gameLoopManager.Game;
 import engine.core.objects.Scene;
 import engine.core.objects.gui.constraints.types.RelativeConstraint;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.text.FontGlobal;
 import engine.core.renderEngine.text.fontMeshCreator.Text;
-import engine.core.tester.custom.objects.TicTacToeBackground;
-import engine.core.tester.custom.objects.TicTacToeBoard;
-import engine.core.tester.custom.objects.TicTacToeComputer;
-import engine.core.tester.custom.objects.TicTacToePiece;
+import engine.core.tester.custom.objects.*;
 import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GLCapabilities;
+import org.lwjglx.opengl.Display;
 
 import java.util.*;
 
@@ -33,6 +35,7 @@ public class TicTacToe extends Game {
     public static boolean isPlayerTurn;
     public static List<TicTacToePiece> pieces;
     private static boolean startNewGame = false;
+    public static int nextMove = -1;
 
     public TicTacToe() {
         super(800, 800, false, "Tic Tac Toe");
@@ -43,21 +46,10 @@ public class TicTacToe extends Game {
     }
 
     public static void computerMove() {
-        if (isPlayerTurn) {
+        if (startNewGame || isPlayerTurn) {
             return;
         }
-        currentScene.render();
-        int move = computer.getNextMove(gameboard);
-        if (move == -1) {
-            return;
-        }
-        TicTacToePiece piece = pieces.get(move);
-        piece.setType(isPlayerSideCross ? 1 : -1);
-        piece.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(piece.type()))));
-        piece.setActive(false);
-        currentScene.render();
-        gameboard.move(move / gameboard.boardSize(), move % gameboard.boardSize(), !isPlayerSideCross ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
-        isPlayerTurn = true;
+        new TicTacToeCalculationThread().start();
     }
 
     public static void endGame(TicTacToeBoard.WinState state) {
@@ -93,6 +85,15 @@ public class TicTacToe extends Game {
         if (startNewGame) {
             startNewGame = false;
             startGame(boardSize, winLength);
+        }
+        if (nextMove != -1) {
+            TicTacToePiece piece = pieces.get(nextMove);
+            piece.setType(isPlayerSideCross ? 1 : -1);
+            piece.setTexture(getTextureOf(piece.type()));
+            piece.setActive(false);
+            gameboard.move(nextMove / gameboard.boardSize(), nextMove % gameboard.boardSize(), !isPlayerSideCross ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
+            isPlayerTurn = true;
+            nextMove = -1;
         }
     }
 
@@ -134,7 +135,7 @@ public class TicTacToe extends Game {
                 int move = 4;
                 TicTacToePiece piece = pieces.get(move);
                 piece.setType(isPlayerSideCross ? 1 : -1);
-                piece.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(piece.type()))));
+                piece.setTexture(getTextureOf(piece.type()));
                 piece.setActive(false);
                 gameboard.move(move / gameboard.boardSize(), move % gameboard.boardSize(), !isPlayerSideCross ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
                 isPlayerTurn = true;
