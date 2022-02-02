@@ -1,4 +1,4 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
 /**
  * Represents a font. It holds the font's texture atlas as well as having the

@@ -1,24 +1,33 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
-import engine.core.text.fontRendering.TextMaster;
+import engine.core.renderEngine.text.fontRendering.TextMaster;
 import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;
 
+/**
+ * Represents a piece of text in the game.
+ *
+ * @author Karl
+ */
 public class Text {
 
     private final String textString;
     private final float fontSize;
-    private final Vector3f colour = new Vector3f(0f, 0f, 0f);
-    private final Vector2f position;
-    private final float lineMaxSize;
-    private final FontType font;
-    private final boolean centerText;
-    private Vector2f scale = new Vector2f(1, 1);
+
     private int textMeshVao;
     private int vertexCount;
+    private final Vector3f colour = new Vector3f(0f, 0f, 0f);
+
+    private final Vector2f position;
+    private final float lineMaxSize;
     private int numberOfLines;
-    //0 if no scale, 1 if scaled by x, 2 if scaled by y
-    private int scaleDir;
+
+    private final FontType font;
+
+    private int scaleDir = 0;
+    private Vector2f scale = new Vector2f(1, 1);
+
+    private boolean centerText;
 
     /**
      * Creates a new text, loads the text's quads into a VAO, and adds the text
@@ -38,39 +47,17 @@ public class Text {
      *                      line. When text is centered it is centered into the middle of
      *                      the line, based on this line length value.
      * @param centered      - whether the text should be centered or not.
-     * @param scaleDir      - 0 if no scale, 1 if scaled by x, 2 if scaled by y
      */
     public Text(String text, float fontSize, FontType font, Vector2f position, float maxLineLength,
-                boolean centered, int scaleDir) {
+                boolean centered) {
         this.textString = text;
         this.fontSize = fontSize;
         this.font = font;
         this.position = position;
         this.lineMaxSize = maxLineLength;
         this.centerText = centered;
-        this.scaleDir = scaleDir;
         TextMaster.loadText(this);
-    }
-
-    public Text(String text, float fontSize, FontType font, Vector2f position, float maxLineLength) {
-        this(text, fontSize, font, position, maxLineLength, false, 0);
-    }
-
-    public int getScaleDir() {
-        return scaleDir;
-    }
-
-    public void setScaleDir(int scaleDir) {
-        this.scaleDir = scaleDir;
-    }
-
-    public Vector2f getScale() {
-        return scale;
-    }
-
-    public void setScale(Vector2f scale) {
-        this.scale = scale;
-    }
+	}
 
     /**
      * Remove the text from the screen.
@@ -102,6 +89,22 @@ public class Text {
      */
     public Vector3f getColour() {
         return colour;
+    }
+
+    public int getScaleDir() {
+        return scaleDir;
+    }
+
+    public void setScaleDir(int scaleDir) {
+        this.scaleDir = scaleDir;
+    }
+
+    public Vector2f getScale() {
+        return scale;
+    }
+
+    public void setScale(Vector2f scale) {
+        this.scale = scale;
     }
 
     /**

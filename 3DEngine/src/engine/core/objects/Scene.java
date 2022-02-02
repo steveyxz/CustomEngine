@@ -9,8 +9,8 @@ import engine.core.objects.lighting.Light;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
-import engine.core.text.fontMeshCreator.Text;
-import engine.core.text.fontRendering.TextMaster;
+import engine.core.renderEngine.text.fontMeshCreator.Text;
+import engine.core.renderEngine.text.fontRendering.TextMaster;
 import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Scene {
 
     private final Map<TexturedModel, List<GameObject>> objects = new HashMap<>();
     private final Map<GuiTexture, List<GuiComponent>> guis = new HashMap<>();
-    private final List<Text> texts = new ArrayList<>();
+    private final List<Text> texts = new ArrayList<Text>();
     private final List<Light> lights = new ArrayList<>();
     private final String sceneId;
     private Vector3f cameraPos = new Vector3f();

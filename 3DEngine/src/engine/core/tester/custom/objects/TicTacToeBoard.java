@@ -27,7 +27,7 @@ public class TicTacToeBoard {
     }
     ;
 
-    enum WinState {TIE, X, O, NONE}
+    public enum WinState {TIE, X, O, NONE}
     ;
 
     private final int boardSize;
@@ -81,71 +81,17 @@ public class TicTacToeBoard {
         return possibleMoves;
     }
 
-    public WinState move(int x, int y, State s) {
+    public void move(int x, int y, State s) {
         if (board[x][y] == State.BLANK) {
             board[x][y] = s;
         }
-        moveCount++;
-
-        int longestColumnLength = 0;
-        int longestWidthLength = 0;
-        int longestDiagonalLength = 0;
-        int longestAntiDiagonalLength = 0;
-
-        //check col
-        for (int i = 0; i < boardSize; i++) {
-            if (board[x][i] != s)
-                longestColumnLength = 0;
-            else
-                longestColumnLength++;
-            if (longestColumnLength >= winLength) {
-                return s == State.X ? WinState.X : WinState.O;
-            }
+        if (TicTacToe.computer.evaluate(this, 0) > 0) {
+            TicTacToe.endGame(isPlayerSideCross ? WinState.O : WinState.X);
+        } else if (TicTacToe.computer.evaluate(this, 0) < 0) {
+            TicTacToe.endGame(isPlayerSideCross ? WinState.X : WinState.O);
+        } else if (getPossibleMoves().size() < 1) {
+            TicTacToe.endGame(WinState.TIE);
         }
-
-        //check row
-        for (int i = 0; i < boardSize; i++) {
-            if (board[i][y] != s)
-                longestWidthLength = 0;
-            else
-                longestWidthLength++;
-            if (longestWidthLength >= winLength) {
-                return s == State.X ? WinState.X : WinState.O;
-            }
-        }
-
-        //check diag
-        if (x == y) {
-            //we're on a diagonal
-            for (int i = 0; i < boardSize; i++) {
-                if (board[i][i] != s)
-                    longestDiagonalLength = 0;
-                else
-                    longestDiagonalLength++;
-                if (longestDiagonalLength >= winLength) {
-                    return s == State.X ? WinState.X : WinState.O;
-                }
-            }
-        }
-
-        //check anti diag
-        if (x + y == boardSize - 1) {
-            for (int i = 0; i < boardSize; i++) {
-                if (board[i][(boardSize - 1) - i] != s)
-                    longestAntiDiagonalLength = 0;
-                else
-                    longestAntiDiagonalLength++;
-                if (longestAntiDiagonalLength >= winLength) {
-                    return s == State.X ? WinState.X : WinState.O;
-                }
-            }
-        }
-
-        //check draw
-        if (moveCount == (Math.pow(boardSize, 2) - 1)) {
-            return WinState.TIE;
-        }
-        return WinState.NONE;
     }
 
     public int boardSize() {

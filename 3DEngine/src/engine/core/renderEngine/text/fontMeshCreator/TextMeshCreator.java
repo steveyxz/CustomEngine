@@ -1,4 +1,4 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class TextMeshCreator {
         metaData = new MetaFile(metaFile);
     }
 
-    private static void addVertices(List<Float> vertices, double x, double y, double maxX, double maxY, int scaleDir) {
+    private static void addVertices(List<Float> vertices, double x, double y, double maxX, double maxY) {
         vertices.add((float) x);
         vertices.add((float) y);
         vertices.add((float) x);
@@ -29,7 +29,7 @@ public class TextMeshCreator {
         vertices.add((float) y);
     }
 
-    private static void addTexCoords(List<Float> texCoords, double x, double y, double maxX, double maxY, int scaleDir) {
+    private static void addTexCoords(List<Float> texCoords, double x, double y, double maxX, double maxY) {
         texCoords.add((float) x);
         texCoords.add((float) y);
         texCoords.add((float) x);
@@ -60,7 +60,7 @@ public class TextMeshCreator {
 
     private List<Line> createStructure(Text text) {
         char[] chars = text.getTextString().toCharArray();
-        List<Line> lines = new ArrayList<>();
+        List<Line> lines = new ArrayList<Line>();
         Line currentLine = new Line(metaData.getSpaceWidth(), text.getFontSize(), text.getMaxLineSize());
         Word currentWord = new Word(text.getFontSize());
         for (char c : chars) {
@@ -94,40 +94,40 @@ public class TextMeshCreator {
 
     private TextMeshData createQuadVertices(Text text, List<Line> lines) {
         text.setNumberOfLines(lines.size());
-        double cursorX = 0f;
-        double cursorY = 0f;
-        List<Float> vertices = new ArrayList<>();
-        List<Float> textureCoords = new ArrayList<>();
+        double curserX = 0f;
+        double curserY = 0f;
+        List<Float> vertices = new ArrayList<Float>();
+        List<Float> textureCoords = new ArrayList<Float>();
         for (Line line : lines) {
             if (text.isCentered()) {
-                cursorX = (line.getMaxLength() - line.getLineLength()) / 2;
+                curserX = (line.getMaxLength() - line.getLineLength()) / 2;
             }
             for (Word word : line.getWords()) {
                 for (Character letter : word.getCharacters()) {
-                    addVerticesForCharacter(cursorX, cursorY, letter, text.getFontSize(), vertices, text.getScaleDir());
+                    addVerticesForCharacter(curserX, curserY, letter, text.getFontSize(), vertices);
                     addTexCoords(textureCoords, letter.getxTextureCoord(), letter.getyTextureCoord(),
-                            letter.getXMaxTextureCoord(), letter.getYMaxTextureCoord(), text.getScaleDir());
-                    cursorX += letter.getxAdvance() * text.getFontSize();
+                            letter.getXMaxTextureCoord(), letter.getYMaxTextureCoord());
+                    curserX += letter.getxAdvance() * text.getFontSize();
                 }
-                cursorX += metaData.getSpaceWidth() * text.getFontSize();
+                curserX += metaData.getSpaceWidth() * text.getFontSize();
             }
-            cursorX = 0;
-            cursorX += LINE_HEIGHT * text.getFontSize();
+            curserX = 0;
+            curserY += LINE_HEIGHT * text.getFontSize();
         }
         return new TextMeshData(listToArray(vertices), listToArray(textureCoords));
     }
 
-    private void addVerticesForCharacter(double cursorX, double cursorY, Character character, double fontSize,
-                                         List<Float> vertices, int scaleDir) {
-        double x = cursorX + (character.getxOffset() * fontSize);
-        double y = cursorY + (character.getyOffset() * fontSize);
+    private void addVerticesForCharacter(double curserX, double curserY, Character character, double fontSize,
+                                         List<Float> vertices) {
+        double x = curserX + (character.getxOffset() * fontSize);
+        double y = curserY + (character.getyOffset() * fontSize);
         double maxX = x + (character.getSizeX() * fontSize);
         double maxY = y + (character.getSizeY() * fontSize);
         double properX = (2 * x) - 1;
         double properY = (-2 * y) + 1;
         double properMaxX = (2 * maxX) - 1;
         double properMaxY = (-2 * maxY) + 1;
-        addVertices(vertices, properX, properY, properMaxX, properMaxY, scaleDir);
+        addVertices(vertices, properX, properY, properMaxX, properMaxY);
     }
 
 }

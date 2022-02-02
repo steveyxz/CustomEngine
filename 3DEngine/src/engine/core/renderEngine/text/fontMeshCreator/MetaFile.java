@@ -1,10 +1,8 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
 import engine.core.renderEngine.GLFWDisplayManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,21 +18,24 @@ public class MetaFile {
     private static final int PAD_BOTTOM = 2;
     private static final int PAD_RIGHT = 3;
 
-    private static final int DESIRED_PADDING = 8;
+    private static final int DESIRED_PADDING = 3;
 
     private static final String SPLITTER = " ";
     private static final String NUMBER_SEPARATOR = ",";
 
     private final double aspectRatio;
-    private final Map<Integer, Character> metaData = new HashMap<Integer, Character>();
-    private final Map<String, String> values = new HashMap<String, String>();
+
     private double verticalPerPixelSize;
     private double horizontalPerPixelSize;
     private double spaceWidth;
     private int[] padding;
     private int paddingWidth;
     private int paddingHeight;
+
+    private final Map<Integer, Character> metaData = new HashMap<Integer, Character>();
+
     private BufferedReader reader;
+    private final Map<String, String> values = new HashMap<String, String>();
 
     /**
      * Opens a font file in preparation for reading.

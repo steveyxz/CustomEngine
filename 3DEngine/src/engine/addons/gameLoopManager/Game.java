@@ -7,7 +7,7 @@ package engine.addons.gameLoopManager;
 import engine.core.global.Global;
 import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.renderers.MasterRenderer;
-import engine.core.text.fontRendering.TextMaster;
+import engine.core.renderEngine.text.fontRendering.TextMaster;
 
 import static engine.core.global.Global.currentScene;
 

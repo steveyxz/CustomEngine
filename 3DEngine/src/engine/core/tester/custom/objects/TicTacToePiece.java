@@ -9,6 +9,7 @@ import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.tester.custom.TicTacToe;
 
+import static engine.core.global.Global.currentScene;
 import static engine.core.tester.custom.TicTacToe.*;
 
 public class TicTacToePiece extends Button {
@@ -38,6 +39,7 @@ public class TicTacToePiece extends Button {
     @Override
     public void click() {
         if (type == 0 && isPlayerTurn) {
+            currentScene.render();
             if (isPlayerSideCross) {
                 type = -1;
             } else {
@@ -45,6 +47,7 @@ public class TicTacToePiece extends Button {
             }
             this.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(type))));
             this.setActive(false);
+            currentScene.render();
             isPlayerTurn = false;
             gameboard.move(boardPosition / gameboard.boardSize(), boardPosition % gameboard.boardSize(), type == -1 ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
             computerMove();

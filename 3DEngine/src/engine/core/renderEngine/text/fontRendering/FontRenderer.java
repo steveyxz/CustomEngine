@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2021. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
- */
+package engine.core.renderEngine.text.fontRendering;
 
-package engine.core.text.fontRendering;
-
-import engine.core.text.fontMeshCreator.FontType;
-import engine.core.text.fontMeshCreator.Text;
+import engine.core.renderEngine.text.fontMeshCreator.FontType;
+import engine.core.renderEngine.text.fontMeshCreator.Text;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -13,6 +9,7 @@ import org.lwjgl.opengl.GL30;
 
 import java.util.List;
 import java.util.Map;
+
 
 public class FontRenderer {
 
@@ -41,6 +38,7 @@ public class FontRenderer {
     private void prepare() {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         shader.start();
     }
 
@@ -48,8 +46,8 @@ public class FontRenderer {
         GL30.glBindVertexArray(text.getMesh());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        shader.loadColor(text.getColour());
-        shader.loadInfo(text.getPosition());
+        shader.loadColour(text.getColour());
+        shader.loadTranslation(text.getPosition());
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.getVertexCount());
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
@@ -58,6 +56,8 @@ public class FontRenderer {
 
     private void endRendering() {
         shader.stop();
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
 }

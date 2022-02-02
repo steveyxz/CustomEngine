@@ -10,12 +10,9 @@ import engine.core.objects.Scene;
 import engine.core.particles.ParticleMaster;
 import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.Loader;
-import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.renderers.MasterRenderer;
-import engine.core.text.fontRendering.TextMaster;
+import engine.core.renderEngine.text.fontRendering.TextMaster;
 import engine.core.tools.maths.vectors.Vector3f;
-
-import java.util.HashMap;
 
 public class Global {
 

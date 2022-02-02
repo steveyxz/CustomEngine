@@ -1,4 +1,4 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
 import java.util.ArrayList;
 import java.util.List;

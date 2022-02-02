@@ -1,4 +1,4 @@
-package engine.core.text.fontMeshCreator;
+package engine.core.renderEngine.text.fontMeshCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
 public class Word {
 
     private final List<Character> characters = new ArrayList<Character>();
-    private final double fontSize;
     private double width = 0;
+    private final double fontSize;
 
     /**
      * Create a new empty word.
