@@ -25,14 +25,14 @@ import static engine.core.tester.custom.objects.TicTacToePiece.getTextureOf;
 
 public class TicTacToe extends Game {
 
+    private static final int boardSize = 5;
+    private static final int winLength = 4;
     public static TicTacToeBoard gameboard;
     public static TicTacToeComputer computer;
     public static boolean isPlayerSideCross;
     public static boolean isPlayerTurn;
     public static List<TicTacToePiece> pieces;
     private static boolean startNewGame = false;
-    private static int boardSize = 5;
-    private static int winLength = 4;
 
     public TicTacToe() {
         super(800, 800, false, "Tic Tac Toe");
@@ -40,6 +40,47 @@ public class TicTacToe extends Game {
 
     public static void main(String[] args) {
         new TicTacToe();
+    }
+
+    public static void computerMove() {
+        if (isPlayerTurn) {
+            return;
+        }
+        currentScene.render();
+        int move = computer.getNextMove(gameboard);
+        if (move == -1) {
+            return;
+        }
+        TicTacToePiece piece = pieces.get(move);
+        piece.setType(isPlayerSideCross ? 1 : -1);
+        piece.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(piece.type()))));
+        piece.setActive(false);
+        currentScene.render();
+        gameboard.move(move / gameboard.boardSize(), move % gameboard.boardSize(), !isPlayerSideCross ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
+        isPlayerTurn = true;
+    }
+
+    public static void endGame(TicTacToeBoard.WinState state) {
+        Scene transitionScene = new Scene("transition");
+        Scene.sceneManager.changeScene("transition");
+        Scene.sceneManager.removeScene("tictactoe");
+        String text = "";
+        switch (state) {
+            case X -> text = isPlayerSideCross ? "Player wins!" : "Computer Wins!";
+            case O -> text = !isPlayerSideCross ? "Player wins!" : "Computer Wins!";
+            case TIE -> text = "Tie!";
+        }
+        transitionScene.setBackgroundColor(new Vector3f(0.5f, 0.5f, 0.5f));
+        Text textObject = new Text(text, 5, FontGlobal.segoe, new Vector2f(0, 0.5f), 1, true);
+        transitionScene.addText(textObject);
+        TimerTask t = new TimerTask() {
+            @Override
+            public void run() {
+                Scene.sceneManager.removeScene("transition");
+                startNewGame = true;
+            }
+        };
+        new Timer().schedule(t, 3000);
     }
 
     @Override
@@ -101,47 +142,6 @@ public class TicTacToe extends Game {
                 computerMove();
             }
         }
-    }
-
-    public static void computerMove() {
-        if (isPlayerTurn) {
-            return;
-        }
-        currentScene.render();
-        int move = computer.getNextMove(gameboard);
-        if (move == -1) {
-            return;
-        }
-        TicTacToePiece piece = pieces.get(move);
-        piece.setType(isPlayerSideCross ? 1 : -1);
-        piece.setTexture(new GuiTexture(Loader.loadTexture(getTextureOf(piece.type()))));
-        piece.setActive(false);
-        currentScene.render();
-        gameboard.move(move / gameboard.boardSize(), move % gameboard.boardSize(), !isPlayerSideCross ? TicTacToeBoard.State.X : TicTacToeBoard.State.O);
-        isPlayerTurn = true;
-    }
-
-    public static void endGame(TicTacToeBoard.WinState state) {
-        Scene transitionScene = new Scene("transition");
-        Scene.sceneManager.changeScene("transition");
-        Scene.sceneManager.removeScene("tictactoe");
-        String text = "";
-        switch (state) {
-            case X -> text = isPlayerSideCross ? "Player wins!" : "Computer Wins!";
-            case O -> text = !isPlayerSideCross ? "Player wins!" : "Computer Wins!";
-            case TIE -> text = "Tie!";
-        }
-        transitionScene.setBackgroundColor(new Vector3f(0.5f, 0.5f, 0.5f));
-        Text textObject = new Text(text, 5, FontGlobal.segoe, new Vector2f(0, 0.5f), 1, true);
-        transitionScene.addText(textObject);
-        TimerTask t = new TimerTask() {
-            @Override
-            public void run() {
-                Scene.sceneManager.removeScene("transition");
-                startNewGame = true;
-            }
-        };
-        new Timer().schedule(t, 3000);
     }
 
 }

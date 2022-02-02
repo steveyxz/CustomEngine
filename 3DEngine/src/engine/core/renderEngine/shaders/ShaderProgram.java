@@ -66,6 +66,7 @@ public abstract class ShaderProgram {
             System.out.println(file + " is not a valid file");
         }
         try {
+            assert is != null;
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = reader.readLine()) != null) {

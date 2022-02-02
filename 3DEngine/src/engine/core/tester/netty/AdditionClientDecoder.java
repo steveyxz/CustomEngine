@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AdditionClientDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
         if (byteBuf.readableBytes() < 4) {
             return;
         }

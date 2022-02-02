@@ -31,6 +31,7 @@
  */
 package engine.core.tools.maths.vectors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.FloatBuffer;
 
@@ -45,6 +46,7 @@ import java.nio.FloatBuffer;
 
 public class Vector2f extends Vector implements Serializable, ReadableVector2f, WritableVector2f {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public float x, y;
@@ -255,14 +257,12 @@ public class Vector2f extends Vector implements Serializable, ReadableVector2f, 
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(64);
 
-        sb.append("Vector2f[");
-        sb.append(x);
-        sb.append(", ");
-        sb.append(y);
-        sb.append(']');
-        return sb.toString();
+        return "Vector2f[" +
+                x +
+                ", " +
+                y +
+                ']';
     }
 
     /**

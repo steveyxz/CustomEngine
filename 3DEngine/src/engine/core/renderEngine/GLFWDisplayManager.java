@@ -52,12 +52,14 @@ public class GLFWDisplayManager {
             // Get the resolution of the primary monitor
             GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-            // Center the window
-            glfwSetWindowPos(
-                    window,
-                    (vidmode.width() - pWidth.get(0)) / 2,
-                    (vidmode.height() - pHeight.get(0)) / 2
-            );
+            if (vidmode != null) {
+                // Center the window
+                glfwSetWindowPos(
+                        window,
+                        (vidmode.width() - pWidth.get(0)) / 2,
+                        (vidmode.height() - pHeight.get(0)) / 2
+                );
+            }
         }
 
         // Make the OpenGL context current

@@ -8,7 +8,6 @@ import engine.core.global.Global;
 import engine.core.particles.ParticleMaster;
 import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.DefaultCamera;
-import engine.core.renderEngine.text.fontRendering.TextMaster;
 import org.lwjgl.opengl.GL11;
 
 import static engine.core.global.Global.currentScene;

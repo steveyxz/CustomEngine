@@ -17,6 +17,7 @@ public class RunClient {
 
     private final int port;
     private final String host;
+
     public RunClient(int port, String host) {
         this.port = port;
         this.host = host;

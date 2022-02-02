@@ -7,7 +7,6 @@ package engine.core.tester.custom.objects;
 import engine.core.objects.gui.components.buttons.Button;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.GuiTexture;
-import engine.core.tester.custom.TicTacToe;
 
 import static engine.core.global.Global.currentScene;
 import static engine.core.tester.custom.TicTacToe.*;
@@ -17,8 +16,8 @@ public class TicTacToePiece extends Button {
     private static final String circle = "textures/circle";
     private static final String cross = "textures/cross";
     private static final String blank = "textures/blank";
-    private int type;
     private final int boardPosition;
+    private int type;
 
     public TicTacToePiece(int type, int boardPosition) {
         super(getTextureOf(type), getTextureOf(type), getTextureOf(type), 0);

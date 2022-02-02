@@ -6,8 +6,6 @@ package engine.core.tester.custom.objects;
 
 import engine.core.tester.custom.TicTacToe;
 
-import javax.swing.event.CaretEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,26 +13,12 @@ import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
 
 public class TicTacToeBoard {
 
-    public enum State {
-        BLANK(' '), X('X'), O('O');
-        private final char c;
-        State(char c) {
-            this.c = c;
-        }
-        public char c() {
-            return c;
-        }
-    }
-    ;
-
-    public enum WinState {TIE, X, O, NONE}
-    ;
-
     private final int boardSize;
-    private final int winLength;
-    private int moveCount;
-    private final State[][] board;
 
+    private final int winLength;
+
+    private final State[][] board;
+    private int moveCount;
     public TicTacToeBoard(int boardSize, int winLength) {
         this.boardSize = boardSize;
         this.winLength = winLength;
@@ -46,7 +30,6 @@ public class TicTacToeBoard {
             }
         }
     }
-
     public TicTacToeBoard(State[][] board, int winLength) {
         this.boardSize = board.length;
         this.winLength = winLength;
@@ -113,4 +96,19 @@ public class TicTacToeBoard {
     public State[][] board() {
         return board;
     }
+
+    public enum State {
+        BLANK(' '), X('X'), O('O');
+        private final char c;
+
+        State(char c) {
+            this.c = c;
+        }
+
+        public char c() {
+            return c;
+        }
+    }
+
+    public enum WinState {TIE, X, O, NONE}
 }

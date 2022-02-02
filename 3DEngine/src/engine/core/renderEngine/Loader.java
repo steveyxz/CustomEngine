@@ -13,7 +13,6 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.charset.Charset;
 import java.util.*;
 
 public class Loader {

@@ -54,18 +54,16 @@ public class TextMeshCreator {
 
     protected TextMeshData createTextMesh(Text text) {
         List<Line> lines = createStructure(text);
-        TextMeshData data = createQuadVertices(text, lines);
-        return data;
+        return createQuadVertices(text, lines);
     }
 
     private List<Line> createStructure(Text text) {
         char[] chars = text.getTextString().toCharArray();
-        List<Line> lines = new ArrayList<Line>();
+        List<Line> lines = new ArrayList<>();
         Line currentLine = new Line(metaData.getSpaceWidth(), text.getFontSize(), text.getMaxLineSize());
         Word currentWord = new Word(text.getFontSize());
         for (char c : chars) {
-            int ascii = c;
-            if (ascii == SPACE_ASCII) {
+            if ((int) c == SPACE_ASCII) {
                 boolean added = currentLine.attemptToAddWord(currentWord);
                 if (!added) {
                     lines.add(currentLine);
@@ -75,7 +73,7 @@ public class TextMeshCreator {
                 currentWord = new Word(text.getFontSize());
                 continue;
             }
-            Character character = metaData.getCharacter(ascii);
+            Character character = metaData.getCharacter(c);
             currentWord.addCharacter(character);
         }
         completeStructure(lines, currentLine, currentWord, text);
@@ -96,8 +94,8 @@ public class TextMeshCreator {
         text.setNumberOfLines(lines.size());
         double curserX = 0f;
         double curserY = 0f;
-        List<Float> vertices = new ArrayList<Float>();
-        List<Float> textureCoords = new ArrayList<Float>();
+        List<Float> vertices = new ArrayList<>();
+        List<Float> textureCoords = new ArrayList<>();
         for (Line line : lines) {
             if (text.isCentered()) {
                 curserX = (line.getMaxLength() - line.getLineLength()) / 2;

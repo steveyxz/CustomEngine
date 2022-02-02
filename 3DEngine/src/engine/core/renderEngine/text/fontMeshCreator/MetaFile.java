@@ -2,9 +2,12 @@ package engine.core.renderEngine.text.fontMeshCreator;
 
 import engine.core.renderEngine.GLFWDisplayManager;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Provides functionality for getting the values from a font file.
@@ -24,18 +27,15 @@ public class MetaFile {
     private static final String NUMBER_SEPARATOR = ",";
 
     private final double aspectRatio;
-
+    private final Map<Integer, Character> metaData = new HashMap<>();
+    private final Map<String, String> values = new HashMap<>();
     private double verticalPerPixelSize;
     private double horizontalPerPixelSize;
     private double spaceWidth;
     private int[] padding;
     private int paddingWidth;
     private int paddingHeight;
-
-    private final Map<Integer, Character> metaData = new HashMap<Integer, Character>();
-
     private BufferedReader reader;
-    private final Map<String, String> values = new HashMap<String, String>();
 
     /**
      * Opens a font file in preparation for reading.
@@ -70,7 +70,7 @@ public class MetaFile {
         String line = null;
         try {
             line = reader.readLine();
-        } catch (IOException e1) {
+        } catch (IOException ignored) {
         }
         if (line == null) {
             return false;
@@ -128,7 +128,7 @@ public class MetaFile {
      */
     private void openFile(String file) {
         try {
-            reader = new BufferedReader(new InputStreamReader(MetaFile.class.getClassLoader().getResourceAsStream(file)));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(MetaFile.class.getClassLoader().getResourceAsStream(file))));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Couldn't read font meta file!");

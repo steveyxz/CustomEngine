@@ -16,7 +16,6 @@ public abstract class Camera {
     private final Map<String, Vector3f> positions = new HashMap<>();
     //x is pitch, y is yaw, z is roll
     private final Map<String, Vector3f> rotations = new HashMap<>();
-    private Vector3f vec3 = new Vector3f();
 
     public abstract void tick();
 
@@ -34,7 +33,7 @@ public abstract class Camera {
     }
 
     public Vector3f getRotation(String sceneId) {
-        vec3 = rotations.get(sceneId);
+        Vector3f vec3 = rotations.get(sceneId);
         if (vec3 == null) {
             Vector3f tempvec = new Vector3f(0, 0, 0);
             if (sceneId == null) {

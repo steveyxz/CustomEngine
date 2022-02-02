@@ -13,21 +13,16 @@ public class Text {
 
     private final String textString;
     private final float fontSize;
-
-    private int textMeshVao;
-    private int vertexCount;
     private final Vector3f colour = new Vector3f(0f, 0f, 0f);
-
     private final Vector2f position;
     private final float lineMaxSize;
-    private int numberOfLines;
-
     private final FontType font;
-
+    private final boolean centerText;
+    private int textMeshVao;
+    private int vertexCount;
+    private int numberOfLines;
     private int scaleDir = 0;
     private Vector2f scale = new Vector2f(1, 1);
-
-    private boolean centerText;
 
     /**
      * Creates a new text, loads the text's quads into a VAO, and adds the text
@@ -57,7 +52,7 @@ public class Text {
         this.lineMaxSize = maxLineLength;
         this.centerText = centered;
         TextMaster.loadText(this);
-	}
+    }
 
     /**
      * Remove the text from the screen.

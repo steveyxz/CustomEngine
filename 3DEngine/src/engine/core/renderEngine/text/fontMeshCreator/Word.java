@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class Word {
 
-    private final List<Character> characters = new ArrayList<Character>();
-    private double width = 0;
+    private final List<Character> characters = new ArrayList<>();
     private final double fontSize;
+    private double width = 0;
 
     /**
      * Create a new empty word.

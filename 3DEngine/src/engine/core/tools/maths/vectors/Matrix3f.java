@@ -31,6 +31,7 @@
  */
 package engine.core.tools.maths.vectors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.FloatBuffer;
 
@@ -44,6 +45,7 @@ import java.nio.FloatBuffer;
 
 public class Matrix3f extends Matrix implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public float m00,
@@ -462,22 +464,18 @@ public class Matrix3f extends Matrix implements Serializable {
      * @return the determinant of the matrix
      */
     public float determinant() {
-        float f =
-                m00 * (m11 * m22 - m12 * m21)
-                        + m01 * (m12 * m20 - m10 * m22)
-                        + m02 * (m10 * m21 - m11 * m20);
-        return f;
+        return m00 * (m11 * m22 - m12 * m21)
+                + m01 * (m12 * m20 - m10 * m22)
+                + m02 * (m10 * m21 - m11 * m20);
     }
 
     /**
      * Returns a string representation of this matrix
      */
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(m00).append(' ').append(m10).append(' ').append(m20).append(' ').append('\n');
-        buf.append(m01).append(' ').append(m11).append(' ').append(m21).append(' ').append('\n');
-        buf.append(m02).append(' ').append(m12).append(' ').append(m22).append(' ').append('\n');
-        return buf.toString();
+        return String.valueOf(m00) + ' ' + m10 + ' ' + m20 + ' ' + '\n' +
+                m01 + ' ' + m11 + ' ' + m21 + ' ' + '\n' +
+                m02 + ' ' + m12 + ' ' + m22 + ' ' + '\n';
     }
 
     /**

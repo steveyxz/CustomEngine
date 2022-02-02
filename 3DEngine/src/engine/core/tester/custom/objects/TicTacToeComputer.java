@@ -8,11 +8,11 @@ import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
 
 public class TicTacToeComputer {
 
+    private static final int MAX_DEPTH = 5;
     //fields
     private final TicTacToeBoard pieces;
     private final int winLength;
     private final int boardSize;
-    private static final int MAX_DEPTH = 5;
 
     public TicTacToeComputer(TicTacToeBoard pieces) {
         this.pieces = pieces;

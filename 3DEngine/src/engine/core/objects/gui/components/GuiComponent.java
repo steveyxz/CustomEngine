@@ -17,6 +17,7 @@ import static engine.core.global.Global.currentScene;
 
 public abstract class GuiComponent {
 
+    private final UUID uniqueID = UUID.randomUUID();
     public GuiConstraint xPos = new ValueConstraint(0);
     public GuiConstraint yPos = new ValueConstraint(0);
     public GuiConstraint width = new ValueConstraint(0);
@@ -25,7 +26,6 @@ public abstract class GuiComponent {
     private GuiTexture texture;
     private boolean shown = true;
     private boolean stationary = true;
-    private final UUID uniqueID = UUID.randomUUID();
 
     public GuiComponent(GuiTexture texture) {
         this.texture = texture;

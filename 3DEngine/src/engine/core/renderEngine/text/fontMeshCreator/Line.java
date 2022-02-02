@@ -13,7 +13,7 @@ public class Line {
     private final double maxLength;
     private final double spaceSize;
 
-    private final List<Word> words = new ArrayList<Word>();
+    private final List<Word> words = new ArrayList<>();
     private double currentLineLength = 0;
 
     /**

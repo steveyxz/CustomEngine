@@ -24,7 +24,7 @@ public class Scene {
 
     private final Map<TexturedModel, List<GameObject>> objects = new HashMap<>();
     private final Map<GuiTexture, List<GuiComponent>> guis = new HashMap<>();
-    private final List<Text> texts = new ArrayList<Text>();
+    private final List<Text> texts = new ArrayList<>();
     private final List<Light> lights = new ArrayList<>();
     private final String sceneId;
     private Vector3f cameraPos = new Vector3f();

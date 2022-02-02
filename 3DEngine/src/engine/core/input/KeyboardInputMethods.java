@@ -19,7 +19,9 @@ public class KeyboardInputMethods {
 
     public static void freeCallbacks() {
         try {
-            keyCallback.free();
+            if (keyCallback != null) {
+                keyCallback.free();
+            }
         } catch (NullPointerException ignored) {
         }
     }

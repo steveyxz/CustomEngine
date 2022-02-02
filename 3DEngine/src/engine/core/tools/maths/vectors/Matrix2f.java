@@ -31,6 +31,7 @@
  */
 package engine.core.tools.maths.vectors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.FloatBuffer;
 
@@ -44,6 +45,7 @@ import java.nio.FloatBuffer;
 
 public class Matrix2f extends Matrix implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public float m00, m01, m10, m11;
@@ -364,10 +366,8 @@ public class Matrix2f extends Matrix implements Serializable {
      * Returns a string representation of this matrix
      */
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(m00).append(' ').append(m10).append(' ').append('\n');
-        buf.append(m01).append(' ').append(m11).append(' ').append('\n');
-        return buf.toString();
+        return String.valueOf(m00) + ' ' + m10 + ' ' + '\n' +
+                m01 + ' ' + m11 + ' ' + '\n';
     }
 
     /**
