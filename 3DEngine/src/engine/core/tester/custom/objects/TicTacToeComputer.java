@@ -4,20 +4,35 @@
 
 package engine.core.tester.custom.objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
 
 public class TicTacToeComputer {
 
-    private static final int MAX_DEPTH = 5;
+    private static final int MAX_DEPTH = 4;
+    //How much the depth of an evaluation affects the score
+    private static final int WIN_POINTS = 10000;
+    private static final double DEPTH_BIAS = WIN_POINTS / (MAX_DEPTH * 1f);
+    private static final int CENTRE_BIAS = 10;
+    private static final int OPENNESS_BIAS = 1;
     //fields
     private final TicTacToeBoard pieces;
     private final int winLength;
     private final int boardSize;
+    private static final Map<Integer, Integer> transpositionTableMax = new HashMap<>();
+    private static final Map<Integer, Integer> transpositionTableMin = new HashMap<>();
+    public static int transpositionTableBoardSize = 0;
 
     public TicTacToeComputer(TicTacToeBoard pieces) {
         this.pieces = pieces;
         this.winLength = pieces.winLength();
         this.boardSize = pieces.boardSize();
+        if (boardSize != transpositionTableBoardSize) {
+            transpositionTableMin.clear();
+            transpositionTableMax.clear();
+        }
     }
 
     /**
@@ -51,6 +66,7 @@ public class TicTacToeComputer {
                 }
             }
         }
+        System.out.println(bestValue);
         //Return the highest scoring move
         return bestMove;
     }
@@ -67,11 +83,21 @@ public class TicTacToeComputer {
      */
     public int miniMax(TicTacToeBoard board, int depth, int alpha, int beta,
                        boolean isMax) {
+        Integer hash = board.hash();
+        if (isMax) {
+            if (transpositionTableMax.containsKey(hash)) {
+                return transpositionTableMax.get(hash);
+            }
+        } else {
+            if (transpositionTableMin.containsKey(hash)) {
+                return transpositionTableMin.get(hash);
+            }
+        }
         int boardVal = evaluate(board, depth);
 
         // Return the evalution if this is the end of the chain (if this sequence ends with a win / loss / tie) or if
         // the maximum depth is exceeded
-        if (Math.abs(boardVal) > 0 || depth == 0
+        if (board.getWinState() != 0 || depth == 0
                 || board.getPossibleMoves().size() < 1) {
             return boardVal;
         }
@@ -101,6 +127,7 @@ public class TicTacToeComputer {
                     }
                 }
             }
+            transpositionTableMax.put(board.hash(), highestVal);
             return highestVal;
         } else {
             int lowestVal = Integer.MAX_VALUE;
@@ -126,6 +153,7 @@ public class TicTacToeComputer {
                     }
                 }
             }
+            transpositionTableMin.put(board.hash(), lowestVal);
             return lowestVal;
         }
     }
@@ -145,12 +173,15 @@ public class TicTacToeComputer {
         //The win sequences default to computer as X and player as O
         String aiWinSequence = String.valueOf(TicTacToeBoard.State.X.c()).repeat(board.winLength());
         String playerWinSequence = String.valueOf(TicTacToeBoard.State.O.c()).repeat(board.winLength());
+        TicTacToeBoard.State aiState = TicTacToeBoard.State.X;
+        int score = 0;
 
         //Toggle if the player is X
         if (isPlayerSideCross) {
             String temp = aiWinSequence;
             aiWinSequence = playerWinSequence;
             playerWinSequence = temp;
+            aiState = TicTacToeBoard.State.O;
         }
 
         // Check rows for winner.
@@ -160,9 +191,9 @@ public class TicTacToeComputer {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
             sum = new StringBuilder();
         }
@@ -175,9 +206,9 @@ public class TicTacToeComputer {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
             sum = new StringBuilder();
         }
@@ -194,9 +225,9 @@ public class TicTacToeComputer {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
             sum = new StringBuilder();
         }
@@ -207,14 +238,14 @@ public class TicTacToeComputer {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
             sum = new StringBuilder();
         }
 
-        // For each column start row is 0
+        // Check anti-diagonals
         sum = new StringBuilder();
         for (int col = 0; col < boardSize; col++) {
             int startcol = col, startrow = 0;
@@ -226,9 +257,9 @@ public class TicTacToeComputer {
 
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
             sum = new StringBuilder();
         }
@@ -243,13 +274,130 @@ public class TicTacToeComputer {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
-                return 10 + depth;
+                score += (WIN_POINTS + depth * DEPTH_BIAS);
             } else if (sum.toString().contains(playerWinSequence)) {
-                return -10 - depth;
+                score += ((-WIN_POINTS - depth * DEPTH_BIAS));
             }
             sum = new StringBuilder();
         }
-        return 0;
+
+
+        //Adding score based on how many possible connections the target could get
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (board.isTileMarked(i, j)) {
+                    //Score is better if the piece in the centre square / the centre box
+                    if ((boardSize ^ 1) == boardSize + 1) {
+                        //Even board size, 4 squares
+                        for (int k = 0; k < 2; k++) {
+                            for (int l = 0; l < 2; l++) {
+                                if (i == (boardSize / 2 - 1) + k && j == (boardSize / 2 - 1) + l) {
+                                    if (board.getMarkAt(i, j) == aiState) {
+                                        score += CENTRE_BIAS;
+                                    } else {
+                                        score -= CENTRE_BIAS;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (i == (boardSize - 1) / 2 && j == (boardSize - 1) / 2) {
+                            if (board.getMarkAt(i, j) == aiState) {
+                                score += CENTRE_BIAS;
+                            } else {
+                                score -= CENTRE_BIAS;
+                            }
+                        }
+                    }
+                    int rowBehind = i - 1;
+                    int rowFront = i + 1;
+                    int colBehind = j - 1;
+                    int colFront = j + 1;
+                    if (rowBehind > -1) {
+                        //Tile to the left
+                        if (!board.isTileMarked(rowBehind, j)) {
+                            if (board.getMarkAt(i, j) == aiState) {
+                                score += OPENNESS_BIAS;
+                            } else {
+                                score -= OPENNESS_BIAS;
+                            }
+                        }
+                        //Tile to the bottom left
+                        if (colFront < boardSize) {
+                            if (!board.isTileMarked(rowBehind, colFront)) {
+                                if (board.getMarkAt(i, j) == aiState) {
+                                    score += OPENNESS_BIAS;
+                                } else {
+                                    score -= OPENNESS_BIAS;
+                                }
+                            }
+                        }
+                        //Tile to the top left
+                        if (colBehind > -1) {
+                            if (!board.isTileMarked(rowBehind, colBehind)) {
+                                if (board.getMarkAt(i, j) == aiState) {
+                                    score += OPENNESS_BIAS;
+                                } else {
+                                    score -= OPENNESS_BIAS;
+                                }
+                            }
+                        }
+                    }
+                    if (colBehind > -1) {
+                        //Tile to the top
+                        if (!board.isTileMarked(i, colBehind)) {
+                            if (board.getMarkAt(i, j) == aiState) {
+                                score += OPENNESS_BIAS;
+                            } else {
+                                score -= OPENNESS_BIAS;
+                            }
+                        }
+
+                        //Tile to the top right
+                        if (rowFront < boardSize) {
+                            if (!board.isTileMarked(rowFront, colBehind)) {
+                                if (board.getMarkAt(i, j) == aiState) {
+                                    score += OPENNESS_BIAS;
+                                } else {
+                                    score -= OPENNESS_BIAS;
+                                }
+                            }
+                        }
+                    }
+                    if (rowFront < boardSize) {
+                        //Tile to the right
+                        if (!board.isTileMarked(rowFront, j)) {
+                            if (board.getMarkAt(i, j) == aiState) {
+                                score += OPENNESS_BIAS;
+                            } else {
+                                score -= OPENNESS_BIAS;
+                            }
+                        }
+                        //Tile to the bottom right
+                        if (colFront < boardSize) {
+                            if (!board.isTileMarked(rowFront, colFront)) {
+                                if (board.getMarkAt(i, j) == aiState) {
+                                    score += OPENNESS_BIAS;
+                                } else {
+                                    score -= OPENNESS_BIAS;
+                                }
+                            }
+                        }
+                    }
+                    if (colFront < boardSize) {
+                        //Tile to the bottom
+                        if (!board.isTileMarked(i, colFront)) {
+                            if (board.getMarkAt(i, j) == aiState) {
+                                score += OPENNESS_BIAS;
+                            } else {
+                                score -= OPENNESS_BIAS;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return score;
     }
 
     public TicTacToeBoard pieces() {

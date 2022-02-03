@@ -8,8 +8,9 @@ import engine.core.tester.custom.TicTacToe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
+import static engine.core.tester.custom.TicTacToe.*;
 
 public class TicTacToeBoard {
 
@@ -19,6 +20,9 @@ public class TicTacToeBoard {
 
     private final State[][] board;
     private int moveCount;
+
+    private static long[][][] zobristTable;
+
     public TicTacToeBoard(int boardSize, int winLength) {
         this.boardSize = boardSize;
         this.winLength = winLength;
@@ -35,6 +39,13 @@ public class TicTacToeBoard {
         this.winLength = winLength;
         this.moveCount = 0;
         this.board = board;
+    }
+    public static void initTable(int boardSize) {
+        zobristTable = new long[boardSize][boardSize][2];
+        for (int i = 0; i<boardSize; i++)
+            for (int j = 0; j<boardSize; j++)
+                for (int k = 0; k<2; k++)
+                    zobristTable[i][j][k] = new Random().nextInt(Integer.MAX_VALUE);
     }
 
     public State getMarkAt(int row, int col) {
@@ -53,9 +64,9 @@ public class TicTacToeBoard {
     public List<Integer> getPossibleMoves() {
         List<Integer> possibleMoves = new ArrayList<>();
         int count = 0;
-        for (TicTacToeBoard.State[] p : board) {
-            for (TicTacToeBoard.State pp : p) {
-                if (pp == TicTacToeBoard.State.BLANK) {
+        for (State[] p : board) {
+            for (State pp : p) {
+                if (pp == State.BLANK) {
                     possibleMoves.add(count);
                 }
                 count++;
@@ -68,13 +79,127 @@ public class TicTacToeBoard {
         if (board[x][y] == State.BLANK) {
             board[x][y] = s;
         }
-        if (TicTacToe.computer.evaluate(this, 0) > 0) {
-            TicTacToe.endGame(isPlayerSideCross ? TicTacToeBoard.WinState.O : TicTacToeBoard.WinState.X);
-        } else if (TicTacToe.computer.evaluate(this, 0) < 0) {
-            TicTacToe.endGame(isPlayerSideCross ? TicTacToeBoard.WinState.X : TicTacToeBoard.WinState.O);
+        if (getWinState() > 0) {
+            TicTacToe.endGame(isPlayerSideCross ? WinState.O : WinState.X);
+        } else if (getWinState() < 0) {
+            TicTacToe.endGame(isPlayerSideCross ? WinState.X : WinState.O);
         } else if (getPossibleMoves().size() < 1) {
-            TicTacToe.endGame(TicTacToeBoard.WinState.TIE);
+            TicTacToe.endGame(WinState.TIE);
         }
+    }
+
+    //Basically the computer evaluation but without depth and centre bias
+    public int getWinState() {
+        StringBuilder sum = new StringBuilder();
+        int bWidth = boardSize();
+        //The win sequences default to computer as X and player as O
+        String aiWinSequence = String.valueOf(State.X.c()).repeat(winLength());
+        String playerWinSequence = String.valueOf(State.O.c()).repeat(winLength());
+
+        //Toggle if the player is X
+        if (isPlayerSideCross) {
+            String temp = aiWinSequence;
+            aiWinSequence = playerWinSequence;
+            playerWinSequence = temp;
+        }
+
+        // Check rows for winner.
+        for (int row = 0; row < bWidth; row++) {
+            for (int col = 0; col < bWidth; col++) {
+                sum.append(getMarkAt(row, col).c());
+            }
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+
+        // Check columns for winner.
+        sum = new StringBuilder();
+        for (int col = 0; col < bWidth; col++) {
+            for (int row = 0; row < bWidth; row++) {
+                sum.append(getMarkAt(row, col).c());
+            }
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+
+        //Loop through diagonals
+        sum = new StringBuilder();
+        for (int j = boardSize - 1; j >= 0; j--) {
+            for (int k = 0; k < boardSize; k++) {
+                if ((j + k) < boardSize) {
+                    sum.append(getMarkAt(k, j + k).c());
+                } else {
+                    break;
+                }
+            }
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+        sum = new StringBuilder();
+        for (int i = 1; i < boardSize; i++) {
+            for (int j = i, k = 0; j < boardSize && k < boardSize; j++, k++) {
+                sum.append(getMarkAt(j, k).c());
+            }
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+
+        // For each column start row is 0
+        sum = new StringBuilder();
+        for (int col = 0; col < boardSize; col++) {
+            int startcol = col, startrow = 0;
+            while (startcol >= 0 && startrow < boardSize) {
+                sum.append(getMarkAt(startrow, startcol).c());
+                startcol--;
+                startrow++;
+            }
+
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+
+        // For each row start column is N-1
+        for (int row = 1; row < boardSize; row++) {
+            int startrow = row, startcol = boardSize - 1;
+            while (startrow < boardSize && startcol >= 0) {
+                sum.append(getMarkAt(startrow, startcol).c());
+                startcol--;
+                startrow++;
+            }
+            //Check if the row contained a victory sequence
+            if (sum.toString().contains(aiWinSequence)) {
+                return 10;
+            } else if (sum.toString().contains(playerWinSequence)) {
+                return -10;
+            }
+            sum = new StringBuilder();
+        }
+        return 0;
     }
 
     public int boardSize() {
@@ -95,6 +220,24 @@ public class TicTacToeBoard {
 
     public State[][] board() {
         return board;
+    }
+
+    public Integer hash() {
+        int hash = 0;
+        int i = 0;
+        int j = 0;
+        for (State[] s : board) {
+            for (State ss : s) {
+                if (ss != State.BLANK) {
+                    int e = isPlayerSideCross ? (ss == State.X ? 0 : 1) : ss == State.O ? 0 : 1;
+                    hash ^= zobristTable[i][j][e];
+                }
+                j++;
+            }
+            i++;
+            j = 0;
+        }
+        return hash;
     }
 
     public enum State {

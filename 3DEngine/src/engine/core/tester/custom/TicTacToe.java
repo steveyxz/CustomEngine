@@ -27,7 +27,7 @@ import static engine.core.tester.custom.objects.TicTacToePiece.getTextureOf;
 
 public class TicTacToe extends Game {
 
-    private static final int boardSize = 5;
+    private static final int boardSize = 6;
     private static final int winLength = 4;
     public static TicTacToeBoard gameboard;
     public static TicTacToeComputer computer;
@@ -98,6 +98,9 @@ public class TicTacToe extends Game {
     }
 
     private void startGame(float boardSize, int winLength) {
+        if (boardSize != TicTacToeComputer.transpositionTableBoardSize) {
+            TicTacToeBoard.initTable((int) boardSize);
+        }
 
         isPlayerSideCross = new Random().nextBoolean();
         isPlayerTurn = new Random().nextBoolean();
@@ -130,6 +133,7 @@ public class TicTacToe extends Game {
         }
         Scene.sceneManager.changeScene("tictactoe");
         computer = new TicTacToeComputer(gameboard);
+        TicTacToeComputer.transpositionTableBoardSize = (int) boardSize;
         if (!isPlayerTurn) {
             if (boardSize == 3) {
                 int move = 4;
