@@ -7,22 +7,14 @@ package engine.core.tester.custom;
 import engine.addons.gameLoopManager.Game;
 import engine.core.objects.Scene;
 import engine.core.objects.gui.constraints.types.RelativeConstraint;
-import engine.core.renderEngine.GLFWDisplayManager;
-import engine.core.renderEngine.Loader;
-import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.text.FontGlobal;
 import engine.core.renderEngine.text.fontMeshCreator.Text;
 import engine.core.tester.custom.objects.*;
 import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GLCapabilities;
-import org.lwjglx.opengl.Display;
 
 import java.util.*;
 
-import static engine.core.global.Global.currentScene;
 import static engine.core.tester.custom.objects.TicTacToePiece.getTextureOf;
 
 public class TicTacToe extends Game {
@@ -34,8 +26,8 @@ public class TicTacToe extends Game {
     public static boolean isPlayerSideCross;
     public static boolean isPlayerTurn;
     public static List<TicTacToePiece> pieces;
-    private static boolean startNewGame = false;
     public static int nextMove = -1;
+    private static boolean startNewGame = false;
 
     public TicTacToe() {
         super(800, 800, false, "Tic Tac Toe");
@@ -134,6 +126,7 @@ public class TicTacToe extends Game {
         Scene.sceneManager.changeScene("tictactoe");
         computer = new TicTacToeComputer(gameboard);
         TicTacToeComputer.transpositionTableBoardSize = (int) boardSize;
+        TicTacToeBoard.winStateCacheSize = (int) boardSize;
         if (!isPlayerTurn) {
             if (boardSize == 3) {
                 int move = 4;

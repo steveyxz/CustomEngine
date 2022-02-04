@@ -4,13 +4,9 @@
 
 package engine.core.tester.custom.objects;
 
-import engine.core.renderEngine.Loader;
-import engine.core.renderEngine.models.GuiTexture;
 import engine.core.tester.custom.TicTacToe;
 
-import static engine.core.global.Global.currentScene;
 import static engine.core.tester.custom.TicTacToe.*;
-import static engine.core.tester.custom.objects.TicTacToePiece.getTextureOf;
 
 public class TicTacToeCalculationThread extends Thread {
     @Override

@@ -17,11 +17,11 @@ import java.util.*;
 
 public class Loader {
 
+    public static final Map<String, ModelTexture> pathQuicker = new HashMap<>();
     //Lists of the textures, vaos and the vbos for easy clean up.
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
     private static final List<Integer> textures = new ArrayList<>();
-    public static final Map<String, ModelTexture> pathQuicker = new HashMap<>();
 
     /**
      * Loads a series of positions, texture offsets and sequence orders

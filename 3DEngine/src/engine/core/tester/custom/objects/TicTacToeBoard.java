@@ -6,22 +6,19 @@ package engine.core.tester.custom.objects;
 
 import engine.core.tester.custom.TicTacToe;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-import static engine.core.tester.custom.TicTacToe.*;
+import static engine.core.tester.custom.TicTacToe.isPlayerSideCross;
 
 public class TicTacToeBoard {
 
+    private static final Map<Integer, Integer> winStateCache = new HashMap<>();
+    public static int winStateCacheSize = 0;
+    private static long[][][] zobristTable;
     private final int boardSize;
-
     private final int winLength;
-
     private final State[][] board;
     private int moveCount;
-
-    private static long[][][] zobristTable;
 
     public TicTacToeBoard(int boardSize, int winLength) {
         this.boardSize = boardSize;
@@ -33,18 +30,23 @@ public class TicTacToeBoard {
                 board[i][j] = State.BLANK;
             }
         }
+        if (boardSize != winStateCacheSize) {
+            winStateCache.clear();
+        }
     }
+
     public TicTacToeBoard(State[][] board, int winLength) {
         this.boardSize = board.length;
         this.winLength = winLength;
         this.moveCount = 0;
         this.board = board;
     }
+
     public static void initTable(int boardSize) {
         zobristTable = new long[boardSize][boardSize][2];
-        for (int i = 0; i<boardSize; i++)
-            for (int j = 0; j<boardSize; j++)
-                for (int k = 0; k<2; k++)
+        for (int i = 0; i < boardSize; i++)
+            for (int j = 0; j < boardSize; j++)
+                for (int k = 0; k < 2; k++)
                     zobristTable[i][j][k] = new Random().nextInt(Integer.MAX_VALUE);
     }
 
@@ -90,6 +92,10 @@ public class TicTacToeBoard {
 
     //Basically the computer evaluation but without depth and centre bias
     public int getWinState() {
+        int hash = hash();
+        if (winStateCache.containsKey(hash)) {
+            return winStateCache.get(hash);
+        }
         StringBuilder sum = new StringBuilder();
         int bWidth = boardSize();
         //The win sequences default to computer as X and player as O
@@ -110,8 +116,10 @@ public class TicTacToeBoard {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
@@ -125,8 +133,10 @@ public class TicTacToeBoard {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
@@ -144,8 +154,10 @@ public class TicTacToeBoard {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
@@ -157,8 +169,10 @@ public class TicTacToeBoard {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
@@ -176,8 +190,10 @@ public class TicTacToeBoard {
 
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
@@ -193,12 +209,15 @@ public class TicTacToeBoard {
             }
             //Check if the row contained a victory sequence
             if (sum.toString().contains(aiWinSequence)) {
+                winStateCache.put(hash, 10);
                 return 10;
             } else if (sum.toString().contains(playerWinSequence)) {
+                winStateCache.put(hash, -10);
                 return -10;
             }
             sum = new StringBuilder();
         }
+        winStateCache.put(hash, 0);
         return 0;
     }
 

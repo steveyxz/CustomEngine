@@ -6,15 +6,12 @@ package engine.core.objects;
 
 import engine.core.objects.gui.components.GuiComponent;
 import engine.core.objects.lighting.Light;
-import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
 import engine.core.renderEngine.text.fontMeshCreator.Text;
 import engine.core.renderEngine.text.fontRendering.TextMaster;
 import engine.core.tools.maths.vectors.Vector3f;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL;
 
 import java.util.ArrayList;
 import java.util.HashMap;

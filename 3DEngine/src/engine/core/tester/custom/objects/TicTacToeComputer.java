@@ -13,17 +13,17 @@ public class TicTacToeComputer {
 
     private static final int MAX_DEPTH = 4;
     //How much the depth of an evaluation affects the score
-    private static final int WIN_POINTS = 10000;
-    private static final double DEPTH_BIAS = WIN_POINTS / (MAX_DEPTH * 1f);
-    private static final int CENTRE_BIAS = 10;
+    private static final int WIN_POINTS = 1000000;
+    private static final double DEPTH_BIAS = WIN_POINTS / (MAX_DEPTH * 5f);
+    private static final int CENTRE_BIAS = 100;
     private static final int OPENNESS_BIAS = 1;
+    private static final Map<Integer, Integer> transpositionTableMax = new HashMap<>();
+    private static final Map<Integer, Integer> transpositionTableMin = new HashMap<>();
+    public static int transpositionTableBoardSize = 0;
     //fields
     private final TicTacToeBoard pieces;
     private final int winLength;
     private final int boardSize;
-    private static final Map<Integer, Integer> transpositionTableMax = new HashMap<>();
-    private static final Map<Integer, Integer> transpositionTableMin = new HashMap<>();
-    public static int transpositionTableBoardSize = 0;
 
     public TicTacToeComputer(TicTacToeBoard pieces) {
         this.pieces = pieces;
@@ -93,13 +93,11 @@ public class TicTacToeComputer {
                 return transpositionTableMin.get(hash);
             }
         }
-        int boardVal = evaluate(board, depth);
-
         // Return the evalution if this is the end of the chain (if this sequence ends with a win / loss / tie) or if
         // the maximum depth is exceeded
         if (board.getWinState() != 0 || depth == 0
                 || board.getPossibleMoves().size() < 1) {
-            return boardVal;
+            return evaluate(board, depth);
         }
 
         //If we are maximising the player
@@ -195,11 +193,11 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
 
         // Check columns for winner.
-        sum = new StringBuilder();
+        sum.setLength(0);
         for (int col = 0; col < bWidth; col++) {
             for (int row = 0; row < bWidth; row++) {
                 sum.append(board.getMarkAt(row, col).c());
@@ -210,14 +208,14 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
 
         //Loop through diagonals
-        sum = new StringBuilder();
-        for (int j = boardSize - 1; j >= 0; j--) {
-            for (int k = 0; k < boardSize; k++) {
-                if ((j + k) < boardSize) {
+        sum.setLength(0);
+        for (int j = bWidth - 1; j >= 0; j--) {
+            for (int k = 0; k < bWidth; k++) {
+                if ((j + k) < bWidth) {
                     sum.append(board.getMarkAt(k, j + k).c());
                 } else {
                     break;
@@ -229,11 +227,11 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
-        sum = new StringBuilder();
-        for (int i = 1; i < boardSize; i++) {
-            for (int j = i, k = 0; j < boardSize && k < boardSize; j++, k++) {
+        sum.setLength(0);
+        for (int i = 1; i < bWidth; i++) {
+            for (int j = i, k = 0; j < bWidth && k < bWidth; j++, k++) {
                 sum.append(board.getMarkAt(j, k).c());
             }
             //Check if the row contained a victory sequence
@@ -242,14 +240,14 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
 
         // Check anti-diagonals
-        sum = new StringBuilder();
-        for (int col = 0; col < boardSize; col++) {
+        sum.setLength(0);
+        for (int col = 0; col < bWidth; col++) {
             int startcol = col, startrow = 0;
-            while (startcol >= 0 && startrow < boardSize) {
+            while (startcol >= 0 && startrow < bWidth) {
                 sum.append(board.getMarkAt(startrow, startcol).c());
                 startcol--;
                 startrow++;
@@ -261,13 +259,13 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += (-WIN_POINTS - depth * DEPTH_BIAS);
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
 
         // For each row start column is N-1
-        for (int row = 1; row < boardSize; row++) {
-            int startrow = row, startcol = boardSize - 1;
-            while (startrow < boardSize && startcol >= 0) {
+        for (int row = 1; row < bWidth; row++) {
+            int startrow = row, startcol = bWidth - 1;
+            while (startrow < bWidth && startcol >= 0) {
                 sum.append(board.getMarkAt(startrow, startcol).c());
                 startcol--;
                 startrow++;
@@ -278,21 +276,21 @@ public class TicTacToeComputer {
             } else if (sum.toString().contains(playerWinSequence)) {
                 score += ((-WIN_POINTS - depth * DEPTH_BIAS));
             }
-            sum = new StringBuilder();
+            sum.setLength(0);
         }
 
-
         //Adding score based on how many possible connections the target could get
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
+        for (int i = 0; i < bWidth; i++) {
+            for (int j = 0; j < bWidth; j++) {
                 if (board.isTileMarked(i, j)) {
                     //Score is better if the piece in the centre square / the centre box
-                    if ((boardSize ^ 1) == boardSize + 1) {
+                    TicTacToeBoard.State markAt = board.getMarkAt(i, j);
+                    if ((bWidth ^ 1) == bWidth + 1) {
                         //Even board size, 4 squares
                         for (int k = 0; k < 2; k++) {
                             for (int l = 0; l < 2; l++) {
-                                if (i == (boardSize / 2 - 1) + k && j == (boardSize / 2 - 1) + l) {
-                                    if (board.getMarkAt(i, j) == aiState) {
+                                if (i == (bWidth / 2 - 1) + k && j == (bWidth / 2 - 1) + l) {
+                                    if (markAt == aiState) {
                                         score += CENTRE_BIAS;
                                     } else {
                                         score -= CENTRE_BIAS;
@@ -301,8 +299,8 @@ public class TicTacToeComputer {
                             }
                         }
                     } else {
-                        if (i == (boardSize - 1) / 2 && j == (boardSize - 1) / 2) {
-                            if (board.getMarkAt(i, j) == aiState) {
+                        if (i == (bWidth - 1) / 2 && j == (bWidth - 1) / 2) {
+                            if (markAt == aiState) {
                                 score += CENTRE_BIAS;
                             } else {
                                 score -= CENTRE_BIAS;
@@ -316,16 +314,16 @@ public class TicTacToeComputer {
                     if (rowBehind > -1) {
                         //Tile to the left
                         if (!board.isTileMarked(rowBehind, j)) {
-                            if (board.getMarkAt(i, j) == aiState) {
+                            if (markAt == aiState) {
                                 score += OPENNESS_BIAS;
                             } else {
                                 score -= OPENNESS_BIAS;
                             }
                         }
                         //Tile to the bottom left
-                        if (colFront < boardSize) {
+                        if (colFront < bWidth) {
                             if (!board.isTileMarked(rowBehind, colFront)) {
-                                if (board.getMarkAt(i, j) == aiState) {
+                                if (markAt == aiState) {
                                     score += OPENNESS_BIAS;
                                 } else {
                                     score -= OPENNESS_BIAS;
@@ -335,7 +333,7 @@ public class TicTacToeComputer {
                         //Tile to the top left
                         if (colBehind > -1) {
                             if (!board.isTileMarked(rowBehind, colBehind)) {
-                                if (board.getMarkAt(i, j) == aiState) {
+                                if (markAt == aiState) {
                                     score += OPENNESS_BIAS;
                                 } else {
                                     score -= OPENNESS_BIAS;
@@ -346,7 +344,7 @@ public class TicTacToeComputer {
                     if (colBehind > -1) {
                         //Tile to the top
                         if (!board.isTileMarked(i, colBehind)) {
-                            if (board.getMarkAt(i, j) == aiState) {
+                            if (markAt == aiState) {
                                 score += OPENNESS_BIAS;
                             } else {
                                 score -= OPENNESS_BIAS;
@@ -354,9 +352,9 @@ public class TicTacToeComputer {
                         }
 
                         //Tile to the top right
-                        if (rowFront < boardSize) {
+                        if (rowFront < bWidth) {
                             if (!board.isTileMarked(rowFront, colBehind)) {
-                                if (board.getMarkAt(i, j) == aiState) {
+                                if (markAt == aiState) {
                                     score += OPENNESS_BIAS;
                                 } else {
                                     score -= OPENNESS_BIAS;
@@ -364,19 +362,19 @@ public class TicTacToeComputer {
                             }
                         }
                     }
-                    if (rowFront < boardSize) {
+                    if (rowFront < bWidth) {
                         //Tile to the right
                         if (!board.isTileMarked(rowFront, j)) {
-                            if (board.getMarkAt(i, j) == aiState) {
+                            if (markAt == aiState) {
                                 score += OPENNESS_BIAS;
                             } else {
                                 score -= OPENNESS_BIAS;
                             }
                         }
                         //Tile to the bottom right
-                        if (colFront < boardSize) {
+                        if (colFront < bWidth) {
                             if (!board.isTileMarked(rowFront, colFront)) {
-                                if (board.getMarkAt(i, j) == aiState) {
+                                if (markAt == aiState) {
                                     score += OPENNESS_BIAS;
                                 } else {
                                     score -= OPENNESS_BIAS;
@@ -384,10 +382,10 @@ public class TicTacToeComputer {
                             }
                         }
                     }
-                    if (colFront < boardSize) {
+                    if (colFront < bWidth) {
                         //Tile to the bottom
                         if (!board.isTileMarked(i, colFront)) {
-                            if (board.getMarkAt(i, j) == aiState) {
+                            if (markAt == aiState) {
                                 score += OPENNESS_BIAS;
                             } else {
                                 score -= OPENNESS_BIAS;
