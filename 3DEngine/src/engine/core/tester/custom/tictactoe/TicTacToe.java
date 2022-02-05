@@ -69,7 +69,6 @@ public class TicTacToe extends Game {
 
     @Override
     protected void preLoop() {
-
         startGame(boardSize, winLength);
     }
 

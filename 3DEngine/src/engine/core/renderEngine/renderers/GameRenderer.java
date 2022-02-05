@@ -29,7 +29,7 @@ public class GameRenderer {
 
     public static final float FOV = 70;
     public static final float NEAR_PLANE = 0.1f;
-    public static final float FAR_PLANE = 70;
+    public static final float FAR_PLANE = 50;
     private final ObjectShader shader = new ObjectShader();
     private Matrix4f projectionMatrix;
 

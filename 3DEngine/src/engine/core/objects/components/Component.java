@@ -10,7 +10,7 @@ public abstract class Component {
 
     private final GameObject parent;
 
-    protected Component(GameObject parent) {
+    public Component(GameObject parent) {
         this.parent = parent;
     }
 

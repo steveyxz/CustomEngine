@@ -119,6 +119,15 @@ public abstract class GameObject {
         this.components.add(c);
     }
 
+    public Component getComponent(String id) {
+        for (Component c : components) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public void removeComponent(Component c) {
         this.components.remove(c);
     }

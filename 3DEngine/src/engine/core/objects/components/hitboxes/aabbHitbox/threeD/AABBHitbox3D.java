@@ -2,17 +2,17 @@
  * Copyright (c) 2022. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
  */
 
-package engine.core.objects.components.hitboxes.aabbHitbox;
+package engine.core.objects.components.hitboxes.aabbHitbox.threeD;
 
 import engine.core.tools.maths.vectors.Vector3f;
 
-public class AABBHitbox {
+public class AABBHitbox3D {
 
     //vec3(width, height, depth)
     private final Vector3f size;
     private final Vector3f position;
 
-    public AABBHitbox(Vector3f size, Vector3f position) {
+    public AABBHitbox3D(Vector3f size, Vector3f position) {
         this.size = size;
         this.position = position;
     }
@@ -65,7 +65,7 @@ public class AABBHitbox {
         return position;
     }
 
-    public boolean doesIntersectWith(AABBHitbox other) {
+    public boolean doesIntersectWith(AABBHitbox3D other) {
         return (this.position.x <= other.position.x && this.position.x + this.size.x >= other.position.x + other.size.x) &&
                 (this.position.y <= other.position.y && this.position.y + this.size.y >= other.position.y + other.size.y) &&
                 (this.position.z <= other.position.z && this.position.z + this.size.z >= other.position.z + other.size.z);
