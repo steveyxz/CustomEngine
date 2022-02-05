@@ -1,20 +1,22 @@
 /*
- * Copyright (c) 2021. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
+ * Copyright (c) 2021-2022. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
  */
 
-package engine.core.renderEngine;
+package engine.core.renderEngine.camera;
 
 import engine.core.global.Global;
 import engine.core.input.KeyboardInputMethods;
+import engine.core.renderEngine.GLFWDisplayManager;
 import engine.core.tools.maths.vectors.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import static engine.core.global.Global.currentScene;
 
-public class DefaultCamera extends Camera {
+public class BasicCamera extends Camera {
 
     private final Vector3f downMovement = new Vector3f(0, -Global.movementSpeed, 0);
     private final Vector3f upMovement = new Vector3f(0, Global.movementSpeed, 0);
+    private final boolean enabled = true;
 
     @Override
     public void tick() {

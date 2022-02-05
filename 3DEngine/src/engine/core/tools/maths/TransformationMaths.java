@@ -4,7 +4,7 @@
 
 package engine.core.tools.maths;
 
-import engine.core.renderEngine.Camera;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.tools.maths.vectors.Matrix4f;
 import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;

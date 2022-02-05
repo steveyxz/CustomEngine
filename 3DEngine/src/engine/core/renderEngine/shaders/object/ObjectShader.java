@@ -5,7 +5,7 @@
 package engine.core.renderEngine.shaders.object;
 
 import engine.core.objects.lighting.Light;
-import engine.core.renderEngine.Camera;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.shaders.ShaderProgram;
 import engine.core.tools.maths.TransformationMaths;
 import engine.core.tools.maths.vectors.Matrix4f;

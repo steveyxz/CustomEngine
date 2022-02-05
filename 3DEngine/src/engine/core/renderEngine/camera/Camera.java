@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2021. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
+ * Copyright (c) 2021-2022. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
  */
 
-package engine.core.renderEngine;
+package engine.core.renderEngine.camera;
 
 import engine.core.tools.maths.vectors.Vector3f;
 
@@ -16,17 +16,17 @@ public abstract class Camera {
     private final Map<String, Vector3f> positions = new HashMap<>();
     //x is pitch, y is yaw, z is roll
     private final Map<String, Vector3f> rotations = new HashMap<>();
+    private boolean enabled = true;
 
     public abstract void tick();
+
+    public abstract void frame();
 
     public Vector3f degreeToDirection(float degs) {
         float rads = 3.1415926535f / 180 * degs;
         float s = (float) (sin(rads)), c = (float) (Math.cos(rads));
         return new Vector3f(-s, 0, -c);
     }
-
-
-    public abstract void frame();
 
     public Map<String, Vector3f> getPositions() {
         return positions;
@@ -43,6 +43,18 @@ public abstract class Camera {
             return tempvec;
         }
         return vec3;
+    }
+
+    public boolean enabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void toggleEnabled() {
+        enabled = !enabled;
     }
 
     public float getPitch(String sceneId) {

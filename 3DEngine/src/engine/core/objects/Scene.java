@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static engine.core.renderEngine.renderers.MasterRenderer.camera;
+
 public class Scene {
 
     public static SceneManager sceneManager = new SceneManager();
@@ -84,7 +86,7 @@ public class Scene {
         return lights;
     }
 
-    public void processObject(GameObject entity) {
+    public void addObject(GameObject entity) {
         TexturedModel model = entity.getModel();
         List<GameObject> batch = objects.get(model);
         if (batch != null) {
@@ -98,13 +100,13 @@ public class Scene {
         entity.setSceneId(getSceneId());
     }
 
-    public void processObjects(GameObject... entities) {
+    public void addObjects(GameObject... entities) {
         for (GameObject g : entities) {
-            processObject(g);
+            addObject(g);
         }
     }
 
-    public void processGui(GuiComponent entity) {
+    public void addGui(GuiComponent entity) {
         GuiTexture model = entity.getTexture();
         List<GuiComponent> batch = guis.get(model);
         if (batch != null) {
@@ -116,6 +118,12 @@ public class Scene {
             guis.put(model, newBatch);
         }
         entity.setSceneID(getSceneId());
+    }
+
+    public void addGuis(GuiComponent... entities) {
+        for (GuiComponent g : entities) {
+            addGui(g);
+        }
     }
 
     public Map<TexturedModel, List<GameObject>> getObjects() {
@@ -165,7 +173,9 @@ public class Scene {
                 guiComponents.get(j).tick();
             }
         }
-        MasterRenderer.camera.tick();
+        if (camera.enabled()) {
+            camera.tick();
+        }
 
     }
 

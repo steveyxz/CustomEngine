@@ -2,20 +2,20 @@
  * Copyright (c) 2022. This file is allowed to be used under the Attribution License, or CC BY. This means that this file can be used in any way, personally or commercially without the owner's consent as long as you provide credit to Steven.
  */
 
-package engine.core.tester.custom;
+package engine.core.tester.custom.tictactoe;
 
 import engine.addons.gameLoopManager.Game;
 import engine.core.objects.Scene;
 import engine.core.objects.gui.constraints.types.RelativeConstraint;
 import engine.core.renderEngine.text.FontGlobal;
 import engine.core.renderEngine.text.fontMeshCreator.Text;
-import engine.core.tester.custom.objects.*;
+import engine.core.tester.custom.tictactoe.objects.*;
 import engine.core.tools.maths.vectors.Vector2f;
 import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.*;
 
-import static engine.core.tester.custom.objects.TicTacToePiece.getTextureOf;
+import static engine.core.tester.custom.tictactoe.objects.TicTacToePiece.getTextureOf;
 
 public class TicTacToe extends Game {
 
@@ -69,6 +69,7 @@ public class TicTacToe extends Game {
 
     @Override
     protected void preLoop() {
+
         startGame(boardSize, winLength);
     }
 
@@ -111,7 +112,7 @@ public class TicTacToe extends Game {
                 ticTacToePiece.setHeight(new RelativeConstraint(1 / (boardSize + 2)));
                 ticTacToePiece.setXPos(new RelativeConstraint((1 / boardSize) * i + 1 / (boardSize * 2), false));
                 ticTacToePiece.setYPos(new RelativeConstraint((1 / boardSize) * j + 1 / (boardSize * 2), false));
-                mainScene.processGui(ticTacToePiece);
+                mainScene.addGui(ticTacToePiece);
                 pieces.add(ticTacToePiece);
             }
         }
@@ -120,7 +121,7 @@ public class TicTacToe extends Game {
             for (int j = 0; j < boardSize - 1; j++) {
                 //Go through horizontal lines then vertical ones
                 TicTacToeBackground bg = new TicTacToeBackground(j, (int) (boardSize), i == 0);
-                mainScene.processGui(bg);
+                mainScene.addGui(bg);
             }
         }
         Scene.sceneManager.changeScene("tictactoe");

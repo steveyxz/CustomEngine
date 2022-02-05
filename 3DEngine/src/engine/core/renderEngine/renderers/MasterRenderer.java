@@ -6,8 +6,8 @@ package engine.core.renderEngine.renderers;
 
 import engine.core.global.Global;
 import engine.core.particles.ParticleMaster;
-import engine.core.renderEngine.Camera;
-import engine.core.renderEngine.DefaultCamera;
+import engine.core.renderEngine.camera.Camera;
+import engine.core.renderEngine.camera.EmptyCamera;
 import org.lwjgl.opengl.GL11;
 
 import static engine.core.global.Global.currentScene;
@@ -16,12 +16,11 @@ public class MasterRenderer {
 
     private final static GameRenderer gameRenderer = new GameRenderer();
     private final static GuiRenderer guiRenderer = new GuiRenderer();
-    public static Camera camera = new DefaultCamera();
+    public static Camera camera = new EmptyCamera();
 
     public static void init() {
         ParticleMaster.init(gameRenderer.getProjectionMatrix());
         enableCulling();
-
     }
 
     public static void enableCulling() {
@@ -41,7 +40,9 @@ public class MasterRenderer {
     }
 
     public static void render() {
-        camera.frame();
+        if (camera.enabled()) {
+            camera.frame();
+        }
         renderObjects();
         renderGuis();
         ParticleMaster.update();

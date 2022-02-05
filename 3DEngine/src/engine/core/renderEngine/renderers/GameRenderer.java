@@ -6,8 +6,8 @@ package engine.core.renderEngine.renderers;
 
 import engine.core.objects.GameObject;
 import engine.core.objects.Scene;
-import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.GLFWDisplayManager;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.models.TexturedModel;
@@ -84,6 +84,7 @@ public class GameRenderer {
             List<GameObject> batch = entities.get(model);
             for (GameObject e : batch) {
                 if (e.getSceneId().equals(scene.getSceneId())) {
+                    e.frame();
                     Vector3f Y = new Vector3f(e.getPosition().x, e.getPosition().y, e.getPosition().z);
                     Vector3f YMinusX = Y.negate(X);//new Vector3f(Y.x - X.x, Y.y - X.y, Y.z - X.z);
                     float dot = Vector3f.dot(YMinusX, V);

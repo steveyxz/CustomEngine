@@ -1,7 +1,7 @@
 package engine.core.particles;
 
-import engine.core.renderEngine.Camera;
 import engine.core.renderEngine.Loader;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.tools.maths.TransformationMaths;
 import engine.core.tools.maths.vectors.Matrix4f;

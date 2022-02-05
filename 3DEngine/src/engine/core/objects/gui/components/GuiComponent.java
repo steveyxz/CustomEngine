@@ -122,7 +122,7 @@ public abstract class GuiComponent {
             }
             currentScene.removeGui(this);
             this.texture = texture;
-            currentScene.processGui(this);
+            currentScene.addGui(this);
         }
     }
 

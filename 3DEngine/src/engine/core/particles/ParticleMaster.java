@@ -4,7 +4,7 @@
 
 package engine.core.particles;
 
-import engine.core.renderEngine.Camera;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.tools.maths.InsertionSort;
 import engine.core.tools.maths.vectors.Matrix4f;
 

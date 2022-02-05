@@ -4,13 +4,18 @@
 
 package engine.core.objects;
 
+import engine.core.objects.components.Component;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.tools.maths.vectors.Vector3f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class GameObject {
 
     //Texturing
     public final TexturedModel model;
+    private final List<Component> components = new ArrayList<>();
     //Positioning (per tick)
     public Vector3f position;
     public Vector3f rotation;
@@ -96,9 +101,26 @@ public abstract class GameObject {
 
     public void tick() {
         position.translate(velocity.x, velocity.y, velocity.z);
+        for (Component c : components) {
+            c.tick();
+        }
     }
 
     public void frame() {
+        for (Component c : components) {
+            c.frame();
+        }
+    }
+
+    public void addComponent(Component c) {
+        if (c.parent() != this) {
+            return;
+        }
+        this.components.add(c);
+    }
+
+    public void removeComponent(Component c) {
+        this.components.remove(c);
     }
 
 }
