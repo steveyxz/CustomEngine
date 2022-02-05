@@ -4,11 +4,9 @@
 
 package engine.core.objects.components.hitboxes.aabbHitbox.twoD;
 
-import engine.core.objects.GameObject;
 import engine.core.objects.components.Component;
 import engine.core.objects.shapes.twoD.TwoDObject;
 import engine.core.tools.maths.vectors.Vector2f;
-import engine.core.tools.maths.vectors.Vector3f;
 
 public class AABBHitboxComponent2D extends Component {
 

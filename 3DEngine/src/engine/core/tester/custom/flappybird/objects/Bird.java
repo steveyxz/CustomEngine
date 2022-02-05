@@ -4,15 +4,12 @@
 
 package engine.core.tester.custom.flappybird.objects;
 
-import engine.core.objects.GameObject;
 import engine.core.objects.components.animation.FrameAnimationComponent;
-import engine.core.objects.shapes.twoD.Square;
 import engine.core.objects.shapes.twoD.TwoDObject;
 import engine.core.renderEngine.Loader;
 import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.tools.maths.vectors.Vector2f;
-import engine.core.tools.maths.vectors.Vector3f;
 
 import static engine.core.global.Global.*;
 

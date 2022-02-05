@@ -5,7 +5,6 @@
 package engine.core.objects.components.hitboxes.aabbHitbox.twoD;
 
 import engine.core.tools.maths.vectors.Vector2f;
-import engine.core.tools.maths.vectors.Vector3f;
 
 public class AABBHitbox2D {
 
