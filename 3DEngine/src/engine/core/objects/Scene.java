@@ -31,6 +31,7 @@ public class Scene {
     private Vector3f cameraPos = new Vector3f();
     private Vector3f backgroundColor = new Vector3f(0, 0, 0);
     private Vector3f skyColour = new Vector3f(1, 1, 1);
+    private float ambientLight = 0.2f;
 
     public Scene(String sceneId) {
         this.sceneId = sceneId;
@@ -220,5 +221,13 @@ public class Scene {
 
     public void setBackgroundColor(Vector3f backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public float getAmbientLight() {
+        return ambientLight;
+    }
+
+    public void setAmbientLight(float ambientLight) {
+        this.ambientLight = ambientLight;
     }
 }

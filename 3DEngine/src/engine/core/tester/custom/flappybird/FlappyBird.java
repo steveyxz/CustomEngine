@@ -27,8 +27,8 @@ public class FlappyBird extends Game {
     protected void preLoop() {
         MasterRenderer.camera = new BasicCamera();
         Scene s = new Scene("main");
+        s.setAmbientLight(1);
         s.setBackgroundColor(new Vector3f(0.5f, 0.5f, 1f));
-        s.addLight(new Light(new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)));
         s.addObject(new Bird(new Vector2f(0, 0), new Vector2f(0, 0)));
         Scene.sceneManager.changeScene("main");
     }

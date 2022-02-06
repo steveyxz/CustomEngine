@@ -69,7 +69,6 @@ public class GLFWDisplayManager {
         glfwSwapInterval(1);
 
         GL.createCapabilities();
-
         // Make the window visible
         glfwShowWindow(window);
         lastTimeFrame = getCurrentTime();

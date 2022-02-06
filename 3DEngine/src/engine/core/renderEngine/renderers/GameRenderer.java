@@ -64,6 +64,7 @@ public class GameRenderer {
         GL11.glClearColor(bgColor.x, bgColor.y, bgColor.z, 1);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         shader.start();
+        scene.sortLights();
         shader.loadLights(scene.getLights());
         shader.changeView(MasterRenderer.camera);
     }
@@ -80,6 +81,7 @@ public class GameRenderer {
         float z = FastTrig.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
         Vector3f V = new Vector3f(x, y, z);
         shader.changeSkyColour(scene.skyColour());
+        shader.loadAmbientLighting(scene.getAmbientLight());
         for (TexturedModel model : realModels) {
             prepareTexturedModel(model);
             List<GameObject> batch = entities.get(model);

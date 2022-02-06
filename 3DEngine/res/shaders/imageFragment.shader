@@ -15,6 +15,7 @@ uniform sampler2D modelTexture;
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColour;
+uniform float ambientLight;
 
 void main(void) {
 
@@ -40,7 +41,7 @@ void main(void) {
 
     }
 
-    totalDiffuse = max(totalDiffuse, 0.2);
+    totalDiffuse = max(totalDiffuse, ambientLight);
 
     vec4 textureColour = texture(modelTexture, pass_textureCoords);
     if (textureColour.a < 0.5) {

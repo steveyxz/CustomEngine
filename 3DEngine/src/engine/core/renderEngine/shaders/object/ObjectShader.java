@@ -31,6 +31,7 @@ public class ObjectShader extends ShaderProgram {
     private int location_reflectivity;
     private int location_useFakeLighting;
     private int location_skyColour;
+    private int location_ambient;
 
 
     public ObjectShader() {
@@ -45,7 +46,8 @@ public class ObjectShader extends ShaderProgram {
         location_shineDamper = getUniformVariable("shineDamper");
         location_reflectivity = getUniformVariable("reflectivity");
         location_useFakeLighting = getUniformVariable("useFakeLighting");
-        location_useFakeLighting = getUniformVariable("skyColour");
+        location_skyColour = getUniformVariable("skyColour");
+        location_ambient = getUniformVariable("ambientLight");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
@@ -82,6 +84,10 @@ public class ObjectShader extends ShaderProgram {
 
     public void useFakeLighting(boolean value) {
         super.loadFloat(location_useFakeLighting, value ? 1 : 0);
+    }
+
+    public void loadAmbientLighting(float value) {
+        super.loadFloat(location_ambient, value);
     }
 
     public void loadShine(float damper, float reflectivity) {
