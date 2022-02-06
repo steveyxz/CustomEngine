@@ -13,9 +13,9 @@ public class ThreeDObject extends GameObject {
 
     private Vector3f gamePosition;
 
-    public ThreeDObject(Vector3f position, Vector3f rotation, Vector3f gamePosition, float scale, TexturedModel model) {
+    public ThreeDObject(Vector3f position, Vector3f rotation, float scale, TexturedModel model) {
         super(position, rotation, scale, model);
-        this.gamePosition = gamePosition;
+        this.gamePosition = new Vector3f(position.x / Global.gameTileWidth, position.y / Global.gameTileHeight, position.y / Global.gameTileDepth);
     }
 
     public float dist(ThreeDObject other) {

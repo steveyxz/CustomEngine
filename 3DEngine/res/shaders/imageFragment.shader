@@ -12,6 +12,8 @@ out vec4 out_Color;
 uniform vec3 lightColour[MAXLIGHTS];
 uniform vec3 attenuation[MAXLIGHTS];
 uniform sampler2D modelTexture;
+uniform sampler2D specularMap;
+uniform float hasSpecularMap;
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColour;
@@ -38,7 +40,6 @@ void main(void) {
         float dampedFactor = pow(specularFactor, shineDamper);
         totalDiffuse = totalDiffuse + (brightness * lightColour[i]) / attFactor;
         totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColour[i]) / attFactor;
-
     }
 
     totalDiffuse = max(totalDiffuse, ambientLight);
@@ -46,6 +47,10 @@ void main(void) {
     vec4 textureColour = texture(modelTexture, pass_textureCoords);
     if (textureColour.a < 0.5) {
         discard;
+    }
+
+    if (hasSpecularMap == 1) {
+        totalSpecular = totalSpecular * vec3(texture(specularMap, pass_textureCoords));
     }
 
     out_Color = vec4(totalDiffuse, 1.0) * textureColour + vec4(totalSpecular, 1.0);

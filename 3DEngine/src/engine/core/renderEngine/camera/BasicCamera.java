@@ -63,5 +63,11 @@ public class BasicCamera extends Camera {
         if (KeyboardInputMethods.isKeyDown(GLFW.GLFW_KEY_RIGHT)) {
             setYaw(getYaw(sceneId) + GLFWDisplayManager.getFrameTimeSeconds() * 30, sceneId);
         }
+        if (KeyboardInputMethods.isKeyDown(GLFW.GLFW_KEY_UP)) {
+            setPitch(getPitch(sceneId) - GLFWDisplayManager.getFrameTimeSeconds() * 30, sceneId);
+        }
+        if (KeyboardInputMethods.isKeyDown(GLFW.GLFW_KEY_DOWN)) {
+            setPitch(getPitch(sceneId) + GLFWDisplayManager.getFrameTimeSeconds() * 30, sceneId);
+        }
     }
 }

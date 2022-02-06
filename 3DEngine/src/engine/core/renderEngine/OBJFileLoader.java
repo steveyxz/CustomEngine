@@ -6,6 +6,7 @@ import engine.core.tools.maths.vectors.Vector3f;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OBJFileLoader {
@@ -72,6 +73,8 @@ public class OBJFileLoader {
             reader.close();
         } catch (IOException e) {
             System.err.println("Error reading the file");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("File is corrupt / invalid");
         }
         removeUnusedVertices(vertices);
         float[] verticesArray = new float[vertices.size() * 3];
@@ -79,6 +82,7 @@ public class OBJFileLoader {
         float[] normalsArray = new float[vertices.size() * 3];
         float furthest = convertDataToArrays(vertices, textures, normals, verticesArray,
                 texturesArray, normalsArray);
+        System.out.println(normalsArray.length);
         int[] indicesArray = convertIndicesListToArray(indices);
         return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
                 furthest);

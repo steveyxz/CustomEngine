@@ -32,6 +32,7 @@ public class ObjectShader extends ShaderProgram {
     private int location_useFakeLighting;
     private int location_skyColour;
     private int location_ambient;
+    private int location_hasSpecularMap;
 
 
     public ObjectShader() {
@@ -48,6 +49,7 @@ public class ObjectShader extends ShaderProgram {
         location_useFakeLighting = getUniformVariable("useFakeLighting");
         location_skyColour = getUniformVariable("skyColour");
         location_ambient = getUniformVariable("ambientLight");
+        location_hasSpecularMap = getUniformVariable("hasSpecularMap");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
@@ -59,6 +61,10 @@ public class ObjectShader extends ShaderProgram {
             location_attenuation[i] = super.getUniformVariable("attenuation[" + i + "]");
         }
 
+    }
+
+    public void loadHasSpecularMap(boolean hasSpecularMap) {
+        super.loadBoolean(location_hasSpecularMap, hasSpecularMap);
     }
 
     public void changeTransformations(Matrix4f value) {

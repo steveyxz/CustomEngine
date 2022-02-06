@@ -125,6 +125,13 @@ public class GameRenderer {
         shader.useFakeLighting(texture.isUseFakeLighting());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+        if (texture.getSpecularMapId() != -1) {
+            shader.loadHasSpecularMap(true);
+            GL13.glActiveTexture(GL13.GL_TEXTURE1);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getSpecularMapId());
+        } else {
+            shader.loadHasSpecularMap(false);
+        }
     }
 
     private void unbindTexturedModels() {
