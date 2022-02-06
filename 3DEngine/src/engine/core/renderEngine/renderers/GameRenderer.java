@@ -12,6 +12,7 @@ import engine.core.renderEngine.models.ModelTexture;
 import engine.core.renderEngine.models.RawModel;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.shaders.object.ObjectShader;
+import engine.core.tools.maths.FastTrig;
 import engine.core.tools.maths.TransformationMaths;
 import engine.core.tools.maths.vectors.Matrix4f;
 import engine.core.tools.maths.vectors.Vector3f;
@@ -74,9 +75,9 @@ public class GameRenderer {
         Camera camera = MasterRenderer.camera;
         Vector3f cameraPos = camera.getPositions().get(scene.getSceneId());
         Vector3f X = new Vector3f(cameraPos.x, cameraPos.y, cameraPos.z);
-        float x = (float) (Math.cos(Math.toRadians(camera.getYaw(scene.getSceneId()))) * Math.cos(Math.toRadians(camera.getPitch(scene.getSceneId()))));
-        float y = (float) (Math.sin(Math.toRadians(camera.getYaw(scene.getSceneId()))) * Math.cos(Math.toRadians(camera.getPitch(scene.getSceneId()))));
-        float z = (float) Math.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
+        float x = FastTrig.cos(Math.toRadians(camera.getYaw(scene.getSceneId()))) * FastTrig.cos(Math.toRadians(camera.getPitch(scene.getSceneId())));
+        float y = FastTrig.sin(Math.toRadians(camera.getYaw(scene.getSceneId()))) * FastTrig.cos(Math.toRadians(camera.getPitch(scene.getSceneId())));
+        float z = FastTrig.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
         Vector3f V = new Vector3f(x, y, z);
         shader.changeSkyColour(scene.skyColour());
         for (TexturedModel model : realModels) {

@@ -15,7 +15,7 @@ import static engine.core.global.Global.*;
 
 public class Bird extends TwoDObject {
     public Bird(Vector2f position, Vector2f rotation) {
-        super(position, rotation, 1, new TexturedModel(Loader.loadToVAO(squareVertices, squareTextureCoords, squareIndices, squareNormals), new ModelTexture(Loader.loadTexture("textures/bird/bird0"))));
+        super(position, rotation, 0.1F, new TexturedModel(Loader.loadToVAO(squareVertices, squareTextureCoords, squareIndices, squareNormals), new ModelTexture(Loader.loadTexture("textures/bird/bird0"))));
         this.addComponent(new FrameAnimationComponent(this, 5, "textures/bird/bird0", "textures/bird/bird1", "textures/bird/bird2", "textures/bird/bird3"));
     }
 }

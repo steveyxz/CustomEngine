@@ -10,6 +10,7 @@ import org.lwjgl.system.MemoryStack;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -119,7 +120,7 @@ public class GLFWDisplayManager {
     }
 
     private static void update() {
-        GL11.glViewport(0, 0, getWidth(), getHeight());
+        glViewport(0, 0, getWidth(), getHeight());
 
         GLFW.glfwSwapBuffers(window);
 

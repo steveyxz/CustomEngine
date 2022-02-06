@@ -4,8 +4,10 @@
 
 package engine.core.objects;
 
+import engine.core.global.Global;
 import engine.core.objects.gui.components.GuiComponent;
 import engine.core.objects.lighting.Light;
+import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.TexturedModel;
 import engine.core.renderEngine.renderers.MasterRenderer;
@@ -13,10 +15,7 @@ import engine.core.renderEngine.text.fontMeshCreator.Text;
 import engine.core.renderEngine.text.fontRendering.TextMaster;
 import engine.core.tools.maths.vectors.Vector3f;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static engine.core.renderEngine.renderers.MasterRenderer.camera;
 
@@ -177,6 +176,20 @@ public class Scene {
             camera.tick();
         }
 
+    }
+
+    public void sortLights() {
+        Camera c = camera;
+        Vector3f cPos = c.getPositions().get(Global.currentScene.getSceneId());
+        lights.sort((o1, o2) -> {
+            Vector3f o1Pos = o1.getLightPos();
+            Vector3f o2Pos = o2.getLightPos();
+            o1Pos.translate(cPos.x, cPos.y, cPos.z);
+            o2Pos.translate(cPos.x, cPos.y, cPos.z);
+            o1Pos.set(Math.abs(o1Pos.x), Math.abs(o1Pos.y), Math.abs(o1Pos.z));
+            o2Pos.set(Math.abs(o2Pos.x), Math.abs(o2Pos.y), Math.abs(o2Pos.z));
+            return 0;
+        });
     }
 
     public void transformGuis() {

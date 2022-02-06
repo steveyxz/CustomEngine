@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static engine.core.global.Global.currentScene;
+import static org.lwjgl.opengl.GL11.glViewport;
 
 public abstract class Game {
 

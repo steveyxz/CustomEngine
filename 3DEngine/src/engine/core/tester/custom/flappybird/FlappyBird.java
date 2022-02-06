@@ -16,7 +16,7 @@ import engine.core.tools.maths.vectors.Vector3f;
 public class FlappyBird extends Game {
 
     public FlappyBird() {
-        super(800, 600, false, "Flappy Bird");
+        super(800, 600, true, "Flappy Bird");
     }
 
     public static void main(String[] args) {

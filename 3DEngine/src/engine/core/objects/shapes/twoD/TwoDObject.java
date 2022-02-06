@@ -15,7 +15,7 @@ public abstract class TwoDObject extends GameObject {
     private Vector2f gamePosition = new Vector2f();
 
     public TwoDObject(Vector2f position, Vector2f rotation, float scale, TexturedModel model) {
-        super(new Vector3f(position.x, position.y, -0.2f), new Vector3f(rotation.x, rotation.y, -0.2f), scale, model);
+        super(new Vector3f(position.x, position.y, -0.21f), new Vector3f(rotation.x, rotation.y, -0.21f), scale, model);
         this.gamePosition.set(position.x / Global.gameTileWidth, position.y / Global.gameTileHeight);
     }
 
