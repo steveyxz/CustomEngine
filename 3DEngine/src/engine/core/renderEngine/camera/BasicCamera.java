@@ -16,7 +16,6 @@ public class BasicCamera extends Camera {
 
     private final Vector3f downMovement = new Vector3f(0, -Global.movementSpeed, 0);
     private final Vector3f upMovement = new Vector3f(0, Global.movementSpeed, 0);
-    private final boolean enabled = true;
 
     @Override
     public void tick() {

@@ -4,6 +4,8 @@
 
 package engine.core.renderEngine.camera;
 
+import engine.core.global.Global;
+import engine.core.tools.maths.FastTrig;
 import engine.core.tools.maths.vectors.Vector3f;
 
 import java.util.HashMap;
@@ -16,6 +18,8 @@ public abstract class Camera {
     private final Map<String, Vector3f> positions = new HashMap<>();
     //x is pitch, y is yaw, z is roll
     private final Map<String, Vector3f> rotations = new HashMap<>();
+    //Directional vector
+    private final Map<String, Vector3f> directions = new HashMap<>();
     private boolean enabled = true;
 
     public abstract void tick();
@@ -43,6 +47,48 @@ public abstract class Camera {
             return tempvec;
         }
         return vec3;
+    }
+
+    public Vector3f getPosition(String sceneId) {
+        Vector3f vec3 = positions.get(sceneId);
+        if (vec3 == null) {
+            Vector3f tempvec = new Vector3f(0, 0, 0);
+            if (sceneId == null) {
+                return tempvec;
+            }
+            positions.put(sceneId, tempvec);
+            return tempvec;
+        }
+        return vec3;
+    }
+
+    public Vector3f getVectorDirection(String sceneId) {
+        Vector3f vec3 = directions.get(sceneId);
+        if (vec3 == null) {
+            Vector3f tempvec = new Vector3f(0, 0, 0);
+            if (sceneId == null) {
+                return tempvec;
+            }
+            directions.put(sceneId, tempvec);
+            return tempvec;
+        }
+        return vec3;
+    }
+
+    public void updateCameraVectors() {
+        String currentScene = Global.currentScene.getSceneId();
+        if (!directions.containsKey(currentScene)) {
+            directions.put(currentScene, new Vector3f(0, 0, 0));
+        }
+        if (!rotations.containsKey(currentScene)) {
+            rotations.put(currentScene, new Vector3f(0, 0, 0));
+        }
+        Vector3f newVec = new Vector3f();
+        Vector3f rotation = rotations.get(currentScene);
+        newVec.x = FastTrig.cos(Math.toRadians(rotation.y)) * FastTrig.cos(Math.toRadians(rotation.x));
+        newVec.y = FastTrig.sin(Math.toRadians(rotation.x));
+        newVec.z = FastTrig.sin(Math.toRadians(rotation.y)) * FastTrig.cos(Math.toRadians(rotation.x));
+        newVec.normalise(directions.get(currentScene));
     }
 
     public boolean enabled() {

@@ -7,11 +7,10 @@ package engine.core.objects.lighting;
 
 import engine.core.tools.maths.vectors.Vector3f;
 
-public class Light {
+public abstract class Light {
 
     private Vector3f lightPos;
     private Vector3f color;
-
     private Vector3f attenuation = new Vector3f(1, 0, 0);
 
     public Light(Vector3f lightPos, Vector3f color) {
@@ -44,4 +43,5 @@ public class Light {
     public void setColor(Vector3f color) {
         this.color = color;
     }
+
 }

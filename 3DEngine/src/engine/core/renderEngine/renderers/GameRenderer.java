@@ -28,7 +28,7 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class GameRenderer {
 
-    public static final float FOV = 70;
+    public static final float FOV = 100;
     public static final float NEAR_PLANE = 0.1f;
     public static final float FAR_PLANE = 50;
     private final ObjectShader shader = new ObjectShader();
@@ -65,7 +65,8 @@ public class GameRenderer {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         shader.start();
         scene.sortLights();
-        shader.loadLights(scene.getLights());
+        shader.loadPointLights(scene.getPointLights());
+        shader.loadSpotLights(scene.getSpotLights());
         shader.changeView(MasterRenderer.camera);
     }
 
@@ -80,7 +81,6 @@ public class GameRenderer {
         float y = FastTrig.sin(Math.toRadians(camera.getYaw(scene.getSceneId()))) * FastTrig.cos(Math.toRadians(camera.getPitch(scene.getSceneId())));
         float z = FastTrig.sin(Math.toRadians(camera.getPitch(scene.getSceneId())));
         Vector3f V = new Vector3f(x, y, z);
-        shader.changeSkyColour(scene.skyColour());
         shader.loadAmbientLighting(scene.getAmbientLight());
         for (TexturedModel model : realModels) {
             prepareTexturedModel(model);
@@ -119,10 +119,6 @@ public class GameRenderer {
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
         ModelTexture texture = model.getTexture();
-        if (texture.isHasTransparency()) {
-            MasterRenderer.disableCulling();
-        }
-        shader.useFakeLighting(texture.isUseFakeLighting());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
         if (texture.getSpecularMapId() != -1) {

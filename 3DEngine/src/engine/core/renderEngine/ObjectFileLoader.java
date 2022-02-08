@@ -6,10 +6,9 @@ import engine.core.tools.maths.vectors.Vector3f;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class OBJFileLoader {
+public class ObjectFileLoader {
 
     private static final Vector2f def = new Vector2f(0, 0);
 
@@ -20,7 +19,7 @@ public class OBJFileLoader {
 
     public static ModelData loadOBJ(String objFileName) throws FileNotFoundException {
         InputStreamReader isr;
-        InputStream resourceAsStream = OBJFileLoader.class.getClassLoader().getResourceAsStream(objFileName + ".obj");
+        InputStream resourceAsStream = ObjectFileLoader.class.getClassLoader().getResourceAsStream(objFileName + ".obj");
         if (resourceAsStream == null) {
             throw new FileNotFoundException("File " + objFileName + " was not found.");
         }

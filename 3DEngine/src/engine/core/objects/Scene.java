@@ -6,7 +6,8 @@ package engine.core.objects;
 
 import engine.core.global.Global;
 import engine.core.objects.gui.components.GuiComponent;
-import engine.core.objects.lighting.Light;
+import engine.core.objects.lighting.PointLight;
+import engine.core.objects.lighting.SpotLight;
 import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.models.GuiTexture;
 import engine.core.renderEngine.models.TexturedModel;
@@ -26,12 +27,12 @@ public class Scene {
     private final Map<TexturedModel, List<GameObject>> objects = new HashMap<>();
     private final Map<GuiTexture, List<GuiComponent>> guis = new HashMap<>();
     private final List<Text> texts = new ArrayList<>();
-    private final List<Light> lights = new ArrayList<>();
+    private final List<PointLight> pointLights = new ArrayList<>();
+    private final List<SpotLight> spotLights = new ArrayList<>();
     private final String sceneId;
     private Vector3f cameraPos = new Vector3f();
     private Vector3f backgroundColor = new Vector3f(0, 0, 0);
-    private Vector3f skyColour = new Vector3f(1, 1, 1);
-    private float ambientLight = 0.2f;
+    private Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
 
     public Scene(String sceneId) {
         this.sceneId = sceneId;
@@ -70,20 +71,36 @@ public class Scene {
         }
     }
 
-    public void addLight(Light light) {
-        lights.add(light);
+    public void addSpotLight(SpotLight light) {
+        spotLights.add(light);
     }
 
-    public void removeLight(Light light) {
-        lights.remove(light);
+    public void removeSpotLight(SpotLight light) {
+        spotLights.remove(light);
     }
 
-    public void clearLights() {
-        lights.clear();
+    public void clearSpotLights() {
+        spotLights.clear();
     }
 
-    public List<Light> getLights() {
-        return lights;
+    public List<SpotLight> getSpotLights() {
+        return spotLights;
+    }
+
+    public void addPointLight(PointLight light) {
+        pointLights.add(light);
+    }
+
+    public void removePointLight(PointLight light) {
+        pointLights.remove(light);
+    }
+
+    public void clearPointLights() {
+        pointLights.clear();
+    }
+
+    public List<PointLight> getPointLights() {
+        return pointLights;
     }
 
     public void addObject(GameObject entity) {
@@ -175,6 +192,7 @@ public class Scene {
         }
         if (camera.enabled()) {
             camera.tick();
+            camera.updateCameraVectors();
         }
 
     }
@@ -182,7 +200,16 @@ public class Scene {
     public void sortLights() {
         Camera c = camera;
         Vector3f cPos = c.getPositions().get(Global.currentScene.getSceneId());
-        lights.sort((o1, o2) -> {
+        spotLights.sort((o1, o2) -> {
+            Vector3f o1Pos = o1.getLightPos();
+            Vector3f o2Pos = o2.getLightPos();
+            o1Pos.translate(cPos.x, cPos.y, cPos.z);
+            o2Pos.translate(cPos.x, cPos.y, cPos.z);
+            o1Pos.set(Math.abs(o1Pos.x), Math.abs(o1Pos.y), Math.abs(o1Pos.z));
+            o2Pos.set(Math.abs(o2Pos.x), Math.abs(o2Pos.y), Math.abs(o2Pos.z));
+            return 0;
+        });
+        pointLights.sort((o1, o2) -> {
             Vector3f o1Pos = o1.getLightPos();
             Vector3f o2Pos = o2.getLightPos();
             o1Pos.translate(cPos.x, cPos.y, cPos.z);
@@ -207,14 +234,6 @@ public class Scene {
         MasterRenderer.render();
     }
 
-    public Vector3f skyColour() {
-        return skyColour;
-    }
-
-    public void setSkyColour(Vector3f skyColour) {
-        this.skyColour = skyColour;
-    }
-
     public Vector3f backgroundColor() {
         return backgroundColor;
     }
@@ -223,11 +242,11 @@ public class Scene {
         this.backgroundColor = backgroundColor;
     }
 
-    public float getAmbientLight() {
+    public Vector3f getAmbientLight() {
         return ambientLight;
     }
 
-    public void setAmbientLight(float ambientLight) {
+    public void setAmbientLight(Vector3f ambientLight) {
         this.ambientLight = ambientLight;
     }
 }

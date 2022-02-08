@@ -4,9 +4,11 @@
 
 package engine.core.renderEngine.shaders.object;
 
-import engine.core.objects.lighting.Light;
+import engine.core.objects.lighting.PointLight;
+import engine.core.objects.lighting.SpotLight;
 import engine.core.renderEngine.camera.Camera;
 import engine.core.renderEngine.shaders.ShaderProgram;
+import engine.core.tools.maths.FastTrig;
 import engine.core.tools.maths.TransformationMaths;
 import engine.core.tools.maths.vectors.Matrix4f;
 import engine.core.tools.maths.vectors.Vector3f;
@@ -16,7 +18,7 @@ import java.util.List;
 public class ObjectShader extends ShaderProgram {
 
     //This needs to match the shaders
-    private static final int MAX_LIGHTS = 12;
+    private static final int MAX_LIGHTS = 4;
 
     private static final String VERTEX_FILE = "shaders/imageVertex.shader";
     private static final String FRAGMENT_FILE = "shaders/imageFragment.shader";
@@ -24,13 +26,17 @@ public class ObjectShader extends ShaderProgram {
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
-    private int[] location_lightPosition;
-    private int[] location_lightColour;
-    private int[] location_attenuation;
+    private int[] location_lightPosition_point;
+    private int[] location_lightColour_point;
+    private int[] location_attenuation_point;
+    private int[] location_lightPosition_spot;
+    private int[] location_lightColour_spot;
+    private int[] location_attenuation_spot;
+    private int[] location_lightDirection_spot;
+    private int[] location_lightCutOffs_spot;
+    private int[] location_lightOuterCutOffs_spot;
     private int location_shineDamper;
     private int location_reflectivity;
-    private int location_useFakeLighting;
-    private int location_skyColour;
     private int location_ambient;
     private int location_hasSpecularMap;
 
@@ -41,24 +47,34 @@ public class ObjectShader extends ShaderProgram {
 
     @Override
     protected void getAllUniformLocations() {
-        location_transformationMatrix = getUniformVariable("transformationMatrix");
-        location_projectionMatrix = getUniformVariable("projectionMatrix");
-        location_viewMatrix = getUniformVariable("viewMatrix");
-        location_shineDamper = getUniformVariable("shineDamper");
-        location_reflectivity = getUniformVariable("reflectivity");
-        location_useFakeLighting = getUniformVariable("useFakeLighting");
-        location_skyColour = getUniformVariable("skyColour");
-        location_ambient = getUniformVariable("ambientLight");
-        location_hasSpecularMap = getUniformVariable("hasSpecularMap");
+        location_transformationMatrix = getUniformVariable("model");
+        location_projectionMatrix = getUniformVariable("projection");
+        location_viewMatrix = getUniformVariable("view");
+        location_shineDamper = getUniformVariable("material.shininess");
+        location_reflectivity = getUniformVariable("material.reflectivity");
+        location_ambient = getUniformVariable("ambientLightColor");
+        location_hasSpecularMap = getUniformVariable("useSpecularLighting");
 
-        location_lightPosition = new int[MAX_LIGHTS];
-        location_lightColour = new int[MAX_LIGHTS];
-        location_attenuation = new int[MAX_LIGHTS];
+        location_lightPosition_point = new int[MAX_LIGHTS];
+        location_lightColour_point = new int[MAX_LIGHTS];
+        location_attenuation_point = new int[MAX_LIGHTS];
+        location_lightPosition_spot = new int[MAX_LIGHTS];
+        location_lightColour_spot = new int[MAX_LIGHTS];
+        location_attenuation_spot = new int[MAX_LIGHTS];
+        location_lightCutOffs_spot = new int[MAX_LIGHTS];
+        location_lightDirection_spot = new int[MAX_LIGHTS];
+        location_lightOuterCutOffs_spot = new int[MAX_LIGHTS];
 
         for (int i = 0; i < MAX_LIGHTS; i++) {
-            location_lightPosition[i] = super.getUniformVariable("lightPosition[" + i + "]");
-            location_lightColour[i] = super.getUniformVariable("lightColour[" + i + "]");
-            location_attenuation[i] = super.getUniformVariable("attenuation[" + i + "]");
+            location_lightPosition_point[i] = super.getUniformVariable("pointLights[" + i + "].position");
+            location_lightColour_point[i] = super.getUniformVariable("pointLights[" + i + "].color");
+            location_attenuation_point[i] = super.getUniformVariable("pointLights[" + i + "].attenuation");
+            location_lightPosition_spot[i] = super.getUniformVariable("spotLights[" + i + "].position");
+            location_lightColour_spot[i] = super.getUniformVariable("spotLights[" + i + "].color");
+            location_attenuation_spot[i] = super.getUniformVariable("spotLights[" + i + "].attenuation");
+            location_lightCutOffs_spot[i] = super.getUniformVariable("spotLights[" + i + "].cutOff");
+            location_lightDirection_spot[i] = super.getUniformVariable("spotLights[" + i + "].direction");
+            location_lightOuterCutOffs_spot[i] = super.getUniformVariable("spotLights[" + i + "].outerCutOff");
         }
 
     }
@@ -80,20 +96,8 @@ public class ObjectShader extends ShaderProgram {
         super.loadMatrix(location_viewMatrix, view);
     }
 
-    public void changeSkyColour(float r, float g, float b) {
-        super.loadVector3f(location_skyColour, new Vector3f(r, g, b));
-    }
-
-    public void changeSkyColour(Vector3f colour) {
-        super.loadVector3f(location_skyColour, colour);
-    }
-
-    public void useFakeLighting(boolean value) {
-        super.loadFloat(location_useFakeLighting, value ? 1 : 0);
-    }
-
-    public void loadAmbientLighting(float value) {
-        super.loadFloat(location_ambient, value);
+    public void loadAmbientLighting(Vector3f value) {
+        super.loadVector3f(location_ambient, value);
     }
 
     public void loadShine(float damper, float reflectivity) {
@@ -101,24 +105,44 @@ public class ObjectShader extends ShaderProgram {
         super.loadFloat(location_shineDamper, damper);
     }
 
-    public void loadLights(List<Light> lights) {
+    public void loadPointLights(List<PointLight> lights) {
         for (int i = 0; i < MAX_LIGHTS; i++) {
             if (i < lights.size()) {
-                super.loadVector3f(location_lightPosition[i], lights.get(i).getLightPos());
-                super.loadVector3f(location_lightColour[i], lights.get(i).getColor());
-                super.loadVector3f(location_attenuation[i], lights.get(i).getAttenuation());
+                super.loadVector3f(location_lightPosition_point[i], lights.get(i).getLightPos());
+                super.loadVector3f(location_lightColour_point[i], lights.get(i).getColor());
+                super.loadVector3f(location_attenuation_point[i], lights.get(i).getAttenuation());
             } else {
-                super.loadVector3f(location_lightPosition[i], new Vector3f(0, 0, 0));
-                super.loadVector3f(location_lightColour[i], new Vector3f(0, 0, 0));
-                super.loadVector3f(location_attenuation[i], new Vector3f(1, 0, 0));
+                super.loadVector3f(location_lightPosition_point[i], new Vector3f(0, 0, 0));
+                super.loadVector3f(location_lightColour_point[i], new Vector3f(0, 0, 0));
+                super.loadVector3f(location_attenuation_point[i], new Vector3f(0, 0, 0));
+            }
+        }
+    }
+
+    public void loadSpotLights(List<SpotLight> lights) {
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            if (i < lights.size()) {
+                super.loadVector3f(location_lightPosition_spot[i], lights.get(i).getLightPos());
+                super.loadVector3f(location_lightColour_spot[i], lights.get(i).getColor());
+                super.loadVector3f(location_attenuation_spot[i], lights.get(i).getAttenuation());
+                super.loadFloat(location_lightCutOffs_spot[i], lights.get(i).getCutOff());
+                super.loadVector3f(location_lightDirection_spot[i], lights.get(i).getDirection());
+                super.loadFloat(location_lightOuterCutOffs_spot[i], lights.get(i).getOuterCutOff());
+            } else {
+                super.loadVector3f(location_lightPosition_spot[i], new Vector3f(0, 0, 0));
+                super.loadVector3f(location_lightColour_spot[i], new Vector3f(0, 0, 0));
+                super.loadVector3f(location_attenuation_spot[i], new Vector3f(0, 0, 0));
+                super.loadFloat(location_lightCutOffs_spot[i], 0);
+                super.loadVector3f(location_lightDirection_spot[i], new Vector3f(0, 0, 0));
+                super.loadFloat(location_lightOuterCutOffs_spot[i], 0);
             }
         }
     }
 
     @Override
     protected void bindAttributes() {
-        super.bindAttribute(0, "position");
-        super.bindAttribute(1, "textureCoords");
-        super.bindAttribute(2, "normal");
+        super.bindAttribute(0, "aPos");
+        super.bindAttribute(1, "aTexCoords");
+        super.bindAttribute(2, "aNormal");
     }
 }
